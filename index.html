@@ -465,20 +465,13 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // ---------- Ruleta ----------
   const wheel = $("wheel"), ctx = wheel.getContext("2d");
   const face = document.createElement("canvas"), fctx = face.getContext("2d");
-  // Casillas con los verdes y azules de la marca (tokens de Figma: g-500, g-700, g-dark, info-light,
-  // info-vivid, info-dark). Oscuro y claro se alternan: la mitad son oscuras (verde y azul, turnándose)
-  // y entre cada dos oscuras va un claro, rotando verdes y azules.
+  // Casillas solo con los azules de la marca (tokens de Figma: info-light, info-vivid, info-dark).
+  // Oscuro y claro se alternan: la mitad son #17536A y entre cada dos va un azul claro o medio.
   const PALETTE = [
-    { fill: "#D5FF7E", text: "#0A0B0C" },
-    { fill: "#2D4203", text: "#D5FF7E" },
     { fill: "#ABE3F8", text: "#0A0B0C" },
     { fill: "#17536A", text: "#ABE3F8" },
-    { fill: "#B3F131", text: "#0A0B0C" },
-    { fill: "#2D4203", text: "#D5FF7E" },
     { fill: "#61BDDF", text: "#0A0B0C" },
     { fill: "#17536A", text: "#ABE3F8" },
-    { fill: "#8CCC04", text: "#0A0B0C" },
-    { fill: "#2D4203", text: "#D5FF7E" },
   ];
 
   function sizeCanvas(c) {
