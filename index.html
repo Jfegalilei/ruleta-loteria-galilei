@@ -69,8 +69,8 @@ body.guides .side .guide { opacity: 1; }
 /* Siderax parado a la izquierda de la moto, con la mano sobre el asiento de atrás (imagen compuesta).
    La moto queda centrada bajo la ruleta y su espejo termina justo debajo del botón Girar. */
 .moto {
-  position: absolute; z-index: 3; left: 11cqh; bottom: 6.3cqh;
-  display: block; height: 38cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
+  position: absolute; z-index: 3; left: 4.4cqh; bottom: 1.5cqh;
+  display: block; height: 45cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.8));
 }
 .tix { color: var(--g-brand); }
@@ -129,13 +129,6 @@ body.spinning .pointer-wrap { animation: none; }
 .hub:focus-visible { outline: .4cqh solid var(--n08); outline-offset: .6cqh; }
 .hub:disabled { cursor: default; color: var(--n06); }
 
-/* Sin alto fijo: el texto define el alto para que no se recorten las letras de abajo */
-.ticker {
-  position: absolute; left: 50%; bottom: .6cqh; transform: translateX(-50%); width: 100%; gap: .3cqh; line-height: 1.25; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; max-width: 100%; font-variant-numeric: tabular-nums;
-}
-.ticker .t-name { font-family: var(--font-body); font-weight: 700; font-size: 2.8cqh; letter-spacing: normal; font-kerning: normal; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.ticker .t-meta { font-size: 1.7cqh; letter-spacing: normal; word-spacing: normal; font-kerning: normal; color: var(--n06); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
 /* Revelación del ganador: superficie Mystery, solo dentro de la columna central */
 .winner {
@@ -302,10 +295,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
     <img class="moto" id="headMoto" alt="Siderax junto a la moto Victory Combat 100">
 
-    <div class="ticker" aria-live="off">
-      <div class="t-name" id="tName"></div>
-      <div class="t-meta" id="tMeta"></div>
-    </div>
 
     <div class="winner" id="winner" hidden role="dialog" aria-live="assertive" aria-label="Ganador">
       <div class="overline" id="wOver"></div>
@@ -762,7 +751,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       rot = start + (endRot - start) * (1 - Math.pow(1 - t, 3));
       const idx = indexAt(rot, n);
       if (idx !== lastIdx) {
-        lastIdx = idx; tick(); showTicker(current[idx]);
+        lastIdx = idx; tick();
         flick(Math.abs(rot - prevRot) / Math.max(0.001, (now - prevNow) / 1000));
       }
       prevRot = rot; prevNow = now;
@@ -805,16 +794,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     stopConfetti(); refresh(); $("spinBtn").focus();
   }
 
-  // ---------- Ticker bajo la ruleta ----------
-  function showTicker(p) {
-    if (!p) return;
-    $("tName").textContent = p.n; $("tMeta").textContent = `${metaOf(p)} · ${fmtT(p.t)}`;
-  }
-  function idleTicker() {
-    const n = current.length;
-    $("tName").textContent = n ? "¿Quién se la lleva?" : "Sin participantes";
-    $("tMeta").textContent = n ? "Más tickets, más oportunidades de ganar" : "Abre Participantes con la tecla E";
-  }
 
   // ---------- Confeti ----------
   const conf = $("confetti"), cctx = conf.getContext("2d");
@@ -911,7 +890,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     $("prizeEl").textContent = state.prize;
     $("overlineEl").textContent = state.overline;
     $("spinBtn").disabled = current.length === 0 || spinning;
-    sizeCanvas(wheel); buildFace(); draw(); idleTicker();
+    sizeCanvas(wheel); buildFace(); draw();
   }
   function renderDrawer() {
     const total = state.rows.length, n = current.length;
