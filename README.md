@@ -24,6 +24,7 @@ Cada computador guarda por su cuenta los ganadores y a quienes se sacaron de la 
 ```
 index.html                  La página: HTML, CSS y JavaScript. Aquí se hacen casi todos los cambios.
 assets/moto.webp            Foto de la moto (fondo transparente)
+assets/siderax-moto.webp    Siderax a la izquierda de la moto, con la mano sobre el asiento de atrás (debajo de la ruleta)
 assets/galilei-symbol.png   Símbolo de Galilei que acompaña a "GaliLotería"
 assets/fondo-siderax.webp   Fondo: planeta de origen de Siderax, oscuro y suave
 assets/gali-corona.webp     Gali con corona, en el anuncio del ganador
@@ -70,7 +71,7 @@ Aplican a cualquier cambio, lo haga una persona o una IA.
    - **Tipografías:** Radio Canada Big para títulos, el nombre del ganador, la empresa, las cifras y el botón Girar; Space Grotesk para el texto, los overlines, los nombres en la ruleta y el texto de abajo. Solo pesos 400 a 700.
    - **Mayúsculas solo en los overlines** (como "GaliLotería" o las etiquetas del panel), con espaciado de letras. Todo lo demás en tipo oración: "Girar", "Victory Combat 100", el nombre del ganador.
    - **El símbolo de Galilei** va junto a "GaliLotería", arriba del título.
-   - **La moto se ve siempre y en grande:** centrada, por encima de la ruleta, tapando su parte de abajo hasta justo debajo del botón Girar (el botón debe quedar libre), sin tapar el texto de abajo. La ruleta mide el 70% del alto del escenario.
+   - **Siderax con la moto, siempre a la vista:** debajo de la ruleta va la imagen compuesta de Siderax parado a la izquierda de la moto, con la mano apoyada por encima del asiento de atrás. La moto queda centrada bajo la ruleta y su espejo termina justo debajo del botón Girar (el botón debe quedar libre); no tapa el texto de abajo. La moto debe verse igual a la foto real del producto. La ruleta mide el 70% del alto del escenario. En el anuncio del ganador va la moto sola, junto a Gali con corona.
    - **Estilo 3D del Galiverso**, como los íconos 3D y el personaje Gali del Figma "Galiverso · Galilei Learning": volumen, brillo suave y sombras coherentes con una sola luz fija arriba a la izquierda. La luz no gira con la ruleta: el aro metálico satinado, el sombreado y el reflejo son capas fijas, y solo giran las casillas y los bombillos. Las casillas conservan sus colores de marca debajo de ese sombreado.
    - **Gali solo aparece en el anuncio del ganador**, con corona junto a la moto. No va al lado de la ruleta. Su imagen sale del Figma Galiverso (sección Evergreen Stickers), solo el personaje, sin los textos tipo sticker.
    - **Fondo del planeta de Siderax** (`assets/fondo-siderax.webp`, generado a partir de la imagen de referencia): oscuro, suave y de poco contraste para no distraer de la ruleta. Los lados se atenúan con un degradado para no iluminar a los presentadores; es lo único que se permite en los lados, y debe seguir siendo tenue.

@@ -66,9 +66,11 @@ body.guides .side .guide { opacity: 1; }
 .brand-lockup { display: flex; align-items: center; justify-content: center; gap: .8cqh; }
 .brand-mark { width: 2.2cqh; height: 2.2cqh; object-fit: contain; }
 /* Overlap the lower rim to enlarge the wheel while keeping the prize and ticker in frame. */
+/* Siderax parado a la izquierda de la moto, con la mano sobre el asiento de atrás (imagen compuesta).
+   La moto queda centrada bajo la ruleta y su espejo termina justo debajo del botón Girar. */
 .moto {
-  position: absolute; z-index: 3; left: 50%; bottom: 6.3cqh; transform: translateX(-50%);
-  display: block; height: 31.5cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
+  position: absolute; z-index: 3; left: 11cqh; bottom: 6.3cqh;
+  display: block; height: 38cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.8));
 }
 .tix { color: var(--g-brand); }
@@ -298,7 +300,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       <button class="hub" id="spinBtn" type="button">Girar</button>
     </div>
 
-    <img class="moto" id="headMoto" alt="Moto Victory Combat 100">
+    <img class="moto" id="headMoto" alt="Siderax junto a la moto Victory Combat 100">
 
     <div class="ticker" aria-live="off">
       <div class="t-name" id="tName"></div>
@@ -407,6 +409,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const SAMPLE = window.PARTICIPANTES || [];
   const SAMPLE_NAME = window.PARTICIPANTES_FUENTE || "data/participantes.csv";
   const MOTO = "assets/moto.webp"; // se reemplaza por la imagen embebida al armar el standalone
+  const ESCENA = "assets/siderax-moto.webp"; // Siderax con la moto, debajo de la ruleta
 
   const store = {
     get(k, d) { try { const v = localStorage.getItem("ruleta6:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
@@ -1013,7 +1016,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     img.src = url;
   });
   $("photoClear").addEventListener("click", () => { state.photo = ""; store.set("photo", ""); syncPhoto(); });
-  function syncPhoto() { $("photoClear").hidden = !state.photo; $("headMoto").src = state.photo || MOTO; }
+  function syncPhoto() { $("photoClear").hidden = !state.photo; $("headMoto").src = state.photo || ESCENA; }
 
   function toggleGuides() { const on = document.body.classList.toggle("guides"); $("guidesBtn").setAttribute("aria-pressed", on); }
   function toggleSound() { state.sound = !state.sound; store.set("sound", state.sound); syncSound(); }
