@@ -416,12 +416,12 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // ---------- Ruleta ----------
   const wheel = $("wheel"), ctx = wheel.getContext("2d");
   const face = document.createElement("canvas"), fctx = face.getContext("2d");
+  // Casillas solo con la escala verde de la marca (sin grises), alternando claro y oscuro
   const PALETTE = [
-    { fill: "#292F36", text: "#F0F2F5" },
-    { fill: "#171A1E", text: "#F0F2F5" },
-    { fill: "#567F00", text: "#FFFFFF" },
-    { fill: "#3D444C", text: "#FFFFFF" },
-    { fill: "#0E1012", text: "#F0F2F5" },
+    { fill: "#D6FD7C", text: "#0A0B0C" },
+    { fill: "#2E4101", text: "#D6FD7C" },
+    { fill: "#B3F131", text: "#0A0B0C" },
+    { fill: "#8CCC04", text: "#0A0B0C" },
   ];
 
   function sizeCanvas(c) {
@@ -436,8 +436,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     fctx.clearRect(0, 0, W, W);
     fctx.save(); fctx.translate(R, R);
     // aro exterior
-    fctx.beginPath(); fctx.arc(0, 0, R - 1, 0, Math.PI * 2); fctx.fillStyle = "#292F36"; fctx.fill();
-    fctx.beginPath(); fctx.arc(0, 0, r + rim * 0.12, 0, Math.PI * 2); fctx.fillStyle = "#3D444C"; fctx.fill();
+    fctx.beginPath(); fctx.arc(0, 0, R - 1, 0, Math.PI * 2); fctx.fillStyle = "#2E4101"; fctx.fill();
+    fctx.beginPath(); fctx.arc(0, 0, r + rim * 0.12, 0, Math.PI * 2); fctx.fillStyle = "#0A0B0C"; fctx.fill();
     if (n === 0) {
       fctx.beginPath(); fctx.arc(0, 0, r, 0, Math.PI * 2); fctx.fillStyle = "#171A1E"; fctx.fill();
     } else {
@@ -445,11 +445,11 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       for (let i = 0; i < n; i++) {
         // si la cantidad no cierra el ciclo, el último no repite color con el primero
         let k = i % PALETTE.length;
-        if (i === n - 1 && n > 1 && k === 0) k = 2;
+        if (i === n - 1 && n > 1 && k === 0) k = 1;
         ks.push(k);
         fctx.beginPath(); fctx.moveTo(0, 0); fctx.arc(0, 0, r, top + starts[i], top + starts[i + 1]); fctx.closePath();
         fctx.fillStyle = PALETTE[k].fill; fctx.fill();
-        if (starts[i + 1] - starts[i] > 0.05) { fctx.strokeStyle = "rgba(10,11,12,.35)"; fctx.lineWidth = Math.max(1, R * 0.004); fctx.stroke(); }
+        if (n > 1) { fctx.strokeStyle = "rgba(10,11,12,.45)"; fctx.lineWidth = Math.max(1, R * 0.004); fctx.stroke(); }
       }
       // nombres a lo largo del radio; el tamaño de letra sigue el ancho de la casilla
       const textR = r * 0.94, maxLen = textR - hubR - R * 0.03, minFs = R * 0.018;
@@ -484,7 +484,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     for (let i = 0; i < bulbs; i++) {
       const a = i * Math.PI * 2 / bulbs;
       fctx.beginPath(); fctx.arc(Math.cos(a) * br, Math.sin(a) * br, rim * 0.24, 0, Math.PI * 2);
-      fctx.fillStyle = i % 2 ? "#F0F2F5" : "#8B939E"; fctx.fill();
+      fctx.fillStyle = i % 2 ? "#D6FD7C" : "#8CCC04"; fctx.fill();
     }
     fctx.restore();
   }
