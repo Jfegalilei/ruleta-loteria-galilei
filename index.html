@@ -416,14 +416,15 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // ---------- Ruleta ----------
   const wheel = $("wheel"), ctx = wheel.getContext("2d");
   const face = document.createElement("canvas"), fctx = face.getContext("2d");
-  // Casillas solo con la escala verde de la marca (sin grises). El oscuro va en 2 de cada 5
-  // casillas (40%) y siempre entre dos claros, para que las vecinas se distingan.
+  // Casillas solo con la escala verde de la marca (sin grises). Oscuro y claro se alternan:
+  // la mitad de las casillas es verde oscuro y cada claro queda entre dos oscuros.
   const PALETTE = [
     { fill: "#D6FD7C", text: "#0A0B0C" },
     { fill: "#2E4101", text: "#D6FD7C" },
     { fill: "#B3F131", text: "#0A0B0C" },
     { fill: "#2E4101", text: "#D6FD7C" },
     { fill: "#8CCC04", text: "#0A0B0C" },
+    { fill: "#2E4101", text: "#D6FD7C" },
   ];
 
   function sizeCanvas(c) {
@@ -447,7 +448,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       for (let i = 0; i < n; i++) {
         // si la cantidad no cierra el ciclo, el último no repite color con el primero
         let k = i % PALETTE.length;
-        if (i === n - 1 && n > 1 && k === 0) k = 1;
+        if (i === n - 1 && n > 1 && k === 0) k = 2;
         ks.push(k);
         fctx.beginPath(); fctx.moveTo(0, 0); fctx.arc(0, 0, r, top + starts[i], top + starts[i + 1]); fctx.closePath();
         fctx.fillStyle = PALETTE[k].fill; fctx.fill();
