@@ -46,8 +46,10 @@ body.idle { cursor: none; }
 }
 body.guides .side .guide { opacity: 1; }
 
+/* Posiciones fijas en la columna: ruleta grande, moto tapando la mitad de abajo hasta justo
+   debajo del botón Girar, Gali abajo a la izquierda y el texto al pie. */
 .center {
-  --wheel-size: 60cqh;
+  --wheel-size: 78cqh; --wheel-top: 15cqh;
   position: relative; min-width: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
   box-sizing: border-box; padding: 1.2cqh 0 1.7cqh;
@@ -59,9 +61,8 @@ body.guides .side .guide { opacity: 1; }
 .brand-mark { width: 2.2cqh; height: 2.2cqh; object-fit: contain; }
 /* Overlap the lower rim to enlarge the wheel while keeping the prize and ticker in frame. */
 .moto {
-  position: relative; z-index: 3;
-  display: block; flex: none; margin: -8cqh 0 .4cqh;
-  height: 24cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
+  position: absolute; z-index: 3; left: 50%; bottom: 6.3cqh; transform: translateX(-50%);
+  display: block; height: 29.5cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.8));
 }
 .tix { color: var(--g-brand); }
@@ -71,7 +72,7 @@ body.guides .side .guide { opacity: 1; }
   font-size: 6cqh; line-height: 1; letter-spacing: normal; font-kerning: normal; color: var(--n09); text-wrap: balance;
 }
 
-.wheel-wrap { position: relative; z-index: 1; flex: none; margin-top: 5.6cqh; width: var(--wheel-size); height: var(--wheel-size); }
+.wheel-wrap { position: absolute; z-index: 1; left: 50%; top: var(--wheel-top); transform: translateX(-50%); width: var(--wheel-size); height: var(--wheel-size); }
 .wheel-wrap > canvas { width: 100%; height: 100%; display: block; }
 /* Estilo 3D del Galiverso: sombra de contacto suave debajo de la ruleta */
 .wheel-wrap::before {
@@ -80,7 +81,7 @@ body.guides .side .guide { opacity: 1; }
 }
 /* Gali acompaña la ruleta: flota en reposo y se emociona mientras gira */
 .gali {
-  position: absolute; z-index: 3; left: .5cqh; top: 45cqh; height: 29cqh; width: auto;
+  position: absolute; z-index: 3; left: .5cqh; bottom: 6.3cqh; height: 26cqh; width: auto;
   pointer-events: none; transform-origin: 50% 100%;
   filter: drop-shadow(0 1.4cqh 1.4cqh rgba(0,0,0,.6));
   animation: gali-idle 2.8s ease-in-out infinite;
@@ -132,7 +133,7 @@ body.spinning .pointer-wrap { animation: none; }
 
 /* Sin alto fijo: el texto define el alto para que no se recorten las letras de abajo */
 .ticker {
-  flex: none; gap: .3cqh; line-height: 1.25; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: absolute; left: 50%; bottom: .6cqh; transform: translateX(-50%); width: 100%; gap: .3cqh; line-height: 1.25; display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; max-width: 100%; font-variant-numeric: tabular-nums;
 }
 .ticker .t-name { font-family: var(--font-body); font-weight: 700; font-size: 2.8cqh; letter-spacing: normal; font-kerning: normal; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
