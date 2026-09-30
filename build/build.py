@@ -101,6 +101,9 @@ def build_pages(data_js):
     mimes = {'.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg'}
     html = re.sub(r'src="assets/([^"]+)"',
                   lambda m: f'src="{data_uri(p("assets", m.group(1)), mimes[os.path.splitext(m.group(1))[1].lower()])}"', html)
+    # fondos del CSS: url("assets/...")
+    html = re.sub(r'url\("assets/([^"]+)"\)',
+                  lambda m: f'url("{data_uri(p("assets", m.group(1)), mimes[os.path.splitext(m.group(1))[1].lower()])}")', html)
     html = sub_once(r'const WIN_AUDIO = "assets/victoria\.mp3";', f'const WIN_AUDIO = "{data_uri(p("assets", "victoria.mp3"), "audio/mpeg")}";', html)
     os.makedirs(p('dist'), exist_ok=True)
 

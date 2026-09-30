@@ -35,6 +35,12 @@ body.idle { cursor: none; }
   aspect-ratio: 16 / 9; max-width: 100%;
   container-type: size;
   display: grid; grid-template-columns: 24fr 52fr 24fr;
+  /* Fondo: planeta de origen de Siderax (generado a partir de la referencia), oscuro y suave.
+     Los lados se atenúan más para no iluminar a los presentadores. */
+  background:
+    linear-gradient(90deg, rgba(10,11,12,.82) 0%, rgba(10,11,12,.55) 24%, rgba(10,11,12,.12) 42%, rgba(10,11,12,.12) 58%, rgba(10,11,12,.55) 76%, rgba(10,11,12,.82) 100%),
+    url("assets/fondo-siderax.webp") center / cover no-repeat,
+    var(--n00);
 }
 .side { position: relative; }
 .side .guide {
@@ -79,16 +85,6 @@ body.guides .side .guide { opacity: 1; }
   content: ""; position: absolute; z-index: -1; left: 6%; right: 6%; bottom: -5%; height: 22%;
   border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.7), rgba(0,0,0,0));
 }
-/* Gali acompaña la ruleta: flota en reposo y se emociona mientras gira */
-.gali {
-  position: absolute; z-index: 3; left: 2cqh; bottom: 6.3cqh; height: 26cqh; width: auto;
-  pointer-events: none; transform-origin: 50% 100%;
-  filter: drop-shadow(0 1.4cqh 1.4cqh rgba(0,0,0,.6));
-  animation: gali-idle 2.8s ease-in-out infinite;
-}
-body.spinning .gali { animation: gali-cheer .5s ease-in-out infinite; }
-@keyframes gali-idle { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-1.2cqh) rotate(2deg); } }
-@keyframes gali-cheer { 0%, 100% { transform: translateY(0) scale(1, 1); } 40% { transform: translateY(-2.2cqh) scale(.97, 1.04); } 80% { transform: translateY(0) scale(1.04, .96); } }
 /* Flecha: flota en reposo, rebota con cada casilla al girar y celebra al detenerse */
 .pointer-wrap {
   position: absolute; left: 50%; top: -3.4cqh; width: 7.2cqh; height: 10.2cqh;
@@ -256,7 +252,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .count-line { font-variant-numeric: tabular-nums; color: var(--n07); }
 
 @media (prefers-reduced-motion: reduce) {
-  .winner .name, .winner .where, .winner .prize-img, .winner .gali-king, .winner .stats, .pointer-wrap, .pointer-wrap.win, .gali, body.spinning .gali { animation: none; }
+  .winner .name, .winner .where, .winner .prize-img, .winner .gali-king, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
   .drawer { transition: none; }
 }
 </style>
@@ -303,7 +299,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     </div>
 
     <img class="moto" id="headMoto" alt="Moto Victory Combat 100">
-    <img class="gali" src="assets/gali-animo.webp" alt="">
 
     <div class="ticker" aria-live="off">
       <div class="t-name" id="tName"></div>

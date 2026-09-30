@@ -25,7 +25,7 @@ Cada computador guarda por su cuenta los ganadores y a quienes se sacaron de la 
 index.html                  La página: HTML, CSS y JavaScript. Aquí se hacen casi todos los cambios.
 assets/moto.webp            Foto de la moto (fondo transparente)
 assets/galilei-symbol.png   Símbolo de Galilei que acompaña a "GaliLotería"
-assets/gali-animo.webp      Gali con los brazos arriba, junto a la ruleta
+assets/fondo-siderax.webp   Fondo: planeta de origen de Siderax, oscuro y suave
 assets/gali-corona.webp     Gali con corona, en el anuncio del ganador
 assets/icono-juegos.svg     Ícono glow del Figma para "Juegos en el mes" (flecha circular)
 assets/icono-puntaje.svg    Ícono glow del Figma para "Puntaje máximo" (check)
@@ -72,7 +72,8 @@ Aplican a cualquier cambio, lo haga una persona o una IA.
    - **El símbolo de Galilei** va junto a "GaliLotería", arriba del título.
    - **La moto se ve siempre y en grande:** centrada, por encima de la ruleta, tapando su parte de abajo hasta justo debajo del botón Girar (el botón debe quedar libre), sin tapar el texto de abajo. La ruleta mide el 70% del alto del escenario.
    - **Estilo 3D del Galiverso**, como los íconos 3D y el personaje Gali del Figma "Galiverso · Galilei Learning": volumen, brillo suave y sombras coherentes con una sola luz fija arriba a la izquierda. La luz no gira con la ruleta: el aro metálico satinado, el sombreado y el reflejo son capas fijas, y solo giran las casillas y los bombillos. Las casillas conservan sus colores de marca debajo de ese sombreado.
-   - **Gali acompaña la ruleta:** con los brazos arriba, abajo a la izquierda de la ruleta (flota en reposo y celebra mientras gira) y con corona junto a la moto en el anuncio del ganador. Sus imágenes salen del Figma Galiverso (sección Evergreen Stickers), solo el personaje, sin los textos tipo sticker.
+   - **Gali solo aparece en el anuncio del ganador**, con corona junto a la moto. No va al lado de la ruleta. Su imagen sale del Figma Galiverso (sección Evergreen Stickers), solo el personaje, sin los textos tipo sticker.
+   - **Fondo del planeta de Siderax** (`assets/fondo-siderax.webp`, generado a partir de la imagen de referencia): oscuro, suave y de poco contraste para no distraer de la ruleta. Los lados se atenúan con un degradado para no iluminar a los presentadores; es lo único que se permite en los lados, y debe seguir siendo tenue.
 8. **Sin emojis** en la interfaz. Íconos en SVG.
 9. **Todo debe funcionar sin internet en el standalone.** No cargar nada de otros sitios, salvo las fuentes de Google, que el build embebe.
 10. **Si cambias un valor por defecto** (empresas excluidas, sonido elegido, etc.), sube la versión de la clave de `localStorage` (`ruleta6:` → `ruleta7:`) para que se aplique en los computadores donde ya se abrió. Eso borra su historial: avisa antes si ya se hicieron sorteos reales.
