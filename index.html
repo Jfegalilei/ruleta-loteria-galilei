@@ -243,8 +243,9 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     <div class="wheel-wrap">
       <div class="pointer-wrap" id="pointerWrap">
       <svg class="pointer" id="pointer" viewBox="0 0 72 102" aria-hidden="true">
-        <path d="M36 92 L10 20 Q36 8 62 20 Z" fill="#B3F131"/>
-        <circle cx="36" cy="31" r="8" fill="#0A0B0C"/>
+        <!-- Keep a full rounded head with viewBox padding; a shallow cap looks clipped. -->
+        <path d="M36 92 L13 46 A26 26 0 1 1 59 46 Z" fill="var(--g-brand)"/>
+        <circle cx="36" cy="34" r="8" fill="var(--n00)"/>
       </svg>
       </div>
       <canvas id="wheel" aria-label="Ruleta con los nombres de los participantes"></canvas>
