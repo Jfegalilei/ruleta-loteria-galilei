@@ -64,7 +64,7 @@ body.guides .side .guide { opacity: 1; }
 .overline { font-family: var(--font-body); font-size: 1.8cqh; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--n07); }
 .prize {
   margin: 0; font-family: var(--font-display); font-weight: 700;
-  font-size: 7cqh; line-height: .92; letter-spacing: -.035em; color: var(--n09); text-wrap: balance;
+  font-size: 7cqh; line-height: .92; letter-spacing: .005em; color: var(--n09); text-wrap: balance;
 }
 
 .wheel-wrap { position: relative; z-index: 1; width: 69cqh; height: 69cqh; }
@@ -96,7 +96,7 @@ body.spinning .pointer-wrap { animation: none; }
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   width: 18cqh; height: 18cqh; border-radius: 50%;
   border: .45cqh solid var(--n04); background: var(--n00); color: var(--n09);
-  font-family: var(--font-display); font-weight: 700; font-size: 4.4cqh; letter-spacing: -.03em;
+  font-family: var(--font-display); font-weight: 700; font-size: 4.4cqh; letter-spacing: .005em;
   cursor: pointer; z-index: 2; transition: background .15s, transform .15s;
   box-shadow: 0 0 0 .5cqh var(--n00), 0 1cqh 3cqh rgba(0,0,0,.55);
 }
@@ -110,7 +110,7 @@ body.spinning .pointer-wrap { animation: none; }
   height: 5cqh; display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; max-width: 100%; font-variant-numeric: tabular-nums;
 }
-.ticker .t-name { font-family: var(--font-display); font-weight: 700; font-size: 3cqh; letter-spacing: -.02em; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.ticker .t-name { font-family: var(--font-display); font-weight: 700; font-size: 3cqh; letter-spacing: .005em; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .ticker .t-meta { font-size: 1.7cqh; color: var(--n06); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
 /* Revelación del ganador: superficie Mystery, solo dentro de la columna central */
@@ -136,14 +136,14 @@ body.spinning .pointer-wrap { animation: none; }
 .winner .stat span { font-size: 1.5cqh; font-weight: 600; letter-spacing: .04em; color: var(--n06); }
 .winner .name {
   font-family: var(--font-display); font-weight: 700;
-  font-size: var(--name-size, 14cqh); line-height: .9; letter-spacing: -.055em; color: var(--n09);
+  font-size: var(--name-size, 14cqh); line-height: .9; letter-spacing: .01em; color: var(--n09);
   text-wrap: balance; max-width: 100%; overflow-wrap: anywhere;
   animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) both;
 }
 @keyframes pop { from { transform: scale(.6); opacity: 0; } }
 .winner .where { display: flex; flex-direction: column; gap: .8cqh; animation: rise .5s .25s ease-out both; }
 @keyframes rise { from { transform: translateY(1.5cqh); opacity: 0; } }
-.winner .company { font-family: var(--font-display); font-weight: 700; font-size: 5cqh; letter-spacing: -.03em; color: var(--n08); line-height: 1; }
+.winner .company { font-family: var(--font-display); font-weight: 700; font-size: 5cqh; letter-spacing: .01em; color: var(--n08); line-height: 1; }
 .winner .location { font-size: 2.6cqh; color: var(--n07); }
 .winner .draw-no { font-size: 1.6cqh; color: var(--n06); font-variant-numeric: tabular-nums; }
 .winner .actions { display: flex; gap: 1.2cqh; flex-wrap: wrap; justify-content: center; margin-top: 1cqh; }
@@ -186,7 +186,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   transform: translateX(100%); transition: transform .3s ease; font-size: 15px;
 }
 .drawer.open { transform: none; }
-.drawer h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 28px; letter-spacing: -.03em; color: var(--n09); }
+.drawer h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 28px; letter-spacing: .005em; color: var(--n09); }
 .drawer section { display: flex; flex-direction: column; gap: 10px; background: var(--n02); border-radius: 12px; padding: 14px; }
 .drawer .kicker { font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--n06); margin: 0; }
 .drawer .field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500; color: var(--n07); }
