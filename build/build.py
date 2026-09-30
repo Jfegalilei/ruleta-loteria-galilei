@@ -97,6 +97,7 @@ def build_pages(data_js):
 
     html = sub_once(r'<script src="data/participantes\.js"></script>', '<script>\n' + data_js + '</script>', html)
     html = sub_once(r'const MOTO = "assets/moto\.webp";', f'const MOTO = "{data_uri(p("assets", "moto.webp"), "image/webp")}";', html)
+    html = sub_once(r'src="assets/galilei-symbol\.png"', f'src="{data_uri(p("assets", "galilei-symbol.png"), "image/png")}"', html)
     html = sub_once(r'const WIN_AUDIO = "assets/victoria\.mp3";', f'const WIN_AUDIO = "{data_uri(p("assets", "victoria.mp3"), "audio/mpeg")}";', html)
     os.makedirs(p('dist'), exist_ok=True)
 

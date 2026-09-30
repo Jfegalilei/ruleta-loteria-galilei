@@ -52,6 +52,8 @@ body.guides .side .guide { opacity: 1; }
 }
 .head { display: flex; justify-content: center; }
 .head-text { display: flex; flex-direction: column; gap: .7cqh; text-align: center; }
+.brand-lockup { display: flex; align-items: center; justify-content: center; gap: .8cqh; }
+.brand-mark { width: 2.8cqh; height: 2.8cqh; object-fit: contain; }
 /* El premio acompaña la rueda sin cubrir los nombres de los participantes. */
 .moto {
   position: absolute; left: 1.5cqh; bottom: 6cqh; z-index: 3;
@@ -69,7 +71,7 @@ body.guides .side .guide { opacity: 1; }
 .wheel-wrap > canvas { width: 100%; height: 100%; display: block; }
 /* Flecha: flota en reposo, rebota con cada casilla al girar y celebra al detenerse */
 .pointer-wrap {
-  position: absolute; left: 50%; top: -2.2cqh; width: 5.6cqh; height: 7.6cqh;
+  position: absolute; left: 50%; top: -.35cqh; width: 5.6cqh; height: 7.6cqh;
   transform: translateX(-50%); z-index: 2;
   animation: bob 1.8s ease-in-out infinite;
 }
@@ -230,7 +232,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   <div class="center">
     <div class="head">
       <div class="head-text">
-        <div class="overline" id="overlineEl">Lotería Galilei</div>
+        <div class="brand-lockup">
+          <img class="brand-mark" src="assets/galilei-symbol.png" alt="Galilei Learning">
+          <div class="overline" id="overlineEl">Lotería Galilei</div>
+        </div>
         <h1 class="prize" id="prizeEl">Victory Combat 100</h1>
       </div>
     </div>
@@ -408,6 +413,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const PALETTE = [
     { fill: "#292F36", text: "#F0F2F5" },
     { fill: "#171A1E", text: "#F0F2F5" },
+    { fill: "#567F00", text: "#FFFFFF" },
     { fill: "#3D444C", text: "#FFFFFF" },
     { fill: "#0E1012", text: "#F0F2F5" },
   ];
