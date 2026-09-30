@@ -49,7 +49,7 @@ body.guides .side .guide { opacity: 1; }
 /* Posiciones fijas en la columna: ruleta grande, moto tapando la mitad de abajo hasta justo
    debajo del botón Girar, Gali abajo a la izquierda y el texto al pie. */
 .center {
-  --wheel-size: 78cqh; --wheel-top: 15cqh;
+  --wheel-size: 70cqh; --wheel-top: 16cqh;
   position: relative; min-width: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
   box-sizing: border-box; padding: 1.2cqh 0 1.7cqh;
@@ -62,7 +62,7 @@ body.guides .side .guide { opacity: 1; }
 /* Overlap the lower rim to enlarge the wheel while keeping the prize and ticker in frame. */
 .moto {
   position: absolute; z-index: 3; left: 50%; bottom: 6.3cqh; transform: translateX(-50%);
-  display: block; height: 29.5cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
+  display: block; height: 31.5cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.8));
 }
 .tix { color: var(--g-brand); }
@@ -81,7 +81,7 @@ body.guides .side .guide { opacity: 1; }
 }
 /* Gali acompaña la ruleta: flota en reposo y se emociona mientras gira */
 .gali {
-  position: absolute; z-index: 3; left: .5cqh; bottom: 6.3cqh; height: 26cqh; width: auto;
+  position: absolute; z-index: 3; left: 2cqh; bottom: 6.3cqh; height: 26cqh; width: auto;
   pointer-events: none; transform-origin: 50% 100%;
   filter: drop-shadow(0 1.4cqh 1.4cqh rgba(0,0,0,.6));
   animation: gali-idle 2.8s ease-in-out infinite;
@@ -482,6 +482,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // La luz es fija (arriba a la izquierda): el aro, el sombreado y el brillo se dibujan en capas
   // que no giran; solo la cara con las casillas y los bombillos rota.
   const bezel = document.createElement("canvas"), shade = document.createElement("canvas"), bulb = document.createElement("canvas");
+  const labels = document.createElement("canvas"); // nombres: giran, pero van encima del brillo para que nunca los tape
   const RIM = 0.06; // grosor del aro como fracción del radio
   function buildStatic() {
     const W = wheel.width, R = W / 2, rim = R * RIM, r = R - rim;
@@ -503,13 +504,13 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     s.translate(R, R);
     s.beginPath(); s.arc(0, 0, r, 0, Math.PI * 2); s.clip();
     g = s.createRadialGradient(-r * .35, -r * .4, r * .05, 0, 0, r);
-    g.addColorStop(0, "rgba(255,255,255,.30)"); g.addColorStop(.45, "rgba(255,255,255,.06)");
+    g.addColorStop(0, "rgba(255,255,255,.12)"); g.addColorStop(.45, "rgba(255,255,255,.03)");
     g.addColorStop(.8, "rgba(0,0,0,.10)"); g.addColorStop(1, "rgba(0,0,0,.42)");
     s.fillStyle = g; s.fillRect(-r, -r, 2 * r, 2 * r);
     // reflejo suave en forma de media luna
     s.save(); s.rotate(-Math.PI / 4); s.scale(1, .55);
     g = s.createRadialGradient(0, -r * .75, r * .05, 0, -r * .75, r * .75);
-    g.addColorStop(0, "rgba(255,255,255,.22)"); g.addColorStop(1, "rgba(255,255,255,0)");
+    g.addColorStop(0, "rgba(255,255,255,.08)"); g.addColorStop(1, "rgba(255,255,255,0)");
     s.fillStyle = g; s.beginPath(); s.arc(0, -r * .75, r * .75, 0, Math.PI * 2); s.fill(); s.restore();
     // sombra interior contra el aro
     g = s.createRadialGradient(0, 0, r * .9, 0, 0, r);
@@ -529,7 +530,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
   function buildFace() {
     buildStatic();
-    const W = wheel.width; face.width = W; face.height = W;
+    const W = wheel.width; face.width = W; face.height = W; labels.width = labels.height = W;
     const R = W / 2, n = current.length, rim = R * RIM, r = R - rim;
     fctx.clearRect(0, 0, W, W);
     fctx.save(); fctx.translate(R, R);
@@ -546,40 +547,42 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
         fctx.fillStyle = PALETTE[k].fill; fctx.fill();
         if (n > 1) { fctx.strokeStyle = "rgba(10,11,12,.45)"; fctx.lineWidth = Math.max(1, R * 0.004); fctx.stroke(); }
       }
+      const L = labels.getContext("2d"); L.save(); L.translate(R, R);
       // nombres a lo largo del radio; el tamaño de letra sigue el ancho de la casilla
       const textR = r * 0.94, maxLen = textR - hubR - R * 0.03, minFs = R * 0.018;
-      fctx.textAlign = "right"; fctx.textBaseline = "middle";
+      L.textAlign = "right"; L.textBaseline = "middle";
       for (let i = 0; i < n; i++) {
         const w = starts[i + 1] - starts[i], half = Math.sin(Math.min(w, Math.PI) / 2);
         // la casilla se angosta hacia el centro: la letra tiene que caber en el punto más interno del nombre
         const room = rad => 0.8 * 2 * rad * half;
         let fs = Math.min(R * 0.075, room(textR)), label = "";
         // antes de cortar un nombre con "…", se achica la letra para que quepa completo
-        fctx.font = `600 ${fs}px Space Grotesk, sans-serif`;
-        const full = fctx.measureText(current[i].n).width;
+        L.font = `600 ${fs}px Space Grotesk, sans-serif`;
+        const full = L.measureText(current[i].n).width;
         if (full > maxLen) fs = Math.max(Math.min(fs, R * 0.026), fs * maxLen / full);
         for (let tries = 0; tries < 12 && fs >= minFs; tries++) {
-          fctx.font = `600 ${fs}px Space Grotesk, sans-serif`;
-          label = fit(current[i].n, maxLen);
-          const allowed = room(textR - fctx.measureText(label).width);
+          L.font = `600 ${fs}px Space Grotesk, sans-serif`;
+          label = fit(current[i].n, maxLen, L);
+          const allowed = room(textR - L.measureText(label).width);
           if (fs <= allowed) break;
           fs = Math.min(allowed, fs * 0.94);
         }
         if (fs < minFs) continue; // casilla demasiado delgada para un nombre legible
-        fctx.font = `600 ${fs}px Space Grotesk, sans-serif`;
-        label = fit(current[i].n, maxLen);
-        fctx.save(); fctx.rotate(top + (starts[i] + starts[i + 1]) / 2);
-        fctx.fillStyle = PALETTE[ks[i]].text;
-        fctx.fillText(label, textR, 0);
-        fctx.restore();
+        L.font = `600 ${fs}px Space Grotesk, sans-serif`;
+        label = fit(current[i].n, maxLen, L);
+        L.save(); L.rotate(top + (starts[i] + starts[i + 1]) / 2);
+        L.fillStyle = PALETTE[ks[i]].text;
+        L.fillText(label, textR, 0);
+        L.restore();
       }
+      L.restore();
     }
     fctx.restore();
   }
-  function fit(text, maxW) {
-    if (fctx.measureText(text).width <= maxW) return text;
+  function fit(text, maxW, c = fctx) {
+    if (c.measureText(text).width <= maxW) return text;
     let t = text;
-    while (t.length > 1 && fctx.measureText(t + "…").width > maxW) t = t.slice(0, -1);
+    while (t.length > 1 && c.measureText(t + "…").width > maxW) t = t.slice(0, -1);
     return t.trimEnd() + "…";
   }
   function draw() {
@@ -588,6 +591,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     ctx.drawImage(bezel, 0, 0);
     ctx.save(); ctx.translate(R, R); ctx.rotate(rot); ctx.drawImage(face, -R, -R); ctx.restore();
     ctx.drawImage(shade, 0, 0);
+    ctx.save(); ctx.translate(R, R); ctx.rotate(rot); ctx.drawImage(labels, -R, -R); ctx.restore();
     // bombillos: giran con la ruleta, pero su brillo sigue a la luz fija
     const n = 36, orbit = R - rim * .5, h = bulb.width / 2;
     for (let i = 0; i < n; i++) {
