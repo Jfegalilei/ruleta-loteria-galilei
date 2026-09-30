@@ -416,11 +416,13 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // ---------- Ruleta ----------
   const wheel = $("wheel"), ctx = wheel.getContext("2d");
   const face = document.createElement("canvas"), fctx = face.getContext("2d");
-  // Casillas solo con la escala verde de la marca (sin grises), alternando claro y oscuro
+  // Casillas solo con la escala verde de la marca (sin grises). El oscuro va en 2 de cada 5
+  // casillas (40%) y siempre entre dos claros, para que las vecinas se distingan.
   const PALETTE = [
     { fill: "#D6FD7C", text: "#0A0B0C" },
     { fill: "#2E4101", text: "#D6FD7C" },
     { fill: "#B3F131", text: "#0A0B0C" },
+    { fill: "#2E4101", text: "#D6FD7C" },
     { fill: "#8CCC04", text: "#0A0B0C" },
   ];
 
