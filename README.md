@@ -24,6 +24,7 @@ Cada computador guarda por su cuenta los ganadores y a quienes se sacaron de la 
 ```
 index.html                  La página: HTML, CSS y JavaScript. Aquí se hacen casi todos los cambios.
 assets/moto.webp            Foto de la moto (fondo transparente)
+assets/galilei-symbol.png   Símbolo de Galilei que acompaña a "Lotería Galilei"
 assets/victoria.mp3         Sonido de victoria "Celebración"
 data/participantes.csv      Export de Gali Admin: la fuente de los participantes
 data/participantes.js       Generado desde el CSV. No editar a mano.
@@ -57,7 +58,13 @@ Aplican a cualquier cambio, lo haga una persona o una IA.
 4. **Nunca mostrar el total de tickets en juego.** Ni en pantalla ni en el panel.
 5. **El anuncio del ganador muestra:** la moto, el nombre, la empresa, la sede (Location), los juegos en el mes, el puntaje máximo y los tickets. No mostrar el número de sorteo ni la cantidad de participantes.
 6. **Empresas excluidas por defecto:** Auteco, La Causa y Galilei. Se activan desde el panel.
-7. **Colores de marca Galilei:** lima `#B3F131` (hover `#A5EF0A`, activo `#8CCC04`), verde oscuro `#567F00` y los neutros `#0A0B0C`, `#0E1012`, `#171A1E`, `#292F36`, `#3D444C`, `#8B939E`, `#C7CCD4`, `#F0F2F5`, `#FFFFFF`. No agregar otros colores. Tipografías: Big Shoulders Display (títulos) y Figtree (texto).
+7. **Sistema visual de marca Galilei** (definido por el equipo de diseño; no volver al estilo anterior):
+   - **Lima `#B3F131` solo en la flecha.** Es la única señal en lima del escenario: no se usa en las casillas, el aro, los bombillos, el botón Girar, las cifras ni el anuncio del ganador. Se admite como un toque mínimo en el confeti y como estado activo o de foco en el panel.
+   - **El resto va en neutros:** `#0A0B0C` (fondo), `#0E1012`, `#171A1E`, `#292F36`, `#3D444C`, `#8B939E`, `#C7CCD4`, `#F0F2F5` y `#FFFFFF`, más el verde oscuro `#567F00` como una de las casillas. No agregar otros colores.
+   - **Tipografías:** Radio Canada Big para títulos, el nombre del ganador, la empresa, las cifras y el botón Girar; Space Grotesk para el texto, los overlines, los nombres en la ruleta y el texto de abajo. Solo pesos 400 a 700.
+   - **Mayúsculas solo en los overlines** (como "Lotería Galilei" o las etiquetas del panel), con espaciado de letras. Todo lo demás en tipo oración: "Girar", "Victory Combat 100", el nombre del ganador.
+   - **El símbolo de Galilei** va junto a "Lotería Galilei", arriba del título.
+   - **La moto se ve siempre:** centrada debajo de la ruleta y montada sobre su borde inferior, sin tapar el texto de abajo.
 8. **Sin emojis** en la interfaz. Íconos en SVG.
 9. **Todo debe funcionar sin internet en el standalone.** No cargar nada de otros sitios, salvo las fuentes de Google, que el build embebe.
 10. **Si cambias un valor por defecto** (empresas excluidas, sonido elegido, etc.), sube la versión de la clave de `localStorage` (`ruleta6:` → `ruleta7:`) para que se aplique en los computadores donde ya se abrió. Eso borra su historial: avisa antes si ya se hicieron sorteos reales.
