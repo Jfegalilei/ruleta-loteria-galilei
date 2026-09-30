@@ -73,6 +73,21 @@ body.guides .side .guide { opacity: 1; }
 
 .wheel-wrap { position: relative; z-index: 1; flex: none; margin-top: 5.6cqh; width: var(--wheel-size); height: var(--wheel-size); }
 .wheel-wrap > canvas { width: 100%; height: 100%; display: block; }
+/* Estilo 3D del Galiverso: sombra de contacto suave debajo de la ruleta */
+.wheel-wrap::before {
+  content: ""; position: absolute; z-index: -1; left: 6%; right: 6%; bottom: -5%; height: 22%;
+  border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.7), rgba(0,0,0,0));
+}
+/* Gali acompaña la ruleta: flota en reposo y se emociona mientras gira */
+.gali {
+  position: absolute; z-index: 3; left: .5cqh; top: 45cqh; height: 29cqh; width: auto;
+  pointer-events: none; transform-origin: 50% 100%;
+  filter: drop-shadow(0 1.4cqh 1.4cqh rgba(0,0,0,.6));
+  animation: gali-idle 2.8s ease-in-out infinite;
+}
+body.spinning .gali { animation: gali-cheer .5s ease-in-out infinite; }
+@keyframes gali-idle { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-1.2cqh) rotate(2deg); } }
+@keyframes gali-cheer { 0%, 100% { transform: translateY(0) scale(1, 1); } 40% { transform: translateY(-2.2cqh) scale(.97, 1.04); } 80% { transform: translateY(0) scale(1.04, .96); } }
 /* Flecha: flota en reposo, rebota con cada casilla al girar y celebra al detenerse */
 .pointer-wrap {
   position: absolute; left: 50%; top: -3.4cqh; width: 7.2cqh; height: 10.2cqh;
@@ -99,13 +114,18 @@ body.spinning .pointer-wrap { animation: none; }
 .hub {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   width: calc(var(--wheel-size) * .26); height: calc(var(--wheel-size) * .26); border-radius: 50%;
-  border: .45cqh solid var(--n04); background: var(--n00); color: var(--n09);
+  /* cúpula 3D: luz arriba a la izquierda, aro metálico satinado */
+  border: .8cqh solid transparent; color: var(--n09);
+  background:
+    radial-gradient(circle at 34% 28%, #4A525C 0, #1E2227 48%, #0A0B0C 100%) padding-box,
+    linear-gradient(145deg, #F0F2F5 0%, #8B939E 30%, #292F36 62%, #0A0B0C 80%, #8B939E 100%) border-box;
   font-family: var(--font-display); font-weight: 700; font-size: calc(var(--wheel-size) * .065); letter-spacing: normal; font-kerning: normal;
-  cursor: pointer; z-index: 2; transition: background .15s, transform .15s;
-  box-shadow: 0 0 0 .5cqh var(--n00), 0 1cqh 3cqh rgba(0,0,0,.55);
+  text-shadow: 0 .3cqh .5cqh rgba(0,0,0,.6);
+  cursor: pointer; z-index: 2; transition: filter .15s, transform .15s;
+  box-shadow: inset 0 .8cqh 1.2cqh rgba(255,255,255,.14), inset 0 -1cqh 1.6cqh rgba(0,0,0,.55), 0 1.2cqh 2.6cqh rgba(0,0,0,.65);
 }
 .hub span { display: block; font-family: var(--font-body); font-weight: 600; font-size: 1.3cqh; letter-spacing: .2em; color: var(--n06); margin-top: .3cqh; }
-.hub:hover { background: var(--n02); }
+.hub:hover { filter: brightness(1.18); }
 .hub:active { transform: translate(-50%, -50%) scale(.96); }
 .hub:focus-visible { outline: .4cqh solid var(--n08); outline-offset: .6cqh; }
 .hub:disabled { cursor: default; color: var(--n06); }
@@ -126,6 +146,13 @@ body.spinning .pointer-wrap { animation: none; }
   text-align: center; padding-inline: 2.5cqw;
 }
 .winner .overline { color: var(--n07); font-size: 2.2cqh; letter-spacing: .18em; font-weight: 600; }
+.winner .prize-row { display: flex; align-items: flex-end; justify-content: center; gap: 1.5cqh; max-width: 100%; }
+.winner .gali-king {
+  height: 26cqh; width: auto; flex: none;
+  filter: drop-shadow(0 1.4cqh 1.4cqh rgba(0,0,0,.7));
+  animation: king .7s .15s cubic-bezier(.2, 1.5, .4, 1) both;
+}
+@keyframes king { from { transform: translateY(40%) scale(.6); opacity: 0; } }
 .winner .prize-img {
   height: 24cqh; max-width: 80%; object-fit: contain;
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.7));
@@ -225,7 +252,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .count-line { font-variant-numeric: tabular-nums; color: var(--n07); }
 
 @media (prefers-reduced-motion: reduce) {
-  .winner .name, .winner .where, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
+  .winner .name, .winner .where, .winner .prize-img, .winner .gali-king, .winner .stats, .pointer-wrap, .pointer-wrap.win, .gali, body.spinning .gali { animation: none; }
   .drawer { transition: none; }
 }
 </style>
@@ -248,9 +275,23 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     <div class="wheel-wrap">
       <div class="pointer-wrap" id="pointerWrap">
       <svg class="pointer" id="pointer" viewBox="0 0 72 102" aria-hidden="true">
+        <defs>
+          <radialGradient id="pinBody" cx="36%" cy="26%" r="80%">
+            <stop offset="0" stop-color="#D6FD7C"/>
+            <stop offset=".38" stop-color="#B3F131"/>
+            <stop offset=".75" stop-color="#8CCC04"/>
+            <stop offset="1" stop-color="#567F00"/>
+          </radialGradient>
+          <radialGradient id="pinHole" cx="50%" cy="35%" r="70%">
+            <stop offset="0" stop-color="#292F36"/>
+            <stop offset="1" stop-color="#0A0B0C"/>
+          </radialGradient>
+        </defs>
         <!-- Keep a full rounded head with viewBox padding; a shallow cap looks clipped. -->
-        <path d="M36 92 L13 46 A26 26 0 1 1 59 46 Z" fill="var(--g-brand)"/>
-        <circle cx="36" cy="34" r="8" fill="var(--n00)"/>
+        <path d="M36 92 L13 46 A26 26 0 1 1 59 46 Z" fill="url(#pinBody)"/>
+        <ellipse cx="27" cy="22" rx="9" ry="5.5" fill="#FFFFFF" opacity=".55" transform="rotate(-28 27 22)"/>
+        <circle cx="36" cy="34" r="8.5" fill="url(#pinHole)"/>
+        <circle cx="36" cy="34" r="8.5" fill="none" stroke="#567F00" stroke-width="1.5"/>
       </svg>
       </div>
       <canvas id="wheel" aria-label="Ruleta con los nombres de los participantes"></canvas>
@@ -258,6 +299,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     </div>
 
     <img class="moto" id="headMoto" alt="Moto Victory Combat 100">
+    <img class="gali" src="assets/gali-animo.webp" alt="">
 
     <div class="ticker" aria-live="off">
       <div class="t-name" id="tName"></div>
@@ -266,7 +308,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
     <div class="winner" id="winner" hidden role="dialog" aria-live="assertive" aria-label="Ganador">
       <div class="overline" id="wOver"></div>
-      <img class="prize-img" id="wImg" alt="">
+      <div class="prize-row">
+        <img class="gali-king" src="assets/gali-corona.webp" alt="Gali con corona">
+        <img class="prize-img" id="wImg" alt="">
+      </div>
       <div class="name" id="wName"></div>
       <div class="where">
         <div class="company" id="wCompany"></div>
@@ -433,14 +478,60 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   }
 
   // Dibuja la cara completa una vez; al girar solo se rota la imagen.
+  // La luz es fija (arriba a la izquierda): el aro, el sombreado y el brillo se dibujan en capas
+  // que no giran; solo la cara con las casillas y los bombillos rota.
+  const bezel = document.createElement("canvas"), shade = document.createElement("canvas"), bulb = document.createElement("canvas");
+  const RIM = 0.06; // grosor del aro como fracción del radio
+  function buildStatic() {
+    const W = wheel.width, R = W / 2, rim = R * RIM, r = R - rim;
+    // aro metálico satinado
+    bezel.width = bezel.height = W;
+    const b = bezel.getContext("2d");
+    b.translate(R, R);
+    let g = b.createLinearGradient(-R, -R, R, R);
+    g.addColorStop(0, "#F0F2F5"); g.addColorStop(.28, "#8B939E"); g.addColorStop(.55, "#292F36");
+    g.addColorStop(.8, "#0E1012"); g.addColorStop(1, "#3D444C");
+    b.beginPath(); b.arc(0, 0, R - 1, 0, Math.PI * 2); b.fillStyle = g; b.fill();
+    g = b.createLinearGradient(-R, -R, R, R);
+    g.addColorStop(0, "#3D444C"); g.addColorStop(.5, "#171A1E"); g.addColorStop(1, "#0A0B0C");
+    b.beginPath(); b.arc(0, 0, R - rim * .22, 0, Math.PI * 2); b.fillStyle = g; b.fill();
+    b.beginPath(); b.arc(0, 0, r + rim * .08, 0, Math.PI * 2); b.fillStyle = "#0A0B0C"; b.fill();
+    // volumen sobre las casillas: brillo arriba a la izquierda, sombra hacia el borde
+    shade.width = shade.height = W;
+    const s = shade.getContext("2d");
+    s.translate(R, R);
+    s.beginPath(); s.arc(0, 0, r, 0, Math.PI * 2); s.clip();
+    g = s.createRadialGradient(-r * .35, -r * .4, r * .05, 0, 0, r);
+    g.addColorStop(0, "rgba(255,255,255,.30)"); g.addColorStop(.45, "rgba(255,255,255,.06)");
+    g.addColorStop(.8, "rgba(0,0,0,.10)"); g.addColorStop(1, "rgba(0,0,0,.42)");
+    s.fillStyle = g; s.fillRect(-r, -r, 2 * r, 2 * r);
+    // reflejo suave en forma de media luna
+    s.save(); s.rotate(-Math.PI / 4); s.scale(1, .55);
+    g = s.createRadialGradient(0, -r * .75, r * .05, 0, -r * .75, r * .75);
+    g.addColorStop(0, "rgba(255,255,255,.22)"); g.addColorStop(1, "rgba(255,255,255,0)");
+    s.fillStyle = g; s.beginPath(); s.arc(0, -r * .75, r * .75, 0, Math.PI * 2); s.fill(); s.restore();
+    // sombra interior contra el aro
+    g = s.createRadialGradient(0, 0, r * .9, 0, 0, r);
+    g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(0,0,0,.45)");
+    s.fillStyle = g; s.fillRect(-r, -r, 2 * r, 2 * r);
+    // bombillo: esfera brillante con la luz arriba a la izquierda
+    const br = rim * .3, bs = Math.ceil(br * 2.6);
+    bulb.width = bulb.height = bs;
+    const u = bulb.getContext("2d"), c = bs / 2;
+    g = u.createRadialGradient(c, c, br * .6, c, c, br * 1.3);
+    g.addColorStop(0, "rgba(214,253,124,.35)"); g.addColorStop(1, "rgba(214,253,124,0)");
+    u.fillStyle = g; u.fillRect(0, 0, bs, bs);
+    g = u.createRadialGradient(c - br * .35, c - br * .4, br * .1, c, c, br);
+    g.addColorStop(0, "#FFFFFF"); g.addColorStop(.35, "#F0F2F5"); g.addColorStop(1, "#8B939E");
+    u.beginPath(); u.arc(c, c, br, 0, Math.PI * 2); u.fillStyle = g; u.fill();
+  }
+
   function buildFace() {
+    buildStatic();
     const W = wheel.width; face.width = W; face.height = W;
-    const R = W / 2, n = current.length, rim = R * 0.045, r = R - rim;
+    const R = W / 2, n = current.length, rim = R * RIM, r = R - rim;
     fctx.clearRect(0, 0, W, W);
     fctx.save(); fctx.translate(R, R);
-    // aro exterior
-    fctx.beginPath(); fctx.arc(0, 0, R - 1, 0, Math.PI * 2); fctx.fillStyle = "#292F36"; fctx.fill();
-    fctx.beginPath(); fctx.arc(0, 0, r + rim * 0.12, 0, Math.PI * 2); fctx.fillStyle = "#3D444C"; fctx.fill();
     if (n === 0) {
       fctx.beginPath(); fctx.arc(0, 0, r, 0, Math.PI * 2); fctx.fillStyle = "#171A1E"; fctx.fill();
     } else {
@@ -482,13 +573,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
         fctx.restore();
       }
     }
-    // bombillos del aro
-    const bulbs = 48, br = R - rim * 0.45;
-    for (let i = 0; i < bulbs; i++) {
-      const a = i * Math.PI * 2 / bulbs;
-      fctx.beginPath(); fctx.arc(Math.cos(a) * br, Math.sin(a) * br, rim * 0.24, 0, Math.PI * 2);
-      fctx.fillStyle = i % 2 ? "#F0F2F5" : "#8B939E"; fctx.fill();
-    }
     fctx.restore();
   }
   function fit(text, maxW) {
@@ -498,9 +582,17 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     return t.trimEnd() + "…";
   }
   function draw() {
-    const W = wheel.width, R = W / 2;
+    const W = wheel.width, R = W / 2, rim = R * RIM;
     ctx.clearRect(0, 0, W, W);
+    ctx.drawImage(bezel, 0, 0);
     ctx.save(); ctx.translate(R, R); ctx.rotate(rot); ctx.drawImage(face, -R, -R); ctx.restore();
+    ctx.drawImage(shade, 0, 0);
+    // bombillos: giran con la ruleta, pero su brillo sigue a la luz fija
+    const n = 36, orbit = R - rim * .5, h = bulb.width / 2;
+    for (let i = 0; i < n; i++) {
+      const a = rot + i * Math.PI * 2 / n;
+      ctx.drawImage(bulb, R + Math.cos(a) * orbit - h, R + Math.sin(a) * orbit - h);
+    }
   }
   function indexAt(r) {
     const tau = Math.PI * 2, off = ((-r % tau) + tau) % tau;

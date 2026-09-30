@@ -25,6 +25,8 @@ Cada computador guarda por su cuenta los ganadores y a quienes se sacaron de la 
 index.html                  La página: HTML, CSS y JavaScript. Aquí se hacen casi todos los cambios.
 assets/moto.webp            Foto de la moto (fondo transparente)
 assets/galilei-symbol.png   Símbolo de Galilei que acompaña a "GaliLotería"
+assets/gali-animo.webp      Gali con los brazos arriba, junto a la ruleta
+assets/gali-corona.webp     Gali con corona, en el anuncio del ganador
 assets/victoria.mp3         Sonido de victoria "Celebración"
 data/participantes.csv      Export de Gali Admin: la fuente de los participantes
 data/participantes.js       Generado desde el CSV. No editar a mano.
@@ -66,6 +68,8 @@ Aplican a cualquier cambio, lo haga una persona o una IA.
    - **Mayúsculas solo en los overlines** (como "GaliLotería" o las etiquetas del panel), con espaciado de letras. Todo lo demás en tipo oración: "Girar", "Victory Combat 100", el nombre del ganador.
    - **El símbolo de Galilei** va junto a "GaliLotería", arriba del título.
    - **La moto se ve siempre:** centrada debajo de la ruleta y montada sobre su borde inferior, sin tapar el texto de abajo.
+   - **Estilo 3D del Galiverso**, como los íconos 3D y el personaje Gali del Figma "Galiverso · Galilei Learning": volumen, brillo suave y sombras coherentes con una sola luz fija arriba a la izquierda. La luz no gira con la ruleta: el aro metálico satinado, el sombreado y el reflejo son capas fijas, y solo giran las casillas y los bombillos. Las casillas conservan sus colores de marca debajo de ese sombreado.
+   - **Gali acompaña la ruleta:** con los brazos arriba a la izquierda de la ruleta (flota en reposo y celebra mientras gira) y con corona junto a la moto en el anuncio del ganador. Sus imágenes salen del Figma Galiverso (sección Evergreen Stickers), solo el personaje, sin los textos tipo sticker.
 8. **Sin emojis** en la interfaz. Íconos en SVG.
 9. **Todo debe funcionar sin internet en el standalone.** No cargar nada de otros sitios, salvo las fuentes de Google, que el build embebe.
 10. **Si cambias un valor por defecto** (empresas excluidas, sonido elegido, etc.), sube la versión de la clave de `localStorage` (`ruleta6:` → `ruleta7:`) para que se aplique en los computadores donde ya se abrió. Eso borra su historial: avisa antes si ya se hicieron sorteos reales.

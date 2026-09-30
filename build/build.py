@@ -97,7 +97,10 @@ def build_pages(data_js):
 
     html = sub_once(r'<script src="data/participantes\.js"></script>', '<script>\n' + data_js + '</script>', html)
     html = sub_once(r'const MOTO = "assets/moto\.webp";', f'const MOTO = "{data_uri(p("assets", "moto.webp"), "image/webp")}";', html)
-    html = sub_once(r'src="assets/galilei-symbol\.png"', f'src="{data_uri(p("assets", "galilei-symbol.png"), "image/png")}"', html)
+    # imágenes referenciadas con src="assets/..." en el HTML (símbolo de Galilei, Gali, etc.)
+    mimes = {'.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg'}
+    html = re.sub(r'src="assets/([^"]+)"',
+                  lambda m: f'src="{data_uri(p("assets", m.group(1)), mimes[os.path.splitext(m.group(1))[1].lower()])}"', html)
     html = sub_once(r'const WIN_AUDIO = "assets/victoria\.mp3";', f'const WIN_AUDIO = "{data_uri(p("assets", "victoria.mp3"), "audio/mpeg")}";', html)
     os.makedirs(p('dist'), exist_ok=True)
 
