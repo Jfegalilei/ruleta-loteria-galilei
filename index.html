@@ -6,18 +6,18 @@
 <title>Ruleta de la Lotería</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Radio+Canada+Big:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: escenario 16:9 fijo; ruleta en la columna central (52%), 24% libre a cada lado para los presentadores.
-   Marca Galilei: dark, Neutralverse, lima solo en el botón Girar y el glow del ganador. */
+   Marca Galilei: Neutralverse como base; el lima es una única señal funcional: la flecha. */
 :root {
   --n00: #0A0B0C; --n01: #0E1012; --n02: #171A1E; --n03: #292F36; --n04: #3D444C;
   --n06: #8B939E; --n07: #C7CCD4; --n08: #F0F2F5; --n09: #FFFFFF;
   --g-brand: #B3F131; --g-600: #A5EF0A; --g-700: #8CCC04;
   --n09-a08: rgba(255,255,255,.08); --n09-a12: rgba(255,255,255,.12); --n09-a20: rgba(255,255,255,.20);
   --g-a05: rgba(179,241,49,.05); --g-a12: rgba(179,241,49,.12); --g-a20: rgba(179,241,49,.20); --g-a30: rgba(179,241,49,.30);
-  --font-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
-  --font-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Radio Canada Big", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
   color-scheme: dark;
 }
 [hidden] { display: none !important; }
@@ -52,17 +52,17 @@ body.guides .side .guide { opacity: 1; }
 }
 .head { display: flex; justify-content: center; }
 .head-text { display: flex; flex-direction: column; gap: .7cqh; text-align: center; }
-/* La moto va abajo a la izquierda, por encima de la ruleta (tapa parte de la rueda, no al revés) */
+/* El premio acompaña la rueda sin cubrir los nombres de los participantes. */
 .moto {
-  position: absolute; left: .5cqh; bottom: 13cqh; z-index: 3;
-  height: 32cqh; width: auto; pointer-events: none;
+  position: absolute; left: 1.5cqh; bottom: 6cqh; z-index: 3;
+  height: 18cqh; width: auto; pointer-events: none;
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.8));
 }
 .tix { color: var(--g-brand); }
-.overline { font-size: 1.8cqh; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--g-brand); }
+.overline { font-family: var(--font-body); font-size: 1.8cqh; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--n07); }
 .prize {
-  margin: 0; font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
-  font-size: 7cqh; line-height: .9; letter-spacing: .02em; color: var(--n09); text-wrap: balance;
+  margin: 0; font-family: var(--font-display); font-weight: 700;
+  font-size: 7cqh; line-height: .92; letter-spacing: -.035em; color: var(--n09); text-wrap: balance;
 }
 
 .wheel-wrap { position: relative; z-index: 1; width: 69cqh; height: 69cqh; }
@@ -82,7 +82,7 @@ body.spinning .pointer-wrap { animation: none; }
 }
 @keyframes bob {
   0%, 100% { transform: translate(-50%, 0); filter: drop-shadow(0 0 .3cqh var(--g-a20)); }
-  50% { transform: translate(-50%, -.9cqh); filter: drop-shadow(0 0 1.8cqh rgba(179,241,49,.75)); }
+  50% { transform: translate(-50%, -.9cqh); filter: drop-shadow(0 0 1.4cqh rgba(179,241,49,.65)); }
 }
 @keyframes celebrate {
   0%, 100% { transform: translate(-50%, 0) scale(1); filter: drop-shadow(0 0 .6cqh var(--g-a30)); }
@@ -93,8 +93,8 @@ body.spinning .pointer-wrap { animation: none; }
 .hub {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   width: 18cqh; height: 18cqh; border-radius: 50%;
-  border: .7cqh solid var(--g-brand); background: var(--n00); color: var(--n08);
-  font-family: var(--font-display); font-weight: 900; font-size: 4.4cqh; letter-spacing: .06em;
+  border: .45cqh solid var(--n04); background: var(--n00); color: var(--n09);
+  font-family: var(--font-display); font-weight: 700; font-size: 4.4cqh; letter-spacing: -.03em;
   cursor: pointer; z-index: 2; transition: background .15s, transform .15s;
   box-shadow: 0 0 0 .5cqh var(--n00), 0 1cqh 3cqh rgba(0,0,0,.55);
 }
@@ -108,19 +108,17 @@ body.spinning .pointer-wrap { animation: none; }
   height: 5cqh; display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; max-width: 100%; font-variant-numeric: tabular-nums;
 }
-.ticker .t-name { font-family: var(--font-display); font-weight: 700; font-size: 3cqh; text-transform: uppercase; letter-spacing: .03em; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.ticker .t-name { font-family: var(--font-display); font-weight: 700; font-size: 3cqh; letter-spacing: -.02em; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .ticker .t-meta { font-size: 1.7cqh; color: var(--n06); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
 /* Revelación del ganador: superficie Mystery, solo dentro de la columna central */
 .winner {
   position: absolute; inset: 0; z-index: 5;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6cqh;
-  background:
-    radial-gradient(circle at 50% 45%, var(--g-a12) 0, transparent 55%),
-    color-mix(in srgb, var(--n00) 90%, transparent);
+  background: var(--n00);
   text-align: center; padding-inline: 2.5cqw;
 }
-.winner .overline { color: var(--g-brand); font-size: 2.2cqh; letter-spacing: .32em; font-weight: 700; }
+.winner .overline { color: var(--n07); font-size: 2.2cqh; letter-spacing: .18em; font-weight: 600; }
 .winner .prize-img {
   height: 24cqh; max-width: 80%; object-fit: contain;
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.7));
@@ -132,19 +130,18 @@ body.spinning .pointer-wrap { animation: none; }
   min-width: 15cqh; padding: 1.2cqh 2cqh; border-radius: 1.4cqh; background: var(--n02);
   display: flex; flex-direction: column; align-items: center; gap: .5cqh;
 }
-.winner .stat b { font-family: var(--font-display); font-weight: 900; font-size: 5.4cqh; line-height: .9; color: var(--n09); font-variant-numeric: tabular-nums; }
-.winner .stat span { font-size: 1.5cqh; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--n06); }
-.winner .stat.tk b { color: var(--g-brand); }
+.winner .stat b { font-family: var(--font-display); font-weight: 700; font-size: 5.4cqh; line-height: .9; color: var(--n09); font-variant-numeric: tabular-nums; }
+.winner .stat span { font-size: 1.5cqh; font-weight: 600; letter-spacing: .04em; color: var(--n06); }
 .winner .name {
-  font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
-  font-size: var(--name-size, 14cqh); line-height: .88; color: var(--n09);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: var(--name-size, 14cqh); line-height: .9; letter-spacing: -.055em; color: var(--n09);
   text-wrap: balance; max-width: 100%; overflow-wrap: anywhere;
   animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) both;
 }
 @keyframes pop { from { transform: scale(.6); opacity: 0; } }
 .winner .where { display: flex; flex-direction: column; gap: .8cqh; animation: rise .5s .25s ease-out both; }
 @keyframes rise { from { transform: translateY(1.5cqh); opacity: 0; } }
-.winner .company { font-family: var(--font-display); font-weight: 700; font-size: 5cqh; text-transform: uppercase; letter-spacing: .03em; color: var(--n08); line-height: 1; }
+.winner .company { font-family: var(--font-display); font-weight: 700; font-size: 5cqh; letter-spacing: -.03em; color: var(--n08); line-height: 1; }
 .winner .location { font-size: 2.6cqh; color: var(--n07); }
 .winner .draw-no { font-size: 1.6cqh; color: var(--n06); font-variant-numeric: tabular-nums; }
 .winner .actions { display: flex; gap: 1.2cqh; flex-wrap: wrap; justify-content: center; margin-top: 1cqh; }
@@ -154,8 +151,8 @@ body.spinning .pointer-wrap { animation: none; }
   border: 1px solid transparent; cursor: pointer; transition: background .15s, transform .1s;
 }
 .winner .btn { font-size: 1.9cqh; font-weight: 600; height: 4.8cqh; padding: 0 2.6cqh; border-radius: 99px; }
-.btn.primary { background: var(--g-brand); color: var(--n00); }
-.btn.primary:hover { background: var(--g-600); }
+.btn.primary { background: var(--n09); color: var(--n00); }
+.btn.primary:hover { background: var(--n07); }
 .btn:active { transform: scale(.98); }
 .btn:focus-visible { outline: 1.5px solid var(--n09); outline-offset: 2px; }
 .btn.secondary { background: var(--n09); color: var(--n00); }
@@ -184,19 +181,19 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   background: var(--n01); z-index: 30; box-sizing: border-box; overflow-y: auto;
   display: flex; flex-direction: column; gap: 20px;
   padding: calc(24px + env(safe-area-inset-top, 0px)) 20px calc(24px + env(safe-area-inset-bottom, 0px));
-  transform: translateX(100%); transition: transform .3s ease; font-size: 14px;
+  transform: translateX(100%); transition: transform .3s ease; font-size: 15px;
 }
 .drawer.open { transform: none; }
-.drawer h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 24px; letter-spacing: -.01em; color: var(--n09); }
+.drawer h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 28px; letter-spacing: -.03em; color: var(--n09); }
 .drawer section { display: flex; flex-direction: column; gap: 10px; background: var(--n02); border-radius: 12px; padding: 14px; }
-.drawer .kicker { font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--n06); margin: 0; }
-.drawer .field { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 500; color: var(--n07); }
+.drawer .kicker { font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--n06); margin: 0; }
+.drawer .field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500; color: var(--n07); }
 .drawer input[type=text], .drawer input[type=search] {
   font: 400 15px/1.4 var(--font-body); color: var(--n08); background: var(--n01);
   border: 1px solid var(--n03); border-radius: 8px; padding: 9px 11px;
 }
 .drawer input:focus { outline: none; border-color: var(--g-600); }
-.drawer .hint { font-size: 12px; color: var(--n06); margin: 0; line-height: 1.5; }
+.drawer .hint { font-size: 13px; color: var(--n06); margin: 0; line-height: 1.5; }
 .drawer .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .file-btn { position: relative; overflow: hidden; display: inline-flex; align-items: center; }
 .file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
@@ -246,7 +243,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       </svg>
       </div>
       <canvas id="wheel" aria-label="Ruleta con los nombres de los participantes"></canvas>
-      <button class="hub" id="spinBtn" type="button">GIRAR</button>
+      <button class="hub" id="spinBtn" type="button">Girar</button>
     </div>
 
     <img class="moto" id="headMoto" alt="Moto Victory Combat 100">
@@ -409,10 +406,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const wheel = $("wheel"), ctx = wheel.getContext("2d");
   const face = document.createElement("canvas"), fctx = face.getContext("2d");
   const PALETTE = [
-    { fill: "#B3F131", text: "#0A0B0C" },
-    { fill: "#171A1E", text: "#F0F2F5" },
-    { fill: "#567F00", text: "#FFFFFF" },
     { fill: "#292F36", text: "#F0F2F5" },
+    { fill: "#171A1E", text: "#F0F2F5" },
+    { fill: "#3D444C", text: "#FFFFFF" },
+    { fill: "#0E1012", text: "#F0F2F5" },
   ];
 
   function sizeCanvas(c) {
@@ -428,7 +425,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     fctx.save(); fctx.translate(R, R);
     // aro exterior
     fctx.beginPath(); fctx.arc(0, 0, R - 1, 0, Math.PI * 2); fctx.fillStyle = "#292F36"; fctx.fill();
-    fctx.beginPath(); fctx.arc(0, 0, r + rim * 0.12, 0, Math.PI * 2); fctx.fillStyle = "#B3F131"; fctx.fill();
+    fctx.beginPath(); fctx.arc(0, 0, r + rim * 0.12, 0, Math.PI * 2); fctx.fillStyle = "#3D444C"; fctx.fill();
     if (n === 0) {
       fctx.beginPath(); fctx.arc(0, 0, r, 0, Math.PI * 2); fctx.fillStyle = "#171A1E"; fctx.fill();
     } else {
@@ -451,18 +448,18 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
         const room = rad => 0.8 * 2 * rad * half;
         let fs = Math.min(R * 0.075, room(textR)), label = "";
         // antes de cortar un nombre con "…", se achica la letra para que quepa completo
-        fctx.font = `700 ${fs}px Figtree, sans-serif`;
+        fctx.font = `600 ${fs}px Space Grotesk, sans-serif`;
         const full = fctx.measureText(current[i].n).width;
         if (full > maxLen) fs = Math.max(Math.min(fs, R * 0.026), fs * maxLen / full);
         for (let tries = 0; tries < 12 && fs >= minFs; tries++) {
-          fctx.font = `700 ${fs}px Figtree, sans-serif`;
+          fctx.font = `600 ${fs}px Space Grotesk, sans-serif`;
           label = fit(current[i].n, maxLen);
           const allowed = room(textR - fctx.measureText(label).width);
           if (fs <= allowed) break;
           fs = Math.min(allowed, fs * 0.94);
         }
         if (fs < minFs) continue; // casilla demasiado delgada para un nombre legible
-        fctx.font = `700 ${fs}px Figtree, sans-serif`;
+        fctx.font = `600 ${fs}px Space Grotesk, sans-serif`;
         label = fit(current[i].n, maxLen);
         fctx.save(); fctx.rotate(top + (starts[i] + starts[i + 1]) / 2);
         fctx.fillStyle = PALETTE[ks[i]].text;
@@ -475,7 +472,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     for (let i = 0; i < bulbs; i++) {
       const a = i * Math.PI * 2 / bulbs;
       fctx.beginPath(); fctx.arc(Math.cos(a) * br, Math.sin(a) * br, rim * 0.24, 0, Math.PI * 2);
-      fctx.fillStyle = i % 2 ? "#FFFFFF" : "#B3F131"; fctx.fill();
+      fctx.fillStyle = i % 2 ? "#F0F2F5" : "#8B939E"; fctx.fill();
     }
     fctx.restore();
   }
@@ -713,7 +710,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   let parts = [], confRaf = 0;
   function confetti() {
     sizeCanvas(conf);
-    const W = conf.width, H = conf.height, cols = ["#B3F131", "#FFFFFF", "#71A800", "#F0F2F5", "#A5EF0A"];
+    const W = conf.width, H = conf.height, cols = ["#F0F2F5", "#F0F2F5", "#C7CCD4", "#8B939E", "#3D444C", "#F0F2F5", "#C7CCD4", "#8B939E", "#F0F2F5", "#B3F131"];
     parts = Array.from({ length: 170 }, () => ({
       x: W / 2 + (Math.random() - 0.5) * W * 0.3, y: H * 0.4,
       vx: (Math.random() - 0.5) * W * 0.02, vy: -Math.random() * H * 0.028 - H * 0.008,
