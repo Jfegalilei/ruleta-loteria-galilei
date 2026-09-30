@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ruleta de la Lotería</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: escenario 16:9 fijo; ruleta en la columna central (52%), 24% libre a cada lado para los presentadores.
+   Marca Galilei: dark, Neutralverse, lima solo en el botón Girar y el glow del ganador. */
+:root {
+  --n00: #0A0B0C; --n01: #0E1012; --n02: #171A1E; --n03: #292F36; --n04: #3D444C;
+  --n06: #8B939E; --n07: #C7CCD4; --n08: #F0F2F5; --n09: #FFFFFF;
+  --g-brand: #B3F131; --g-600: #A5EF0A; --g-700: #8CCC04;
+  --n09-a08: rgba(255,255,255,.08); --n09-a12: rgba(255,255,255,.12); --n09-a20: rgba(255,255,255,.20);
+  --g-a05: rgba(179,241,49,.05); --g-a12: rgba(179,241,49,.12); --g-a20: rgba(179,241,49,.20); --g-a30: rgba(179,241,49,.30);
+  --font-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --font-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--n00); color: var(--n08);
+  font-family: var(--font-body); overflow: hidden;
+  display: grid; place-items: center;
+}
+body.idle { cursor: none; }
+
+.stage {
+  position: relative;
+  width: min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio: 16 / 9; max-width: 100%;
+  container-type: size;
+  display: grid; grid-template-columns: 24fr 52fr 24fr;
+}
+.side { position: relative; }
+.side .guide {
+  position: absolute; inset: 3cqh 1.2cqw;
+  border: .2cqh dashed var(--n04); border-radius: 1.2cqh;
+  display: grid; place-items: end center; padding-bottom: 3cqh;
+  font-size: 1.6cqh; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--n06);
+  opacity: 0; transition: opacity .3s;
+}
+body.guides .side .guide { opacity: 1; }
+
+.center {
+  position: relative; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6cqh;
+}
+.head { display: flex; justify-content: center; }
+.head-text { display: flex; flex-direction: column; gap: .7cqh; text-align: center; }
+/* La moto va abajo a la izquierda, por encima de la ruleta (tapa parte de la rueda, no al revés) */
+.moto {
+  position: absolute; left: .5cqh; bottom: 13cqh; z-index: 3;
+  height: 32cqh; width: auto; pointer-events: none;
+  filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.8));
+}
+.tix { color: var(--g-brand); }
+.overline { font-size: 1.8cqh; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--g-brand); }
+.prize {
+  margin: 0; font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
+  font-size: 7cqh; line-height: .9; letter-spacing: .02em; color: var(--n09); text-wrap: balance;
+}
+
+.wheel-wrap { position: relative; z-index: 1; width: 69cqh; height: 69cqh; }
+.wheel-wrap > canvas { width: 100%; height: 100%; display: block; }
+/* Flecha: flota en reposo, rebota con cada casilla al girar y celebra al detenerse */
+.pointer-wrap {
+  position: absolute; left: 50%; top: -2.2cqh; width: 5.6cqh; height: 7.6cqh;
+  transform: translateX(-50%); z-index: 2;
+  animation: bob 1.8s ease-in-out infinite;
+}
+body.spinning .pointer-wrap { animation: none; }
+.pointer-wrap.win { animation: celebrate .42s cubic-bezier(.3, 1.6, .5, 1) 3; }
+.pointer {
+  display: block; width: 100%; height: 100%;
+  transform-origin: 50% 31%; will-change: transform;
+  filter: drop-shadow(0 .6cqh .8cqh rgba(0,0,0,.6));
+}
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); filter: drop-shadow(0 0 .3cqh var(--g-a20)); }
+  50% { transform: translate(-50%, -.9cqh); filter: drop-shadow(0 0 1.8cqh rgba(179,241,49,.75)); }
+}
+@keyframes celebrate {
+  0%, 100% { transform: translate(-50%, 0) scale(1); filter: drop-shadow(0 0 .6cqh var(--g-a30)); }
+  50% { transform: translate(-50%, -1.6cqh) scale(1.22); filter: drop-shadow(0 0 2.6cqh rgba(179,241,49,.95)); }
+}
+.win-sounds .btn[aria-pressed="true"] { background: var(--g-a20); border-color: var(--g-brand); color: var(--n09); }
+
+.hub {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 18cqh; height: 18cqh; border-radius: 50%;
+  border: .7cqh solid var(--g-brand); background: var(--n00); color: var(--n08);
+  font-family: var(--font-display); font-weight: 900; font-size: 4.4cqh; letter-spacing: .06em;
+  cursor: pointer; z-index: 2; transition: background .15s, transform .15s;
+  box-shadow: 0 0 0 .5cqh var(--n00), 0 1cqh 3cqh rgba(0,0,0,.55);
+}
+.hub span { display: block; font-family: var(--font-body); font-weight: 600; font-size: 1.3cqh; letter-spacing: .2em; color: var(--n06); margin-top: .3cqh; }
+.hub:hover { background: var(--n02); }
+.hub:active { transform: translate(-50%, -50%) scale(.96); }
+.hub:focus-visible { outline: .4cqh solid var(--n08); outline-offset: .6cqh; }
+.hub:disabled { cursor: default; color: var(--n06); }
+
+.ticker {
+  height: 5cqh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; max-width: 100%; font-variant-numeric: tabular-nums;
+}
+.ticker .t-name { font-family: var(--font-display); font-weight: 700; font-size: 3cqh; text-transform: uppercase; letter-spacing: .03em; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.ticker .t-meta { font-size: 1.7cqh; color: var(--n06); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+/* Revelación del ganador: superficie Mystery, solo dentro de la columna central */
+.winner {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.6cqh;
+  background:
+    radial-gradient(circle at 50% 45%, var(--g-a12) 0, transparent 55%),
+    color-mix(in srgb, var(--n00) 90%, transparent);
+  text-align: center; padding-inline: 2.5cqw;
+}
+.winner .overline { color: var(--g-brand); font-size: 2.2cqh; letter-spacing: .32em; font-weight: 700; }
+.winner .prize-img {
+  height: 24cqh; max-width: 80%; object-fit: contain;
+  filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.7));
+  animation: ride .9s cubic-bezier(.2, 1.15, .3, 1) both;
+}
+@keyframes ride { from { transform: translateX(45%) scale(.7); opacity: 0; } }
+.winner .stats { display: flex; gap: 1.2cqh; justify-content: center; flex-wrap: wrap; margin-top: .4cqh; animation: rise .5s .4s ease-out both; }
+.winner .stat {
+  min-width: 15cqh; padding: 1.2cqh 2cqh; border-radius: 1.4cqh; background: var(--n02);
+  display: flex; flex-direction: column; align-items: center; gap: .5cqh;
+}
+.winner .stat b { font-family: var(--font-display); font-weight: 900; font-size: 5.4cqh; line-height: .9; color: var(--n09); font-variant-numeric: tabular-nums; }
+.winner .stat span { font-size: 1.5cqh; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--n06); }
+.winner .stat.tk b { color: var(--g-brand); }
+.winner .name {
+  font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
+  font-size: var(--name-size, 14cqh); line-height: .88; color: var(--n09);
+  text-wrap: balance; max-width: 100%; overflow-wrap: anywhere;
+  animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) both;
+}
+@keyframes pop { from { transform: scale(.6); opacity: 0; } }
+.winner .where { display: flex; flex-direction: column; gap: .8cqh; animation: rise .5s .25s ease-out both; }
+@keyframes rise { from { transform: translateY(1.5cqh); opacity: 0; } }
+.winner .company { font-family: var(--font-display); font-weight: 700; font-size: 5cqh; text-transform: uppercase; letter-spacing: .03em; color: var(--n08); line-height: 1; }
+.winner .location { font-size: 2.6cqh; color: var(--n07); }
+.winner .draw-no { font-size: 1.6cqh; color: var(--n06); font-variant-numeric: tabular-nums; }
+.winner .actions { display: flex; gap: 1.2cqh; flex-wrap: wrap; justify-content: center; margin-top: 1cqh; }
+
+.btn {
+  font: 500 16px/1 var(--font-body); height: 40px; padding: 0 18px; border-radius: 12px;
+  border: 1px solid transparent; cursor: pointer; transition: background .15s, transform .1s;
+}
+.winner .btn { font-size: 1.9cqh; font-weight: 600; height: 4.8cqh; padding: 0 2.6cqh; border-radius: 99px; }
+.btn.primary { background: var(--g-brand); color: var(--n00); }
+.btn.primary:hover { background: var(--g-600); }
+.btn:active { transform: scale(.98); }
+.btn:focus-visible { outline: 1.5px solid var(--n09); outline-offset: 2px; }
+.btn.secondary { background: var(--n09); color: var(--n00); }
+.btn.secondary:hover { background: var(--n07); }
+.btn.soft { background: var(--n09-a12); border-color: var(--n09-a12); color: var(--n08); }
+.btn.soft:hover { background: var(--n09-a20); }
+.btn.sm { font-size: 12px; height: 28px; padding: 0 10px; border-radius: 8px; }
+#confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 6; }
+
+/* Controles flotantes, se ocultan solos */
+.toolbar { position: fixed; right: 12px; bottom: 12px; display: flex; gap: 6px; z-index: 20; flex-wrap: wrap; justify-content: flex-end; transition: opacity .4s; }
+body.idle .toolbar { opacity: 0; pointer-events: none; }
+.tool {
+  font: 500 12px/1 var(--font-body); height: 28px; padding: 0 10px; border-radius: 8px;
+  border: 1px solid var(--n09-a12); background: var(--n09-a08); color: var(--n07); cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.tool:hover, .tool[aria-pressed="true"] { background: var(--n09-a20); color: var(--n09); }
+.tool:focus-visible { outline: 1.5px solid var(--n09); outline-offset: 2px; }
+.tool kbd { font: 500 10px/1 var(--font-body); color: var(--n06); border: 1px solid var(--n03); border-radius: 4px; padding: 2px 4px; }
+.tool svg { width: 14px; height: 14px; }
+
+/* Panel de configuración */
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100%);
+  background: var(--n01); z-index: 30; box-sizing: border-box; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 20px;
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(100%); transition: transform .3s ease; font-size: 14px;
+}
+.drawer.open { transform: none; }
+.drawer h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 24px; letter-spacing: -.01em; color: var(--n09); }
+.drawer section { display: flex; flex-direction: column; gap: 10px; background: var(--n02); border-radius: 12px; padding: 14px; }
+.drawer .kicker { font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--n06); margin: 0; }
+.drawer .field { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 500; color: var(--n07); }
+.drawer input[type=text], .drawer input[type=search] {
+  font: 400 15px/1.4 var(--font-body); color: var(--n08); background: var(--n01);
+  border: 1px solid var(--n03); border-radius: 8px; padding: 9px 11px;
+}
+.drawer input:focus { outline: none; border-color: var(--g-600); }
+.drawer .hint { font-size: 12px; color: var(--n06); margin: 0; line-height: 1.5; }
+.drawer .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.file-btn { position: relative; overflow: hidden; display: inline-flex; align-items: center; }
+.file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.companies { display: flex; flex-direction: column; gap: 2px; }
+.companies label { display: flex; align-items: center; gap: 10px; padding: 6px 4px; border-radius: 6px; cursor: pointer; color: var(--n08); }
+.companies label:hover { background: var(--n09-a08); }
+.companies .num { margin-left: auto; color: var(--n06); font-variant-numeric: tabular-nums; }
+.companies input { accent-color: var(--g-brand); width: 16px; height: 16px; }
+.plist { list-style: none; margin: 0; padding: 0; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; }
+.plist li { display: flex; align-items: center; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--n09-a08); }
+.plist li .who { min-width: 0; flex: 1; }
+.plist li .who b { display: block; font-weight: 500; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.plist li .t { color: var(--g-brand); font-variant-numeric: tabular-nums; font-size: 13px; white-space: nowrap; }
+.plist li .who span { display: block; font-size: 12px; color: var(--n06); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.plist li.off .who b { color: var(--n06); text-decoration: line-through; }
+.history { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-variant-numeric: tabular-nums; }
+.history li { display: flex; gap: 10px; align-items: baseline; padding: 8px 10px; background: var(--n03); border-radius: 8px; }
+.history li .i { color: var(--n06); min-width: 2ch; }
+.history li span { display: block; }
+.history li small { display: block; color: var(--n06); font-size: 12px; }
+.history .empty { background: none; padding: 0; color: var(--n06); }
+.count-line { font-variant-numeric: tabular-nums; color: var(--n07); }
+
+@media (prefers-reduced-motion: reduce) {
+  .winner .name, .winner .where, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
+  .drawer { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="side"><div class="guide">Presentador 1</div></div>
+
+  <div class="center">
+    <div class="head">
+      <div class="head-text">
+        <div class="overline" id="overlineEl">Lotería Galilei</div>
+        <h1 class="prize" id="prizeEl">Victory Combat 100</h1>
+      </div>
+    </div>
+
+    <div class="wheel-wrap">
+      <div class="pointer-wrap" id="pointerWrap">
+      <svg class="pointer" id="pointer" viewBox="0 0 46 64" aria-hidden="true">
+        <path d="M23 62 L4 18 A20 20 0 1 1 42 18 Z" fill="#B3F131"/>
+        <circle cx="23" cy="20" r="7" fill="#0A0B0C"/>
+      </svg>
+      </div>
+      <canvas id="wheel" aria-label="Ruleta con los nombres de los participantes"></canvas>
+      <button class="hub" id="spinBtn" type="button">GIRAR</button>
+    </div>
+
+    <img class="moto" id="headMoto" alt="Moto Victory Combat 100">
+
+    <div class="ticker" aria-live="off">
+      <div class="t-name" id="tName"></div>
+      <div class="t-meta" id="tMeta"></div>
+    </div>
+
+    <div class="winner" id="winner" hidden role="dialog" aria-live="assertive" aria-label="Ganador">
+      <div class="overline" id="wOver"></div>
+      <img class="prize-img" id="wImg" alt="">
+      <div class="name" id="wName"></div>
+      <div class="where">
+        <div class="company" id="wCompany"></div>
+        <div class="location" id="wLocation"></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="wGames"></b><span>Juegos en el mes</span></div>
+        <div class="stat"><b id="wScore"></b><span>Puntaje máximo</span></div>
+        <div class="stat tk"><b id="wTickets"></b><span>Tickets</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="removeBtn" type="button">Sacar de la ruleta</button>
+        <button class="btn soft" id="keepBtn" type="button">Dejar en la ruleta</button>
+      </div>
+    </div>
+    <canvas id="confetti"></canvas>
+  </div>
+
+  <div class="side"><div class="guide">Presentador 2</div></div>
+</div>
+
+<div class="toolbar">
+  <button class="tool" id="editBtn" type="button" aria-controls="drawer">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="5" r="2.6"/><path d="M2.8 14c.6-2.6 2.7-4 5.2-4s4.6 1.4 5.2 4"/></svg>Participantes <kbd>E</kbd></button>
+  <button class="tool" id="guidesBtn" type="button" aria-pressed="false">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2 2"><rect x="1.5" y="2.5" width="4" height="11"/><rect x="10.5" y="2.5" width="4" height="11"/></svg>Guías <kbd>G</kbd></button>
+  <button class="tool" id="soundBtn" type="button" aria-pressed="true">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 6h2.5l3.5-3v10l-3.5-3H2.5z"/><path d="M11 5.5a3.5 3.5 0 010 5"/></svg><span id="soundLbl">Sonido</span> <kbd>S</kbd></button>
+  <button class="tool" id="fsBtn" type="button">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>Pantalla completa <kbd>F</kbd></button>
+</div>
+
+<aside class="drawer" id="drawer" aria-label="Configurar sorteo">
+  <h2>Configurar sorteo</h2>
+
+  <section>
+    <p class="kicker">Premio</p>
+    <label class="field">Nombre del premio<input type="text" id="prizeIn" maxlength="48"></label>
+    <label class="field">Texto de arriba<input type="text" id="overlineIn" maxlength="48"></label>
+    <div class="row">
+      <span class="btn soft sm file-btn">Cambiar foto del premio<input type="file" id="photoIn" accept="image/*"></span>
+      <button class="btn soft sm" id="photoClear" type="button" hidden>Volver a la moto</button>
+    </div>
+    <p class="hint">La foto se ve junto al título y en grande cuando se anuncia el ganador. Usa una imagen con fondo transparente.</p>
+  </section>
+
+  <section>
+    <p class="kicker">Sonido de victoria</p>
+    <div class="row win-sounds" id="winSounds">
+      <button class="btn soft sm" type="button" data-sound="celebracion" aria-pressed="false">Celebración</button>
+      <button class="btn soft sm" type="button" data-sound="campanas" aria-pressed="false">Campanas</button>
+      <button class="btn soft sm" type="button" data-sound="arcade" aria-pressed="false">Arcade</button>
+      <button class="btn soft sm" type="button" data-sound="aplausos" aria-pressed="false">Aplausos</button>
+    </div>
+    <p class="hint">Toca uno para escucharlo; queda elegido para el sorteo.</p>
+  </section>
+
+  <section>
+    <p class="kicker">Participantes</p>
+    <div class="count-line" id="countLine"></div>
+    <div class="row">
+      <span class="btn soft sm file-btn">Cargar CSV<input type="file" id="csvIn" accept=".csv,.tsv,.txt,text/csv"></span>
+      <button class="btn soft sm" id="shuffleBtn" type="button">Barajar orden</button>
+      <button class="btn soft sm" id="restoreBtn" type="button">Devolver a los sacados</button>
+    </div>
+    <p class="hint" id="sourceHint"></p>
+  </section>
+
+  <section>
+    <p class="kicker">Empresas que participan</p>
+    <div class="companies" id="companiesEl"></div>
+  </section>
+
+  <section>
+    <p class="kicker">Lista</p>
+    <input type="search" id="searchIn" placeholder="Buscar por nombre, empresa o sede">
+    <ul class="plist" id="plistEl"></ul>
+  </section>
+
+  <section>
+    <p class="kicker">Ganadores de esta sesión</p>
+    <ol class="history" id="historyEl"></ol>
+    <div class="row"><button class="btn soft sm" id="clearHistBtn" type="button">Borrar historial</button></div>
+  </section>
+
+  <div class="row"><button class="btn secondary" id="closeBtn" type="button">Listo</button></div>
+  <p class="hint">Atajos: Espacio o Enter gira, E abre este panel, G muestra las zonas de los presentadores, S sonido, F pantalla completa, Esc cierra.</p>
+</aside>
+
+<script src="data/participantes.js"></script>
+<script>
+(() => {
+  // Participantes: data/participantes.js, generado desde data/participantes.csv con build/build.py
+  const SAMPLE = window.PARTICIPANTES || [];
+  const SAMPLE_NAME = window.PARTICIPANTES_FUENTE || "data/participantes.csv";
+  const MOTO = "assets/moto.webp"; // se reemplaza por la imagen embebida al armar el standalone
+
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("ruleta6:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+    set(k, v) { try { localStorage.setItem("ruleta6:" + k, JSON.stringify(v)); } catch {} },
+  };
+  const $ = id => document.getElementById(id);
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------- Formato de texto ----------
+  const LOWER = new Set(["de", "del", "la", "las", "los", "y", "e", "da", "do"]);
+  const UPPER = new Set(["sa", "sas", "s.a.s", "s.a.s.", "s.a.", "ltda", "ltda."]);
+  function titleCase(s) {
+    return s.toLocaleLowerCase("es").split(/\s+/).filter(Boolean).map((w, i) => {
+      if (UPPER.has(w)) return w.toUpperCase();
+      if (i > 0 && LOWER.has(w)) return w;
+      return w.charAt(0).toLocaleUpperCase("es") + w.slice(1);
+    }).join(" ");
+  }
+  const fmtName = s => titleCase(s.trim());
+  const fmtPlace = s => { s = (s || "").trim(); return s && s === s.toUpperCase() && /[A-ZÁÉÍÓÚÑ]/.test(s) ? titleCase(s) : s; };
+  const companyOf = p => p.c || "Sin empresa";
+  const metaOf = p => [companyOf(p), p.l].filter(Boolean).join(" · ");
+  const NUM = new Intl.NumberFormat("es-CO");
+  const fmtT = t => `${NUM.format(t)} ${t === 1 ? "ticket" : "tickets"}`;
+  const totalTickets = list => list.reduce((a, p) => a + p.t, 0);
+
+  // ---------- Estado ----------
+  let state = {
+    rows: store.get("rows", null),
+    source: store.get("source", SAMPLE_NAME),
+    excluded: store.get("excluded", ["Auteco", "La Causa", "Galilei"]),
+    removed: store.get("removed", []),
+    history: store.get("history", []),
+    prize: store.get("prize", "Victory Combat 100"),
+    overline: store.get("overline", "Lotería Galilei"),
+    photo: store.get("photo", ""),
+    sound: store.get("sound", true),
+    win: store.get("win", "celebracion"),
+  };
+  if (!state.rows) state.rows = normalize(SAMPLE);
+  let rot = 0, spinning = false, current = [], lastWinner = null, starts = [0];
+
+  function normalize(list) {
+    return list.map(r => ({ id: String(r.id), n: fmtName(r.n), c: (r.c || "").trim(), l: fmtPlace(r.l), t: Math.max(0, parseInt(r.t, 10) || 0), g: parseInt(r.g, 10) || 0, s: parseInt(r.s, 10) || 0 }));
+  }
+  function entries() {
+    const ex = new Set(state.excluded), rm = new Set(state.removed);
+    return state.rows.filter(p => p.t > 0 && !ex.has(companyOf(p)) && !rm.has(p.id));
+  }
+
+  // ---------- Ruleta ----------
+  const wheel = $("wheel"), ctx = wheel.getContext("2d");
+  const face = document.createElement("canvas"), fctx = face.getContext("2d");
+  const PALETTE = [
+    { fill: "#B3F131", text: "#0A0B0C" },
+    { fill: "#171A1E", text: "#F0F2F5" },
+    { fill: "#567F00", text: "#FFFFFF" },
+    { fill: "#292F36", text: "#F0F2F5" },
+  ];
+
+  function sizeCanvas(c) {
+    const r = c.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    c.width = Math.max(1, Math.round(r.width * dpr)); c.height = Math.max(1, Math.round(r.height * dpr));
+  }
+
+  // Dibuja la cara completa una vez; al girar solo se rota la imagen.
+  function buildFace() {
+    const W = wheel.width; face.width = W; face.height = W;
+    const R = W / 2, n = current.length, rim = R * 0.045, r = R - rim;
+    fctx.clearRect(0, 0, W, W);
+    fctx.save(); fctx.translate(R, R);
+    // aro exterior
+    fctx.beginPath(); fctx.arc(0, 0, R - 1, 0, Math.PI * 2); fctx.fillStyle = "#292F36"; fctx.fill();
+    fctx.beginPath(); fctx.arc(0, 0, r + rim * 0.12, 0, Math.PI * 2); fctx.fillStyle = "#B3F131"; fctx.fill();
+    if (n === 0) {
+      fctx.beginPath(); fctx.arc(0, 0, r, 0, Math.PI * 2); fctx.fillStyle = "#171A1E"; fctx.fill();
+    } else {
+      const hubR = R * 0.25, ks = [], top = -Math.PI / 2;
+      for (let i = 0; i < n; i++) {
+        // si la cantidad no cierra el ciclo, el último no repite color con el primero
+        let k = i % PALETTE.length;
+        if (i === n - 1 && n > 1 && k === 0) k = 2;
+        ks.push(k);
+        fctx.beginPath(); fctx.moveTo(0, 0); fctx.arc(0, 0, r, top + starts[i], top + starts[i + 1]); fctx.closePath();
+        fctx.fillStyle = PALETTE[k].fill; fctx.fill();
+        if (starts[i + 1] - starts[i] > 0.05) { fctx.strokeStyle = "rgba(10,11,12,.35)"; fctx.lineWidth = Math.max(1, R * 0.004); fctx.stroke(); }
+      }
+      // nombres a lo largo del radio; el tamaño de letra sigue el ancho de la casilla
+      const textR = r * 0.94, maxLen = textR - hubR - R * 0.03, minFs = R * 0.018;
+      fctx.textAlign = "right"; fctx.textBaseline = "middle";
+      for (let i = 0; i < n; i++) {
+        const w = starts[i + 1] - starts[i], half = Math.sin(Math.min(w, Math.PI) / 2);
+        // la casilla se angosta hacia el centro: la letra tiene que caber en el punto más interno del nombre
+        const room = rad => 0.8 * 2 * rad * half;
+        let fs = Math.min(R * 0.075, room(textR)), label = "";
+        // antes de cortar un nombre con "…", se achica la letra para que quepa completo
+        fctx.font = `700 ${fs}px Figtree, sans-serif`;
+        const full = fctx.measureText(current[i].n).width;
+        if (full > maxLen) fs = Math.max(Math.min(fs, R * 0.026), fs * maxLen / full);
+        for (let tries = 0; tries < 12 && fs >= minFs; tries++) {
+          fctx.font = `700 ${fs}px Figtree, sans-serif`;
+          label = fit(current[i].n, maxLen);
+          const allowed = room(textR - fctx.measureText(label).width);
+          if (fs <= allowed) break;
+          fs = Math.min(allowed, fs * 0.94);
+        }
+        if (fs < minFs) continue; // casilla demasiado delgada para un nombre legible
+        fctx.font = `700 ${fs}px Figtree, sans-serif`;
+        label = fit(current[i].n, maxLen);
+        fctx.save(); fctx.rotate(top + (starts[i] + starts[i + 1]) / 2);
+        fctx.fillStyle = PALETTE[ks[i]].text;
+        fctx.fillText(label, textR, 0);
+        fctx.restore();
+      }
+    }
+    // bombillos del aro
+    const bulbs = 48, br = R - rim * 0.45;
+    for (let i = 0; i < bulbs; i++) {
+      const a = i * Math.PI * 2 / bulbs;
+      fctx.beginPath(); fctx.arc(Math.cos(a) * br, Math.sin(a) * br, rim * 0.24, 0, Math.PI * 2);
+      fctx.fillStyle = i % 2 ? "#FFFFFF" : "#B3F131"; fctx.fill();
+    }
+    fctx.restore();
+  }
+  function fit(text, maxW) {
+    if (fctx.measureText(text).width <= maxW) return text;
+    let t = text;
+    while (t.length > 1 && fctx.measureText(t + "…").width > maxW) t = t.slice(0, -1);
+    return t.trimEnd() + "…";
+  }
+  function draw() {
+    const W = wheel.width, R = W / 2;
+    ctx.clearRect(0, 0, W, W);
+    ctx.save(); ctx.translate(R, R); ctx.rotate(rot); ctx.drawImage(face, -R, -R); ctx.restore();
+  }
+  function indexAt(r) {
+    const tau = Math.PI * 2, off = ((-r % tau) + tau) % tau;
+    let lo = 0, hi = current.length - 1;
+    while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (starts[mid] <= off) lo = mid; else hi = mid - 1; }
+    return lo;
+  }
+
+  // ---------- Flecha ----------
+  // Resorte amortiguado: cada casilla que pasa la empuja hacia atrás y vuelve sola a su sitio.
+  let pAng = 0, pVel = 0, pLast = 0, pRaf = 0;
+  const pointerEl = $("pointer");
+  function pointerLoop(now) {
+    const dt = Math.min(0.05, (now - (pLast || now)) / 1000); pLast = now;
+    pVel += (-900 * pAng - 26 * pVel) * dt;
+    pAng += pVel * dt;
+    if (pAng < -36) { pAng = -36; pVel = Math.max(0, pVel); } // tope: no se dobla más de 36°
+    if (pAng > 18) { pAng = 18; pVel = Math.min(0, pVel); }
+    pointerEl.style.transform = `rotate(${pAng.toFixed(2)}deg)`;
+    if (spinning || Math.abs(pAng) > 0.05 || Math.abs(pVel) > 0.5) pRaf = requestAnimationFrame(pointerLoop);
+    else { pAng = pVel = 0; pointerEl.style.transform = ""; pRaf = 0; pLast = 0; }
+  }
+  function flick(speed) {
+    // speed en rad/s: rápido = golpe corto y fuerte; lento = se dobla más y se suelta
+    const hit = Math.max(10, Math.min(30, 34 - speed * 2.2));
+    pAng = Math.max(-34, pAng - hit * 0.6); pVel -= hit * 9;
+    if (!pRaf) pRaf = requestAnimationFrame(pointerLoop);
+  }
+
+  // ---------- Sonido ----------
+  let ac = null;
+  function audio() { if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch {} } return ac; }
+  let lastTick = 0;
+  function tick() {
+    if (!state.sound || !audio()) return;
+    const t = ac.currentTime; if (t - lastTick < 0.035) return; lastTick = t;
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = "square"; o.frequency.value = 1700;
+    g.gain.setValueAtTime(0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
+    o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.035);
+  }
+  // Audio de celebración (grabación recortada). Se decodifica una vez con Web Audio.
+  const WIN_AUDIO = "assets/victoria.mp3"; // se reemplaza por el audio embebido al armar el standalone
+  let winBuf = null, winLoading = null;
+  function loadWinBuf() {
+    if (winBuf) return Promise.resolve(winBuf);
+    if (winLoading || !audio()) return winLoading || Promise.resolve(null);
+    const bytes = WIN_AUDIO.startsWith("data:")
+      ? Promise.resolve(Uint8Array.from(atob(WIN_AUDIO.split(",")[1]), c => c.charCodeAt(0)).buffer)
+      : fetch(WIN_AUDIO).then(r => r.arrayBuffer());
+    winLoading = bytes
+      .then(buf => new Promise(res => ac.decodeAudioData(buf, b => { winBuf = b; res(b); }, () => res(null))))
+      .catch(() => null); // abierto con doble clic (file://) el fetch falla; ahí suena con <audio>
+    return winLoading;
+  }
+
+  // Sonidos de victoria. Se elige uno en el panel.
+  function fanfare() { if (state.sound) winSound(state.win); }
+  function winSound(kind) {
+    if (!audio()) return;
+    if (ac.state === "suspended") ac.resume();
+    const t0 = ac.currentTime + 0.03;
+    const comp = ac.createDynamicsCompressor(); comp.threshold.value = -12; comp.ratio.value = 4;
+    const master = ac.createGain(); master.gain.value = 0.9;
+    master.connect(comp).connect(ac.destination);
+
+    // campana: parciales inarmónicos de glockenspiel con caída exponencial
+    function bell(freq, at, vol = 0.22, decay = 1.6) {
+      const s0 = t0 + at;
+      [[1, 1], [2.76, 0.42], [5.4, 0.22], [8.93, 0.1]].forEach(([ratio, amp], i) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = "sine"; o.frequency.value = freq * ratio;
+        const d = decay / (1 + i * 0.9);
+        g.gain.setValueAtTime(0.0001, s0); g.gain.exponentialRampToValueAtTime(vol * amp, s0 + 0.004);
+        g.gain.exponentialRampToValueAtTime(0.0001, s0 + d);
+        o.connect(g).connect(master); o.start(s0); o.stop(s0 + d + 0.05);
+      });
+    }
+    function chip(freq, at, dur, vol = 0.07, vib = false) {
+      const s0 = t0 + at, o = ac.createOscillator(), g = ac.createGain();
+      o.type = "square"; o.frequency.value = freq;
+      if (vib) {
+        const l = ac.createOscillator(), lg = ac.createGain();
+        l.frequency.value = 7; lg.gain.value = freq * 0.02; l.connect(lg).connect(o.frequency);
+        l.start(s0 + 0.1); l.stop(s0 + dur + 0.1);
+      }
+      g.gain.setValueAtTime(vol, s0); g.gain.setValueAtTime(vol, s0 + dur - 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, s0 + dur + 0.08);
+      o.connect(g).connect(master); o.start(s0); o.stop(s0 + dur + 0.1);
+    }
+    function applause(at, len = 3.4, vol = 0.55) {
+      const sr = ac.sampleRate, n = Math.floor(sr * len);
+      const buf = ac.createBuffer(2, n, sr);
+      for (let ch = 0; ch < 2; ch++) {
+        const d = buf.getChannelData(ch);
+        let tpos = 0;
+        while (tpos < len) {
+          const x = tpos / len, swell = Math.min(1, x * 5) * Math.pow(1 - x, 1.4); // sube rápido y se apaga
+          tpos += (0.004 + Math.random() * 0.02) / (0.3 + swell);
+          const i0 = Math.floor(tpos * sr), clapLen = Math.floor(sr * (0.006 + Math.random() * 0.01));
+          const a = (0.4 + Math.random() * 0.6) * swell;
+          for (let k = 0; k < clapLen && i0 + k < n; k++) d[i0 + k] += (Math.random() * 2 - 1) * a * Math.exp(-k / (clapLen * 0.25));
+        }
+      }
+      const src = ac.createBufferSource(), bp = ac.createBiquadFilter(), hp = ac.createBiquadFilter(), g = ac.createGain();
+      src.buffer = buf; bp.type = "peaking"; bp.frequency.value = 1400; bp.gain.value = 6; bp.Q.value = 0.8;
+      hp.type = "highpass"; hp.frequency.value = 500; g.gain.value = vol;
+      src.connect(hp).connect(bp).connect(g).connect(master); src.start(t0 + at);
+    }
+
+    const C6 = 1046.5, E6 = 1318.5, G6 = 1568, C7 = 2093, E7 = 2637, G7 = 3136;
+    if (kind === "celebracion") {
+      loadWinBuf().then(b => {
+        if (!b) { new Audio(WIN_AUDIO).play().catch(() => {}); return; }
+        const src = ac.createBufferSource(); src.buffer = b;
+        src.connect(ac.destination); src.start();
+      });
+    } else if (kind === "arcade") {
+      [523.25, 659.25, 783.99, 1046.5, 1318.5, 1568].forEach((f, i) => chip(f, i * 0.07, 0.07));
+      chip(987.77, 0.5, 0.08); chip(1318.5, 0.58, 0.3);           // moneda
+      chip(2093, 0.95, 0.75, 0.08, true); chip(1046.5, 0.95, 0.75, 0.05, true);
+    } else if (kind === "aplausos") {
+      bell(E6, 0, 0.26, 2); bell(C7, 0.02, 0.14, 2.2);
+      applause(0.1);
+    } else {
+      [C6, E6, G6, C7].forEach((f, i) => bell(f, i * 0.09, 0.24, 1.3));
+      [C6, E6, G6, C7, E7].forEach(f => bell(f, 0.48, 0.14, 2.8));
+      bell(523.25, 0.48, 0.18, 2.4);
+      const sparkle = [C7, E7, G7, E7, G7, C7 * 2, G7, E7];
+      sparkle.forEach((f, i) => bell(f, 0.62 + i * 0.1 + Math.random() * 0.04, 0.05, 0.7));
+    }
+  }
+
+  // ---------- Giro ----------
+  function randInt(n) {
+    const a = new Uint32Array(1), lim = Math.floor(0x100000000 / n) * n;
+    do crypto.getRandomValues(a); while (a[0] >= lim);
+    return a[0] % n;
+  }
+  function spin() {
+    const n = current.length;
+    if (spinning || n === 0 || !$("winner").hidden || $("drawer").classList.contains("open")) return;
+    audio(); if (ac && ac.state === "suspended") ac.resume(); loadWinBuf();
+    spinning = true; $("spinBtn").disabled = true;
+
+    // cada ticket es una oportunidad: se sortea un ticket y gana su dueño
+    const tau = Math.PI * 2;
+    let ticket = randInt(totalTickets(current)), k = 0;
+    while (ticket >= current[k].t) { ticket -= current[k].t; k++; }
+    const w = starts[k + 1] - starts[k], off = starts[k] + w * (0.2 + Math.random() * 0.6);
+    const cur = ((-rot % tau) + tau) % tau;
+    // giro horario: rot crece, el ángulo bajo el puntero (-rot) baja hasta caer en "off"
+    const delta = ((cur - off) % tau + tau) % tau;
+    const start = rot, endRot = start + delta + (reduced ? 1 : 6 + randInt(3)) * tau;
+    const dur = reduced ? 1200 : 11500 + randInt(2000), t0 = performance.now();
+    let lastIdx = indexAt(rot, n), prevRot = rot, prevNow = t0;
+    document.body.classList.add("spinning");
+    if (!pRaf) pRaf = requestAnimationFrame(pointerLoop);
+
+    function frame(now) {
+      const t = Math.min(1, (now - t0) / dur);
+      // curva cúbica: arranca rápido y en los últimos segundos se arrastra casilla por casilla
+      rot = start + (endRot - start) * (1 - Math.pow(1 - t, 3));
+      const idx = indexAt(rot, n);
+      if (idx !== lastIdx) {
+        lastIdx = idx; tick(); showTicker(current[idx]);
+        flick(Math.abs(rot - prevRot) / Math.max(0.001, (now - prevNow) / 1000));
+      }
+      prevRot = rot; prevNow = now;
+      draw();
+      if (t < 1) requestAnimationFrame(frame);
+      else {
+        // la flecha celebra sobre el ganador y luego se revela
+        document.body.classList.remove("spinning");
+        const w = $("pointerWrap"); w.classList.remove("win"); void w.offsetWidth; w.classList.add("win");
+        setTimeout(() => finish(current[indexAt(rot, n)]), reduced ? 0 : 1300);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function finish(p) {
+    spinning = false; $("spinBtn").disabled = false;
+    lastWinner = p;
+    state.history.push({ id: p.id, n: p.n, c: companyOf(p), l: p.l, t: p.t, at: Date.now() });
+    store.set("history", state.history);
+    $("wOver").textContent = `Se lleva la ${state.prize}`;
+    $("wName").textContent = p.n;
+    $("wName").style.setProperty("--name-size", p.n.length > 26 ? "9cqh" : p.n.length > 18 ? "11cqh" : "14cqh");
+    $("wCompany").textContent = companyOf(p);
+    $("wLocation").textContent = p.l || "";
+    $("wLocation").hidden = !p.l;
+    $("wGames").textContent = NUM.format(p.g || 0);
+    $("wScore").textContent = NUM.format(p.s || 0);
+    $("wTickets").textContent = NUM.format(p.t);
+    $("wImg").src = state.photo || MOTO;
+    $("winner").hidden = false; $("removeBtn").focus();
+    fanfare(); if (!reduced) confetti();
+    renderHistory();
+  }
+
+  function closeWinner(remove) {
+    if ($("winner").hidden) return;
+    if (remove && lastWinner) { state.removed.push(lastWinner.id); store.set("removed", state.removed); }
+    $("winner").hidden = true; lastWinner = null; $("pointerWrap").classList.remove("win");
+    stopConfetti(); refresh(); $("spinBtn").focus();
+  }
+
+  // ---------- Ticker bajo la ruleta ----------
+  function showTicker(p) {
+    if (!p) return;
+    $("tName").textContent = p.n; $("tMeta").textContent = `${metaOf(p)} · ${fmtT(p.t)}`;
+  }
+  function idleTicker() {
+    const n = current.length;
+    $("tName").textContent = n ? "¿Quién se la lleva?" : "Sin participantes";
+    $("tMeta").textContent = n ? "Más tickets, más espacio en la ruleta" : "Abre Participantes con la tecla E";
+  }
+
+  // ---------- Confeti ----------
+  const conf = $("confetti"), cctx = conf.getContext("2d");
+  let parts = [], confRaf = 0;
+  function confetti() {
+    sizeCanvas(conf);
+    const W = conf.width, H = conf.height, cols = ["#B3F131", "#FFFFFF", "#71A800", "#F0F2F5", "#A5EF0A"];
+    parts = Array.from({ length: 170 }, () => ({
+      x: W / 2 + (Math.random() - 0.5) * W * 0.3, y: H * 0.4,
+      vx: (Math.random() - 0.5) * W * 0.02, vy: -Math.random() * H * 0.028 - H * 0.008,
+      s: (Math.random() * 0.6 + 0.4) * H * 0.012, a: Math.random() * 6, va: (Math.random() - 0.5) * 0.3,
+      c: cols[Math.floor(Math.random() * cols.length)],
+    }));
+    cancelAnimationFrame(confRaf);
+    const step = () => {
+      cctx.clearRect(0, 0, W, H);
+      let alive = 0;
+      for (const p of parts) {
+        p.vy += H * 0.0007; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.va;
+        if (p.y < H + 20 && p.x > -20 && p.x < W + 20) alive++;
+        cctx.save(); cctx.translate(p.x, p.y); cctx.rotate(p.a);
+        cctx.fillStyle = p.c; cctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); cctx.restore();
+      }
+      if (alive) confRaf = requestAnimationFrame(step); else cctx.clearRect(0, 0, W, H);
+    };
+    step();
+  }
+  function stopConfetti() { cancelAnimationFrame(confRaf); cctx.clearRect(0, 0, conf.width, conf.height); }
+
+  // ---------- CSV ----------
+  function parseCSV(text) {
+    text = text.replace(/^﻿/, "");
+    const first = text.split(/\r?\n/)[0] || "";
+    const d = [["\t", (first.match(/\t/g) || []).length], [";", (first.match(/;/g) || []).length], [",", (first.match(/,/g) || []).length]].sort((a, b) => b[1] - a[1])[0][0];
+    const rows = []; let row = [], f = "", q = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (q) { if (ch === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === d) { row.push(f); f = ""; }
+      else if (ch === "\n" || ch === "\r") { if (ch === "\r" && text[i + 1] === "\n") i++; row.push(f); rows.push(row); row = []; f = ""; }
+      else f += ch;
+    }
+    if (f || row.length) { row.push(f); rows.push(row); }
+    return rows.filter(r => r.some(c => c.trim()));
+  }
+  function importCSV(text, fileName) {
+    const rows = parseCSV(text);
+    if (rows.length < 2) throw new Error("El archivo no tiene filas de participantes.");
+    const h = rows[0].map(s => s.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""));
+    const col = names => h.findIndex(x => names.includes(x));
+    const iN = col(["player", "nombre", "name", "jugador", "participante"]);
+    const iC = col(["empresa", "compania", "company", "cliente"]);
+    const iL = col(["location", "sede", "ubicacion", "locacion", "punto"]);
+    const iId = col(["player id", "id", "documento", "cedula"]);
+    const iT = col(["tickets actuales", "tickets", "galitickets", "boletas", "oportunidades"]);
+    const iG = col(["games played", "partidas", "juegos", "juegos en el mes"]);
+    const iS = col(["max score", "puntaje maximo", "puntos maximos", "puntaje"]);
+    const iY = col(["year", "anio", "ano"]);
+    const int = v => parseInt(String(v || "").replace(/\D/g, ""), 10) || 0;
+    if (iN < 0) throw new Error("No encontré la columna del nombre. Debe llamarse Player o Nombre.");
+    const seen = new Set(), out = [];
+    rows.slice(1).forEach((r, i) => {
+      const n = (r[iN] || "").trim(); if (!n) return;
+      const c = iC >= 0 ? (r[iC] || "").trim() : "", l = iL >= 0 ? (r[iL] || "").trim() : "";
+      const id = iId >= 0 && r[iId] ? r[iId].trim() : `${n}|${c}|${l}`.toLowerCase();
+      const t = iT >= 0 ? parseInt(String(r[iT] || "").replace(/\D/g, ""), 10) || 0 : 1;
+      const g = iG >= 0 ? int(r[iG]) : 0, sc = iS >= 0 ? int(r[iS]) : 0, y = iY >= 0 ? int(r[iY]) : 0;
+      const prev = out.find(o => o.id === id);
+      if (prev) {
+        prev.t = Math.max(prev.t, t);
+        if (y > prev.y) Object.assign(prev, { n, c, l, g, s: sc, y }); // juegos y puntaje del año más reciente
+        return;
+      }
+      seen.add(id);
+      out.push({ id, n, c, l, t, g, s: sc, y });
+    });
+    state.rows = normalize(out); state.removed = []; state.source = fileName;
+    store.set("rows", state.rows); store.set("removed", []); store.set("source", fileName);
+    refresh(); renderDrawer();
+    return out.length;
+  }
+
+  // ---------- UI ----------
+  // ángulo donde empieza cada casilla: el tamaño de cada una es su parte de los tickets
+  function layout() {
+    const tot = totalTickets(current) || 1, tau = Math.PI * 2;
+    starts = [0]; let acc = 0;
+    current.forEach(p => { acc += p.t; starts.push(acc / tot * tau); });
+    starts[starts.length - 1] = tau;
+  }
+  function refresh() {
+    current = entries(); layout();
+    $("prizeEl").textContent = state.prize;
+    $("overlineEl").textContent = state.overline;
+    $("spinBtn").disabled = current.length === 0 || spinning;
+    sizeCanvas(wheel); buildFace(); draw(); idleTicker();
+  }
+  function renderDrawer() {
+    const total = state.rows.length, n = current.length;
+    const zero = state.rows.filter(p => p.t === 0).length;
+    $("countLine").textContent = `${n} en la ruleta · ${total} cargados${state.removed.length ? ` · ${state.removed.length} ya sacados` : ""}${zero ? ` · ${zero} sin tickets` : ""}`;
+    $("sourceHint").textContent = `Fuente: ${state.source}. Columnas que lee: Player o Nombre, Empresa, Location o Sede, y Tickets. Los repetidos por Player id cuentan una sola vez. Quien tiene 0 tickets no entra a la ruleta.`;
+    $("restoreBtn").hidden = !state.removed.length;
+    // empresas
+    const counts = new Map();
+    state.rows.forEach(p => counts.set(companyOf(p), (counts.get(companyOf(p)) || 0) + 1));
+    const el = $("companiesEl"); el.innerHTML = "";
+    [...counts].sort((a, b) => b[1] - a[1]).forEach(([c, k], i) => {
+      const lab = document.createElement("label"), cb = document.createElement("input"), t = document.createElement("span"), num = document.createElement("span");
+      cb.type = "checkbox"; cb.id = "co-" + i; cb.checked = !state.excluded.includes(c);
+      cb.addEventListener("change", () => {
+        state.excluded = cb.checked ? state.excluded.filter(x => x !== c) : [...state.excluded, c];
+        store.set("excluded", state.excluded); refresh(); renderDrawer();
+      });
+      t.textContent = c; num.className = "num"; num.textContent = k;
+      lab.append(cb, t, num); el.append(lab);
+    });
+    renderList();
+    renderHistory();
+  }
+  function renderList() {
+    const q = $("searchIn").value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    const ex = new Set(state.excluded), rm = new Set(state.removed);
+    const el = $("plistEl"); el.innerHTML = "";
+    state.rows.filter(p => !q || `${p.n} ${p.c} ${p.l}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").includes(q)).forEach(p => {
+      const li = document.createElement("li"), who = document.createElement("div"), b = document.createElement("b"), s = document.createElement("span");
+      const off = ex.has(companyOf(p)) || rm.has(p.id) || p.t === 0;
+      li.className = off ? "off" : "";
+      b.textContent = p.n; s.textContent = metaOf(p); who.className = "who"; who.append(b, s);
+      const tk = document.createElement("span"); tk.className = "t"; tk.textContent = p.t ? NUM.format(p.t) : "0";
+      li.append(who, tk);
+      if (!ex.has(companyOf(p)) && p.t > 0) {
+        const btn = document.createElement("button");
+        btn.type = "button"; btn.className = "btn soft sm"; btn.textContent = rm.has(p.id) ? "Devolver" : "Sacar";
+        btn.addEventListener("click", () => {
+          state.removed = rm.has(p.id) ? state.removed.filter(x => x !== p.id) : [...state.removed, p.id];
+          store.set("removed", state.removed); refresh(); renderDrawer();
+        });
+        li.append(btn);
+      }
+      el.append(li);
+    });
+  }
+  function renderHistory() {
+    const el = $("historyEl"); el.innerHTML = "";
+    if (!state.history.length) { const li = document.createElement("li"); li.className = "empty"; li.textContent = "Todavía no hay ganadores."; el.append(li); return; }
+    state.history.forEach((h, i) => {
+      const li = document.createElement("li"), num = document.createElement("span"), d = document.createElement("div"), a = document.createElement("span"), sm = document.createElement("small");
+      num.className = "i"; num.textContent = i + 1; a.textContent = h.n; sm.textContent = [h.c, h.l, h.t ? fmtT(h.t) : ""].filter(Boolean).join(" · ");
+      d.append(a, sm); li.append(num, d); el.append(li);
+    });
+  }
+
+  function openDrawer(open) {
+    if (spinning) return;
+    $("drawer").classList.toggle("open", open);
+    if (open) renderDrawer(); else $("spinBtn").focus();
+  }
+
+  $("spinBtn").addEventListener("click", spin);
+  $("removeBtn").addEventListener("click", () => closeWinner(true));
+  $("keepBtn").addEventListener("click", () => closeWinner(false));
+  $("editBtn").addEventListener("click", () => openDrawer(!$("drawer").classList.contains("open")));
+  $("closeBtn").addEventListener("click", () => openDrawer(false));
+  $("guidesBtn").addEventListener("click", toggleGuides);
+  $("soundBtn").addEventListener("click", toggleSound);
+  $("fsBtn").addEventListener("click", toggleFs);
+  $("searchIn").addEventListener("input", renderList);
+  $("prizeIn").addEventListener("input", e => { state.prize = e.target.value; store.set("prize", state.prize); $("prizeEl").textContent = state.prize; });
+  $("overlineIn").addEventListener("input", e => { state.overline = e.target.value; store.set("overline", state.overline); $("overlineEl").textContent = state.overline; });
+  $("shuffleBtn").addEventListener("click", () => {
+    const a = state.rows.slice();
+    for (let i = a.length - 1; i > 0; i--) { const j = randInt(i + 1); [a[i], a[j]] = [a[j], a[i]]; }
+    state.rows = a; store.set("rows", a); refresh(); renderDrawer();
+  });
+  $("restoreBtn").addEventListener("click", () => { state.removed = []; store.set("removed", []); refresh(); renderDrawer(); });
+  $("clearHistBtn").addEventListener("click", () => { state.history = []; store.set("history", []); renderHistory(); });
+  $("csvIn").addEventListener("change", e => {
+    const f = e.target.files[0]; if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      try { const n = importCSV(rd.result, f.name); $("sourceHint").textContent = `Cargados ${n} participantes desde ${f.name}.`; }
+      catch (err) { $("sourceHint").textContent = err.message; }
+      e.target.value = "";
+    };
+    rd.readAsText(f, "utf-8");
+  });
+  $("photoIn").addEventListener("change", e => {
+    const f = e.target.files[0]; if (!f) return;
+    const img = new Image(), url = URL.createObjectURL(f);
+    img.onload = () => {
+      const s = Math.min(1, 900 / Math.max(img.width, img.height)), c = document.createElement("canvas");
+      c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      state.photo = c.toDataURL("image/webp", 0.88); store.set("photo", state.photo);
+      URL.revokeObjectURL(url); syncPhoto(); e.target.value = "";
+    };
+    img.src = url;
+  });
+  $("photoClear").addEventListener("click", () => { state.photo = ""; store.set("photo", ""); syncPhoto(); });
+  function syncPhoto() { $("photoClear").hidden = !state.photo; $("headMoto").src = state.photo || MOTO; }
+
+  function toggleGuides() { const on = document.body.classList.toggle("guides"); $("guidesBtn").setAttribute("aria-pressed", on); }
+  function toggleSound() { state.sound = !state.sound; store.set("sound", state.sound); syncSound(); }
+  function syncWin() { document.querySelectorAll("#winSounds [data-sound]").forEach(b => b.setAttribute("aria-pressed", b.dataset.sound === state.win)); }
+  document.querySelectorAll("#winSounds [data-sound]").forEach(b => b.addEventListener("click", () => {
+    state.win = b.dataset.sound; store.set("win", state.win); syncWin(); winSound(state.win);
+  }));
+  function syncSound() { $("soundBtn").setAttribute("aria-pressed", state.sound); $("soundLbl").textContent = state.sound ? "Sonido" : "Silencio"; }
+  function toggleFs() {
+    try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => {}); } catch {}
+  }
+
+  // clic fuera del panel lo cierra; ese clic no llega a lo que hay debajo (así no gira por accidente)
+  let swallowClick = false;
+  document.addEventListener("pointerdown", e => {
+    const d = $("drawer");
+    if (!d.classList.contains("open") || d.contains(e.target) || $("editBtn").contains(e.target)) return;
+    openDrawer(false);
+    swallowClick = true; setTimeout(() => { swallowClick = false; }, 500);
+  }, true);
+  document.addEventListener("click", e => {
+    if (!swallowClick) return;
+    swallowClick = false; e.stopPropagation(); e.preventDefault();
+  }, true);
+
+  document.addEventListener("keydown", e => {
+    const typing = /INPUT|TEXTAREA/.test(document.activeElement?.tagName) && document.activeElement.type !== "checkbox";
+    if (e.key === "Escape") { if (!$("winner").hidden) closeWinner(false); else openDrawer(false); return; }
+    if (typing) return;
+    const k = e.key.toLowerCase();
+    if (k === " " || k === "enter") {
+      if (!$("winner").hidden) { if (document.activeElement?.tagName !== "BUTTON") { e.preventDefault(); closeWinner(true); } return; }
+      if ($("drawer").classList.contains("open")) return;
+      e.preventDefault(); spin();
+    }
+    else if (k === "e") openDrawer(!$("drawer").classList.contains("open"));
+    else if (k === "g") toggleGuides();
+    else if (k === "s") toggleSound();
+    else if (k === "f") toggleFs();
+  });
+
+  let idleT;
+  function wake() { document.body.classList.remove("idle"); clearTimeout(idleT); idleT = setTimeout(() => { if (!$("drawer").classList.contains("open")) document.body.classList.add("idle"); }, 2500); }
+  ["mousemove", "pointerdown", "keydown"].forEach(ev => addEventListener(ev, wake, { passive: true }));
+
+  new ResizeObserver(() => { sizeCanvas(wheel); buildFace(); draw(); }).observe(wheel);
+
+  $("prizeIn").value = state.prize; $("overlineIn").value = state.overline;
+  syncSound(); syncWin(); syncPhoto(); refresh(); wake();
+  document.fonts?.ready.then(() => { buildFace(); draw(); });
+  try { navigator.wakeLock?.request("screen").catch(() => {}); } catch {}
+})();
+</script>
+</body>
+</html>
