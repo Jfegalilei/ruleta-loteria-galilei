@@ -27,6 +27,9 @@ assets/moto.webp            Foto de la moto (fondo transparente)
 assets/galilei-symbol.png   Símbolo de Galilei que acompaña a "GaliLotería"
 assets/gali-animo.webp      Gali con los brazos arriba, junto a la ruleta
 assets/gali-corona.webp     Gali con corona, en el anuncio del ganador
+assets/icono-juegos.svg     Ícono glow del Figma para "Juegos en el mes" (flecha circular)
+assets/icono-puntaje.svg    Ícono glow del Figma para "Puntaje máximo" (check)
+assets/icono-tickets.svg    Ícono glow del Figma para "Tickets" (GaliTicket)
 assets/victoria.mp3         Sonido de victoria "Celebración"
 data/participantes.csv      Export de Gali Admin: la fuente de los participantes
 data/participantes.js       Generado desde el CSV. No editar a mano.
@@ -58,7 +61,7 @@ Aplican a cualquier cambio, lo haga una persona o una IA.
 2. **El sorteo se pondera por tickets.** Se sortea un ticket con `crypto.getRandomValues` (función `randInt`, sin sesgo de módulo) y gana su dueño. No usar `Math.random` para elegir al ganador. Quien tiene 0 tickets no participa.
 3. **Cada casilla mide según los tickets de su dueño.** La flecha debe detenerse dentro de la casilla del ganador. Los nombres se achican para caber en su casilla y no se dibujan si no caben legibles.
 4. **Nunca mostrar el total de tickets en juego.** Ni en pantalla ni en el panel.
-5. **El anuncio del ganador muestra:** la moto, el nombre, la empresa, la sede (Location), los juegos en el mes, el puntaje máximo y los tickets. No mostrar el número de sorteo ni la cantidad de participantes.
+5. **El anuncio del ganador muestra:** la moto, el nombre, la empresa, la sede (Location), los juegos en el mes, el puntaje máximo y los tickets. Cada cifra lleva su ícono glow del Galiverso: flecha circular para los juegos, check para el puntaje y GaliTicket para los tickets. No mostrar el número de sorteo ni la cantidad de participantes.
 6. **Empresas excluidas por defecto:** Auteco, La Causa y Galilei. Se activan desde el panel.
 7. **Sistema visual de marca Galilei** (definido por el equipo de diseño; no volver al estilo anterior):
    - **Las casillas de la ruleta van solo en la escala verde de la marca, sin grises:** `#D6FD7C`, `#B3F131`, `#8CCC04` y `#2E4101`, en ese orden de claro a oscuro. Las casillas alternan oscuro y claro: el oscuro `#2E4101` es la mitad de las casillas y entre cada dos oscuros va uno de los claros, rotando `#D6FD7C`, `#B3F131` y `#8CCC04`. El aro y los bombillos siguen en neutros (`#292F36`, `#3D444C`, `#F0F2F5`, `#8B939E`). Nombres en las casillas: `#0A0B0C` sobre los verdes claros y `#D6FD7C` sobre `#2E4101`.

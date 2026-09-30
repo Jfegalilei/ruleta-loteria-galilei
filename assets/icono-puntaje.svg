@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-9.669 -6.238 112.236 106.433" fill="none"><svg x="-9.669" y="-6.238" width="112.236" height="106.433" viewBox="0 0 130.171 123.452" preserveAspectRatio="none" overflow="visible">
+<g id="c0Vector" filter="url(#c0filter0_d_0_7)">
+<path d="M82.5585 12.0104C57.2363 12.0104 28.8766 32.477 19.2316 57.7362C9.5759 82.9847 22.2903 103.462 47.6125 103.462C72.9348 103.462 101.294 82.9953 110.939 57.7362C120.595 32.4877 107.881 12.0104 82.5585 12.0104Z" fill="#2D4203"/>
+</g>
+<defs>
+<filter id="c0filter0_d_0_7" x="-1.84304e-08" y="2.38419e-07" width="130.171" height="123.451" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="3.98957"/>
+<feGaussianBlur stdDeviation="8"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.701961 0 0 0 0 0.945098 0 0 0 0 0.192157 0 0 0 0.78 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_7"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_7" result="shape"/>
+</filter>
+</defs>
+</svg><svg x="0.000" y="0.000" width="84.634" height="78.845" viewBox="0 0 98.1653 91.4515" preserveAspectRatio="none" overflow="visible">
+<path id="c1Vector" d="M94.9443 45.7257C85.2886 70.9743 56.9397 91.4515 31.6174 91.4515C6.29522 91.4515 -6.41918 70.9743 3.22586 45.7257C12.8709 20.4772 41.2305 0 66.5527 0C91.875 0 104.589 20.4666 94.9337 45.7257H94.9443Z" fill="url(#c1paint0_linear_0_6)"/>
+<defs>
+<linearGradient id="c1paint0_linear_0_6" x1="82.1636" y1="3.49585" x2="27.6342" y2="91.8062" gradientUnits="userSpaceOnUse">
+<stop stop-color="#8CCC04"/>
+<stop offset="1" stop-color="#C8FF3A"/>
+</linearGradient>
+</defs>
+</svg><svg x="21.420" y="24.581" width="46.152" height="29.675" viewBox="0 0 53.5301 34.4139" preserveAspectRatio="none" overflow="visible">
+<path id="c2Vector" d="M10.8108 34.4139C9.80897 34.4139 8.999 34.0207 8.56205 33.3087L0.355766 20.0787C-0.560779 18.6123 0.355766 16.2213 2.39135 14.7549C4.42693 13.2884 6.81421 13.2884 7.73076 14.7549L14.2851 25.3176L47.8349 1.09984C49.8705 -0.366614 52.2578 -0.366614 53.1744 1.09984C54.0909 2.5663 53.1744 4.95725 51.1388 6.42371L13.9015 33.3087C12.921 34.0101 11.8126 34.4139 10.8108 34.4139Z" fill="#2D4203"/>
+</svg><svg x="21.651" y="26.713" width="45.690" height="27.543" viewBox="0 0 52.9891 31.9485" preserveAspectRatio="none" overflow="visible">
+<path id="c3Vector" d="M47.5644 1.09984L14.0146 25.3176L7.46025 14.7549C6.54371 13.2884 4.15643 13.2884 2.12084 14.7549C1.10838 15.4881 0.362355 16.4551 0 17.4115C0.0319725 17.4753 0.0532874 17.5496 0.08526 17.6134L8.29154 30.8434C8.7285 31.5447 9.53847 31.9485 10.5403 31.9485C11.5421 31.9485 12.6505 31.5553 13.6309 30.8434L50.8683 3.95837C51.8807 3.22514 52.6268 2.25813 52.9891 1.30174C52.9571 1.23798 52.9358 1.1636 52.9038 1.09984C51.9873 -0.366614 49.6 -0.366614 47.5644 1.09984Z" fill="#71A800"/>
+</svg></svg>
