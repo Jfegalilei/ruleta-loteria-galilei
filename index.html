@@ -281,7 +281,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       <svg class="pointer" id="pointer" viewBox="0 0 72 102" aria-hidden="true">
         <defs>
           <radialGradient id="pinBody" cx="36%" cy="26%" r="80%">
-            <stop offset="0" stop-color="#D6FD7C"/>
+            <stop offset="0" stop-color="#D5FF7E"/>
             <stop offset=".38" stop-color="#B3F131"/>
             <stop offset=".75" stop-color="#8CCC04"/>
             <stop offset="1" stop-color="#567F00"/>
@@ -465,15 +465,20 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // ---------- Ruleta ----------
   const wheel = $("wheel"), ctx = wheel.getContext("2d");
   const face = document.createElement("canvas"), fctx = face.getContext("2d");
-  // Casillas solo con la escala verde de la marca (sin grises). Oscuro y claro se alternan:
-  // la mitad de las casillas es verde oscuro y cada claro queda entre dos oscuros.
+  // Casillas con los verdes y azules de la marca (tokens de Figma: g-500, g-700, g-dark, info-light,
+  // info-vivid, info-dark). Oscuro y claro se alternan: la mitad son oscuras (verde y azul, turnándose)
+  // y entre cada dos oscuras va un claro, rotando verdes y azules.
   const PALETTE = [
-    { fill: "#D6FD7C", text: "#0A0B0C" },
-    { fill: "#2E4101", text: "#D6FD7C" },
+    { fill: "#D5FF7E", text: "#0A0B0C" },
+    { fill: "#2D4203", text: "#D5FF7E" },
+    { fill: "#ABE3F8", text: "#0A0B0C" },
+    { fill: "#17536A", text: "#ABE3F8" },
     { fill: "#B3F131", text: "#0A0B0C" },
-    { fill: "#2E4101", text: "#D6FD7C" },
+    { fill: "#2D4203", text: "#D5FF7E" },
+    { fill: "#61BDDF", text: "#0A0B0C" },
+    { fill: "#17536A", text: "#ABE3F8" },
     { fill: "#8CCC04", text: "#0A0B0C" },
-    { fill: "#2E4101", text: "#D6FD7C" },
+    { fill: "#2D4203", text: "#D5FF7E" },
   ];
 
   function sizeCanvas(c) {
@@ -524,7 +529,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     bulb.width = bulb.height = bs;
     const u = bulb.getContext("2d"), c = bs / 2;
     g = u.createRadialGradient(c, c, br * .6, c, c, br * 1.3);
-    g.addColorStop(0, "rgba(214,253,124,.35)"); g.addColorStop(1, "rgba(214,253,124,0)");
+    g.addColorStop(0, "rgba(213,255,126,.35)"); g.addColorStop(1, "rgba(213,255,126,0)");
     u.fillStyle = g; u.fillRect(0, 0, bs, bs);
     g = u.createRadialGradient(c - br * .35, c - br * .4, br * .1, c, c, br);
     g.addColorStop(0, "#FFFFFF"); g.addColorStop(.35, "#F0F2F5"); g.addColorStop(1, "#8B939E");
