@@ -6,18 +6,19 @@
     "csv": "participantes.csv"
   },
   {
-    "id": "dinero-1",
-    "nombre": "Lotería en efectivo 1",
+    "id": "auteco",
+    "nombre": "Auteco",
     "titulo": "Premio en efectivo",
-    "csv": "loteria-dinero-1.csv",
+    "csv": "loteria-auteco.csv",
+    "excluidas": ["La Causa", "Galilei"],
     "escena": null,
     "premio": null
   },
   {
-    "id": "dinero-2",
-    "nombre": "Lotería en efectivo 2",
+    "id": "reviews",
+    "nombre": "Reviews",
     "titulo": "Premio en efectivo",
-    "csv": "loteria-dinero-2.csv",
+    "csv": "loteria-reviews.csv",
     "escena": null,
     "premio": null
   }
