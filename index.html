@@ -41,8 +41,8 @@ body.idle { cursor: none; }
    a los presentadores. Solo cubre los lados; la columna central (24%-76%) queda igual. */
 .stage::after {
   content: ""; position: absolute; inset: 0; z-index: 10; pointer-events: none;
-  background: linear-gradient(90deg, rgba(10,11,12,.5) 0%, rgba(10,11,12,.28) 14%, rgba(10,11,12,0) 24%,
-    rgba(10,11,12,0) 76%, rgba(10,11,12,.28) 86%, rgba(10,11,12,.5) 100%);
+  background: linear-gradient(90deg, rgba(10,11,12,.74) 0%, rgba(10,11,12,.5) 14%, rgba(10,11,12,0) 24%,
+    rgba(10,11,12,0) 76%, rgba(10,11,12,.5) 86%, rgba(10,11,12,.74) 100%);
 }
 @keyframes sacudida {
   20% { transform: translate(.7cqh, .35cqh); } 40% { transform: translate(-.6cqh, -.3cqh); }
@@ -234,8 +234,24 @@ body.spinning .pointer-wrap { animation: none; }
   display: flex; flex-direction: column; align-items: center; gap: .7cqh; max-width: 70cqh;
   text-shadow: 0 .3cqh .6cqh rgba(10,11,12,.75), 0 0 2cqh rgba(10,11,12,.55);
 }
-.winner .w-kicker { font-family: var(--font-body); font-weight: 500; font-size: 2.8cqh; letter-spacing: .04em; text-transform: uppercase; color: var(--n08); }
-.winner .w-prize { font-family: var(--font-display); font-weight: 700; font-size: 4.4cqh; line-height: 1; white-space: nowrap; text-transform: uppercase; color: var(--n09); }
+/* Nombre del premio en letras de fuego sobre el frente del pedestal, debajo de la moto: la franja libre
+   va del 71,2% (debajo del borde de arriba del pedestal) al 77,9% (donde empiezan las cifras). El centro
+   del pedestal está al 49,25% del ancho del escenario (la columna del anuncio va del 24% al 76%). */
+.winner .w-placa {
+  position: absolute; left: 0; right: 0; top: 72.2cqh; transform: translateX(-1.44%);
+  font-family: var(--font-display); font-weight: 700; font-size: 4.6cqh; line-height: 1; letter-spacing: .05em;
+  text-align: center; white-space: nowrap; text-transform: uppercase; pointer-events: none;
+  color: #FF8A1F;
+  background: linear-gradient(0deg, #7A1400 0%, #D9360A 20%, #FF7A1A 42%, #FFC23D 64%, #FFF1B8 84%, #FFC23D 100%);
+  background-size: 100% 220%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 .5cqh rgba(255,140,40,.95)) drop-shadow(0 0 1.6cqh rgba(255,80,0,.6));
+  animation: fuego 1.1s ease-in-out infinite alternate;
+}
+@keyframes fuego {
+  0% { background-position: 50% 0%; filter: drop-shadow(0 0 .5cqh rgba(255,140,40,.95)) drop-shadow(0 0 1.6cqh rgba(255,80,0,.6)); }
+  45% { background-position: 50% 60%; filter: drop-shadow(0 0 .7cqh rgba(255,170,60,1)) drop-shadow(0 0 2.2cqh rgba(255,96,0,.75)); }
+  100% { background-position: 50% 100%; filter: drop-shadow(0 0 .45cqh rgba(255,130,30,.9)) drop-shadow(0 0 1.4cqh rgba(255,70,0,.55)); }
+}
 .winner .w-place { font-family: var(--font-body); font-weight: 700; font-size: 2.6cqh; color: var(--n08); }
 .winner .prize-img {
   position: absolute; left: 19.2cqh; bottom: 32cqh; height: 38cqh; width: auto; object-fit: contain;
@@ -371,7 +387,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .scene > .side, .scene > .center, .intro { transition: none; }
-  .winner .name, .winner .w-top, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
+  .winner .w-placa, .winner .name, .winner .w-top, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
   .drawer { transition: none; }
 }
 </style>
@@ -438,14 +454,13 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     <div class="w-top">
       <img class="laurel" src="assets/laurel.svg" alt="">
       <div class="w-title">
-        <div class="w-kicker" id="wOver"></div>
-        <div class="w-prize" id="wPrize"></div>
         <div class="name" id="wName"></div>
         <div class="w-place" id="wPlace"></div>
       </div>
       <img class="laurel derecha" src="assets/laurel.svg" alt="">
     </div>
     <img class="prize-img" id="wImg" alt="">
+    <div class="w-placa" id="wPrize"></div>
     <div class="w-bottom">
       <div class="stats">
         <div class="stat"><img class="stat-icon" src="assets/icono-juegos.svg" alt=""><div><b id="wGames"></b><span>Juegos en el mes</span></div></div>
@@ -1046,28 +1061,11 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     doors.hidden = true; doors.classList.remove("abriendo");
   }
 
-  // "Ganadora" o "Ganador" según el primer nombre: el export de Gali Admin no trae el género.
-  // Los nombres terminados en "a" se toman como femeninos, salvo los de MASCULINOS; FEMENINOS lista
-  // los nombres femeninos que no terminan en "a". Si llega un nombre nuevo mal clasificado, agrégalo aquí.
-  const FEMENINOS = new Set(("adriannis aliany briandy britney carol cristal deiris deisy elizabet elizabeth estefany " +
-    "giseth gladys glendy isabel iveth karen karol katerine katherine kelly keren leidi leidy lilibeth luz marielis " +
-    "marisabel maroli rinelkis rosiris rosnagel rosvely sindy sule valery yasleidy yeimy yosselin yulibeth yulieth " +
-    "yuribeth carmen mercedes ines raquel ruth beatriz dolores pilar rocio consuelo ingrid lizeth jennifer yenifer " +
-    "esther abigail maribel mabel marisol soledad nataly natalie sharon shirley yuly yuli nicol").split(" "));
-  const MASCULINOS = new Set("luca joshua nicola borja".split(" "));
-  function esFemenino(nombre) {
-    const n = (nombre || "").trim().split(/\s+/)[0].toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-    if (FEMENINOS.has(n)) return true;
-    if (MASCULINOS.has(n)) return false;
-    return n.endsWith("a");
-  }
-
   function finish(p) {
     spinning = false; $("spinBtn").disabled = false;
     lastWinner = p;
     state.history.push({ id: p.id, n: p.n, c: companyOf(p), l: p.l, t: p.t, at: Date.now() });
     store.set("history", state.history);
-    $("wOver").textContent = esFemenino(p.n) ? "Ganadora del mes" : "Ganador del mes";
     $("wPrize").textContent = state.prize;
     $("wName").textContent = p.n;
     $("wName").style.setProperty("--name-size", p.n.length > 30 ? "5.2cqh" : p.n.length > 22 ? "6cqh" : "7cqh");
@@ -1448,7 +1446,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const e = state.photo || ESCENA_IMG;
     $("photoClear").hidden = !state.photo; $("headMoto").hidden = !e; if (e) $("headMoto").src = e;
   }
-  function ponerPremio() { const e = state.photo || PREMIO_IMG; $("wImg").hidden = !e; if (e) $("wImg").src = e; }
+  function ponerPremio() { const e = state.photo || PREMIO_IMG; $("wImg").hidden = !e; if (e) $("wImg").src = e; $("wPrize").textContent = state.prize; }
   // selector de lotería: recarga la página con la elegida
   LOTERIAS.forEach(l => { const o = document.createElement("option"); o.value = l.id; o.textContent = l.nombre || l.titulo || l.id; $("loteriaIn").append(o); });
   $("loteriaIn").value = LOT.id;
