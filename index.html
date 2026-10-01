@@ -102,8 +102,15 @@ body.guides .side .guide { opacity: 1; }
 /* Keep the heading and raised pin clear above the larger wheel. */
 .head { display: flex; flex: none; justify-content: center; position: relative; z-index: 3; } /* encima de los tickets que salen volando */
 .head-text { display: flex; flex-direction: column; gap: .6cqh; text-align: center; }
-.brand-lockup { display: flex; align-items: center; justify-content: center; gap: .8cqh; }
-.brand-mark { width: 2.2cqh; height: 2.2cqh; object-fit: contain; }
+/* Marca arriba a la derecha de la pantalla (pedido del usuario): por encima de la capa que oscurece
+   los bordes, y se oculta junto con la ruleta durante la transición y el anuncio */
+.brand-lockup {
+  position: absolute; top: 3.2cqh; right: 3.2cqh; z-index: 11;
+  display: flex; align-items: center; gap: 1.2cqh; transition: opacity .6s ease-in-out;
+}
+.scene.sin-ui ~ .brand-lockup { opacity: 0; pointer-events: none; }
+.brand-mark { width: 3.4cqh; height: 3.4cqh; object-fit: contain; }
+.brand-lockup .overline { font-size: 2.6cqh; }
 /* Overlap the lower rim to enlarge the wheel while keeping the prize and ticker in frame. */
 /* Siderax parado a la izquierda de la moto, con la mano sobre el asiento de atrás (imagen compuesta).
    La moto queda centrada bajo la ruleta y su espejo termina justo debajo del botón Girar. */
@@ -336,10 +343,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   <div class="center">
     <div class="head">
       <div class="head-text">
-        <div class="brand-lockup">
-          <img class="brand-mark" src="assets/galilei-symbol.png" alt="Galilei Learning">
-          <div class="overline" id="overlineEl">GaliLotería</div>
-        </div>
         <h1 class="prize" id="prizeEl">Victory Combat 100</h1>
       </div>
     </div>
@@ -377,6 +380,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   </div>
 
   <div class="side"><div class="guide">Presentador 2</div></div>
+  </div>
+  <div class="brand-lockup" id="brandLockup">
+    <img class="brand-mark" src="assets/galilei-symbol.png" alt="Galilei Learning">
+    <div class="overline" id="overlineEl">GaliLotería</div>
   </div>
   <video class="intro" id="introVid" src="assets/transicion.mp4" preload="auto" playsinline hidden></video>
   <div class="winner-bg" id="winnerBg" hidden></div>
