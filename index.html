@@ -981,8 +981,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const cur = ((-rot % tau) + tau) % tau;
     // giro horario: rot crece, el ángulo bajo el puntero (-rot) baja hasta caer en "off"
     const delta = ((cur - off) % tau + tau) % tau;
-    const start = rot, endRot = start + delta + (reduced ? 1 : 6 + randInt(3)) * tau;
-    const dur = reduced ? 1200 : 10000 + randInt(5001), t0 = performance.now(); // entre 10 y 15 s
+    const start = rot, endRot = start + delta + (reduced ? 1 : 10 + randInt(3)) * tau; // 10 a 12 vueltas
+    const dur = reduced ? 1200 : 17000 + randInt(5001), t0 = performance.now(); // entre 17 y 22 s
     let lastIdx = indexAt(rot, n), prevRot = rot, prevNow = t0;
     document.body.classList.add("spinning");
     if (!pRaf) pRaf = requestAnimationFrame(pointerLoop);

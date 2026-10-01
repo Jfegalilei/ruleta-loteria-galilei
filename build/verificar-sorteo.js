@@ -36,7 +36,7 @@ for (let i = 0; i < N; i++) {
   while (ticket >= current[k].t) { ticket -= current[k].t; k++; }
   const w = starts[k + 1] - starts[k], off = starts[k] + w * (0.2 + 0.6 * randInt(1000000) / 1000000);
   const cur = ((-rot % tau) + tau) % tau, delta = ((cur - off) % tau + tau) % tau;
-  rot = rot + delta + (6 + randInt(3)) * tau;          // giros acumulados, como en la página
+  rot = rot + delta + (10 + randInt(3)) * tau;         // giros acumulados, como en la página
   if (indexAt(rot) !== k) fuera++;
   gana[k]++;
 }
