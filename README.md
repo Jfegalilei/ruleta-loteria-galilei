@@ -27,7 +27,7 @@ assets/moto.webp            Foto de la moto (fondo transparente)
 assets/siderax-moto.webp    Siderax a la izquierda de la moto, con la mano sobre el asiento de atrás (debajo de la ruleta)
 assets/galilei-symbol.png   Símbolo de Galilei, arriba a la derecha de la pantalla
 assets/gali-dinero.webp      Gali con la bolsa de dinero (anuncio de Auteco y Reviews), imagen del equipo recortada
-assets/siderax-dinero.webp   Siderax con la bolsa de dinero (debajo de la ruleta en Auteco y Reviews), imagen del equipo, sin filtro, recortada (build/integrar-escena.py existe por si hace falta oscurecer otra)
+assets/siderax-dinero.webp   Siderax con la bolsa de dinero (debajo de la ruleta en Auteco y Reviews), imagen del equipo con ajuste suave a la luz nocturna, más en la bolsa (build/integrar-escena.py, fuerza 0.25 y cálidos 0.6)
 assets/fondo-siderax.webp   Fondo: planeta de origen de Siderax, oscuro y suave
 assets/fondo-ganador.webp   Fondo del anuncio del ganador: bóveda de metal oscuro abierta a un valle con arcoíris y un pedestal
 assets/cuarto.webp          Transición: cuarto con la puerta abierta al planeta de Siderax, sin pedestal
@@ -56,7 +56,7 @@ El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `da
 | `auteco` | Auteco | `data/loteria-auteco.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
 | `reviews` | Reviews | `data/loteria-reviews.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
 
-**Reviews es distinta:** no cuenta tickets, juegos ni puntaje. Cada review es una oportunidad (columna `Reviews`, o las que diga `columnas` en `loterias.json`), y solo participan quienes tienen 50 o más (`minimo`). En el anuncio sale una sola cifra, las reviews, con `assets/icono-reviews.svg`, y los tickets que vuelan al girar son estrellas.
+**Reviews es distinta:** no cuenta tickets, juegos ni puntaje. Cada review es una oportunidad (columna `Reviews`, o las que diga `columnas` en `loterias.json`), y solo participan quienes tienen 50 o más (`minimo`). En el anuncio sale una sola cifra, las reviews, con `assets/icono-reviews.svg` (la estrella amarilla de las reseñas de Google, #FBBC04, plana); al girar siguen volando GaliTickets.
 
 - Cada lotería tiene sus propios participantes, título del premio, imágenes, empresas excluidas, sacados e historial. Cambiar de lotería recarga la página y no toca las demás.
 - La de la moto debe seguir siendo la primera y con id `moto`: usa las claves de `localStorage` de siempre (`ruleta6:...`); las demás usan `ruleta6:<id>:...`.

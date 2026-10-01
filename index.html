@@ -1112,8 +1112,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // ---------- Tickets que salen volando de la ruleta ----------
   // Salen del borde en la dirección del giro (por la inercia); entre más rápido gira, más salen.
   const tixCanvas = $("spinTix"), tctx = tixCanvas.getContext("2d");
-  // el GaliTicket de la marca; en la de Reviews salen estrellas
-  const ticketIcon = document.querySelector(POR_REVIEWS ? ".stat.rv .stat-icon" : ".stat.tk .stat-icon");
+  // el GaliTicket de la marca (también en la de Reviews)
+  const ticketIcon = document.querySelector(".stat.tk .stat-icon");
   let flying = [], tixRaf = 0, tixLast = 0, emitCarry = 0;
   function emitTickets(omega, dt) {
     if (reduced || omega < 0.6) return;
