@@ -490,7 +490,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
         <div class="stat"><img class="stat-icon" src="assets/icono-juegos.svg" alt=""><div><b id="wGames"></b><span>Juegos en el mes</span></div></div>
         <div class="stat"><img class="stat-icon" src="assets/icono-puntaje.svg" alt=""><div><b id="wScore"></b><span>Puntaje máximo</span></div></div>
         <div class="stat tk"><img class="stat-icon" src="assets/icono-tickets.svg" alt=""><div><b id="wTickets"></b><span>Tickets</span></div></div>
-        <div class="stat rv" hidden><img class="stat-icon" src="assets/icono-reviews.svg" alt=""><div><b id="wReviews"></b><span>Reviews</span></div></div>
+        <div class="stat rv" hidden><img class="stat-icon" src="assets/icono-reviews.svg" alt=""><div><b id="wReviews"></b><span>Reseñas</span></div></div>
       </div>
       <div class="actions">
         <button class="btn primary" id="removeBtn" type="button">Sacar de la ruleta</button>
@@ -600,7 +600,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const PREMIO_IMG = LOT.premio === undefined ? MOTO : LOT.premio;
   // Qué cuenta como oportunidad: tickets, o en la de Reviews cada review. MINIMO: desde cuánto se participa.
   const POR_REVIEWS = LOT.unidad === "reviews";
-  const UNIDAD = POR_REVIEWS ? ["review", "reviews"] : ["ticket", "tickets"];
+  const UNIDAD = POR_REVIEWS ? ["reseña", "reseñas"] : ["ticket", "tickets"]; // en pantalla siempre "reseñas"
   const MINIMO = Math.max(1, LOT.minimo || 1);
   const ESCENA_IMG = LOT.escena === undefined ? ESCENA : LOT.escena;
 
@@ -1472,7 +1472,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const zero = state.rows.filter(p => p.t < MINIMO).length;
     const bajo = MINIMO > 1 ? `con menos de ${MINIMO} ${UNIDAD[1]}` : `sin ${UNIDAD[1]}`;
     $("countLine").textContent = `${n} en la ruleta · ${total} cargados${state.removed.length ? ` · ${state.removed.length} ya sacados` : ""}${zero ? ` · ${zero} ${bajo}` : ""}`;
-    $("sourceHint").textContent = `Fuente: ${state.source}. Columnas que lee: Player o Nombre, Empresa, Location o Sede, y ${POR_REVIEWS ? "Reviews (cada review es una oportunidad)" : "Tickets"}. Los repetidos por Player id cuentan una sola vez. Quien tiene ${MINIMO > 1 ? `menos de ${MINIMO} ${UNIDAD[1]}` : `0 ${UNIDAD[1]}`} no entra a la ruleta.`;
+    $("sourceHint").textContent = `Fuente: ${state.source}. Columnas que lee: Player o Nombre, Empresa, Location o Sede, y ${POR_REVIEWS ? "Reseñas (cada reseña es una oportunidad)" : "Tickets"}. Los repetidos por Player id cuentan una sola vez. Quien tiene ${MINIMO > 1 ? `menos de ${MINIMO} ${UNIDAD[1]}` : `0 ${UNIDAD[1]}`} no entra a la ruleta.`;
     $("restoreBtn").hidden = !state.removed.length;
     // empresas
     const counts = new Map();

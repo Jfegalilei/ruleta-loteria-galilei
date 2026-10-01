@@ -51,6 +51,12 @@ dist/                       Salidas del build (no se suben al repo)
 - Al abrir el link, la lista se pide como `data/participantes.js?t=<hora>`: nunca se usa una copia guardada (ni del navegador ni de GitHub Pages), así que se ven los datos que estén en el repo en ese momento.
 - La página siempre arranca con los datos del repo: participantes, empresas excluidas de base, premio y sin foto. Lo que alguien cambie o cargue desde el panel vale mientras la página esté abierta y solo en ese navegador; al volver a abrirla se recargan los del repo. Se recuerdan entre visitas solo los sacados, el historial y el sonido.
 
+## Sumar tickets durante la transmisión (hoja de Google)
+
+La hoja de Google de la moto ("GaliLotería Septiembre 2026") tiene un script (Extensiones > Apps Script) que al abrirla agrega tres columnas sin tocar las demás: `sumar_10` (casillas: al marcar una se suman 10 tickets a esa persona y la casilla se desmarca sola, como un botón), `tickets_sumados` y `tickets_totales` (fórmula), con filtros en todas las columnas para ordenar. Antes del sorteo se descarga la hoja (.xlsx o .csv) y se convierte con el mismo script de abajo, que suma `tickets_sumados` a `tickets_actuales`.
+
+En pantalla la lotería de reviews se llama "Reseñas" (selector, cifra del anuncio y textos del panel); internamente su id sigue siendo `reviews` (`?loteria=reviews`).
+
 ## Sumar tickets durante la transmisión (en Excel)
 
 Quien maneja la ruleta no suma tickets desde la página. Se hace en el Excel de la lotería con dos columnas extra: `tickets_a_sumar` (amarilla, se escribe cuántos sumar; negativo resta) y `tickets_totales` (verde, fórmula). Antes del sorteo se convierte y se publica:
@@ -69,8 +75,8 @@ El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `da
 | id | Lotería | CSV | Imágenes |
 | --- | --- | --- | --- |
 | `moto` | Moto Victory Combat 100 | `data/participantes.csv` | Siderax con la moto y moto con Gali |
-| `auteco` | Auteco (5.000.000$) | `data/loteria-auteco.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
-| `reviews` | Reviews (500.000$) | `data/loteria-reviews.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
+| `auteco` | Auteco ($5.000.000 Pesos) | `data/loteria-auteco.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
+| `reviews` | Reseñas ($500.000 Pesos) | `data/loteria-reviews.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
 
 **Reviews es distinta:** no cuenta tickets, juegos ni puntaje. Cada review es una oportunidad (columna `Reviews`, o las que diga `columnas` en `loterias.json`), y solo participan quienes tienen 50 o más (`minimo`). Su CSV (export "Reviews Ambassadors": `Nombre`, `location_name`, `company`, `reviews`) trae una fila por persona y sede y no tiene Player id: se identifica a cada persona por nombre + empresa y se suman sus reviews de todas las sedes (`sumar` en `loterias.json`; el panel hace lo mismo al cargar el CSV); la sede que se muestra es la de más reviews. En el anuncio sale una sola cifra, las reviews, con `assets/icono-reviews.svg` (la estrella amarilla de las reseñas de Google, #FBBC04, plana); al girar siguen volando GaliTickets.
 

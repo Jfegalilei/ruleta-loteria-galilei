@@ -1,6 +1,9 @@
-"""Convierte el Excel de una lotería (con la columna tickets_a_sumar) en el CSV que lee el build.
+"""Convierte el Excel o la hoja de Google de una lotería (con tickets sumados) en el CSV que lee el build.
 
-Uso: python build/excel-a-csv.py <archivo.xlsx> <data/destino.csv>
+Sirve para el Excel con la columna tickets_a_sumar y para la hoja de Google con las casillas sumar_10 y la
+columna tickets_sumados (descargada como .xlsx o .csv).
+
+Uso: python build/excel-a-csv.py <archivo.xlsx|.csv> <data/destino.csv>
 Ejemplo: python build/excel-a-csv.py "GaliLotería Septiembre 2026 (para sumar tickets).xlsx" data/participantes.csv
 
 Escribe las mismas columnas del Excel, pero tickets_actuales queda con el total (tickets_actuales +
@@ -14,12 +17,15 @@ def norm(s):
     return ' '.join(''.join(c for c in s if not unicodedata.combining(c)).split())
 
 src, dst = sys.argv[1], sys.argv[2]
-ws = openpyxl.load_workbook(src, data_only=True).worksheets[0]
-rows = [r for r in ws.iter_rows(values_only=True) if any(c is not None and str(c).strip() for c in r)]
+if src.lower().endswith('.csv'):
+    rows = [r for r in csv.reader(open(src, encoding='utf-8-sig')) if any(c.strip() for c in r)]
+else:
+    ws = openpyxl.load_workbook(src, data_only=True).worksheets[0]
+    rows = [r for r in ws.iter_rows(values_only=True) if any(c is not None and str(c).strip() for c in r)]
 head = [norm(h) for h in rows[0]]
 i_t = next(i for i, h in enumerate(head) if h in ('tickets actuales', 'tickets', 'reviews'))
-i_x = next((i for i, h in enumerate(head) if h == 'tickets a sumar'), None)
-apoyo = {i for i, h in enumerate(head) if h in ('tickets a sumar', 'tickets totales')}
+i_x = next((i for i, h in enumerate(head) if h in ('tickets a sumar', 'tickets sumados')), None)
+apoyo = {i for i, h in enumerate(head) if h in ('tickets a sumar', 'tickets sumados', 'tickets totales', 'sumar 10')}
 num = lambda v: int(float(v)) if v not in (None, '') else 0
 fix = lambda v: '' if v is None else (str(int(v)) if isinstance(v, float) and v.is_integer() else str(v).strip())
 sumados = 0

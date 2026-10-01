@@ -8,7 +8,7 @@
   {
     "id": "auteco",
     "nombre": "Auteco",
-    "titulo": "5.000.000$",
+    "titulo": "$5.000.000 Pesos",
     "csv": "loteria-auteco.csv",
     "excluidas": [
       "La Causa",
@@ -20,8 +20,8 @@
   },
   {
     "id": "reviews",
-    "nombre": "Reviews",
-    "titulo": "500.000$",
+    "nombre": "Reseñas",
+    "titulo": "$500.000 Pesos",
     "csv": "loteria-reviews.csv",
     "escena": "assets/siderax-dinero.webp",
     "premio": "assets/gali-dinero.webp",
