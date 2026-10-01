@@ -28,6 +28,8 @@ assets/siderax-moto.webp    Siderax a la izquierda de la moto, con la mano sobre
 assets/galilei-symbol.png   Símbolo de Galilei que acompaña a "GaliLotería"
 assets/fondo-siderax.webp   Fondo: planeta de origen de Siderax, oscuro y suave
 assets/fondo-ganador.webp   Fondo del anuncio del ganador: bóveda de metal oscuro abierta a un valle con arcoíris y un pedestal
+assets/cuarto.webp          Transición: cuarto con la puerta abierta al planeta de Siderax
+assets/puerta-cerrada.webp  Transición: la misma puerta cerrada (se usan sus dos hojas)
 assets/laurel.svg          Rama de laurel dorada para el título del anuncio
 assets/moto-gali.webp       Moto con Gali (gafas) apoyado en la rueda delantera, en el anuncio del ganador
 assets/icono-juegos.svg     Ícono glow del Figma para "Juegos en el mes" (flecha circular)
@@ -64,10 +66,11 @@ Aplican a cualquier cambio, lo haga una persona o una IA.
 2. **El sorteo se pondera por tickets.** Se sortea un ticket con `crypto.getRandomValues` (función `randInt`, sin sesgo de módulo) y gana su dueño. No usar `Math.random` para elegir al ganador. Quien tiene 0 tickets no participa.
 3. **Cada casilla mide según los tickets de su dueño.** La flecha debe detenerse dentro de la casilla del ganador. Los nombres se achican para caber en su casilla y no se dibujan si no caben legibles.
 4. **Nunca mostrar el total de tickets en juego.** Ni en pantalla ni en el panel.
-5. **El anuncio del ganador muestra:** la moto, el nombre, la empresa, la sede (Location), los juegos en el mes, el puntaje máximo y los tickets. Cada cifra lleva su ícono glow del Galiverso: flecha circular para los juegos, check para el puntaje y GaliTicket para los tickets. No mostrar el número de sorteo ni la cantidad de participantes.
+5. **Transición al ganador** (unos 4 segundos, después de que la flecha celebra): la escena de la ruleta se aleja hasta caber en la puerta abierta de `cuarto.webp`, las dos hojas de `puerta-cerrada.webp` salen de los marcos y se cierran con un golpe, y se abren mostrando el anuncio. Las hojas cubren la abertura del 21,4% al 77,6% del ancho y del 15,5% al 88,5% del alto, unidas al 49,7%. Con movimiento reducido activado, el anuncio aparece directo.
+6. **El anuncio del ganador muestra:** la moto, el nombre, la empresa, la sede (Location), los juegos en el mes, el puntaje máximo y los tickets. Cada cifra lleva su ícono glow del Galiverso: flecha circular para los juegos, check para el puntaje y GaliTicket para los tickets. No mostrar el número de sorteo ni la cantidad de participantes.
    **Composición del anuncio:** el fondo `fondo-ganador.webp` cubre todo el escenario; sus paredes y su suelo de metal son muy oscuros para no iluminar a los presentadores, y la abertura al valle coincide con la columna central. Arriba va el título entre dos laureles dorados (`laurel.svg`, el derecho reflejado): "Se lleva la lotería del mes:", el premio en mayúsculas, el nombre y la empresa · sede; la moto con Gali apoyado (`moto-gali.webp`) va sobre el pedestal, con la moto centrada en la pantalla y Gali a su derecha (su parte de arriba está al 67,5% del alto); abajo van las cifras y los botones, con el frente del pedestal detrás. La imagen la hizo el equipo (reescalada a 4K): abertura del 21% al 77% del ancho, desde el 18% del alto (debajo del marco del portón), con paisaje dorado y suave, dentro de la columna central: las zonas de los presentadores son pared de metal oscuro. Si se cambia la imagen de fondo, hay que volver a medir esas alturas.
-6. **Empresas excluidas por defecto:** Auteco, La Causa y Galilei. Se activan desde el panel.
-7. **Sistema visual de marca Galilei** (definido por el equipo de diseño; no volver al estilo anterior):
+7. **Empresas excluidas por defecto:** Auteco, La Causa y Galilei. Se activan desde el panel.
+8. **Sistema visual de marca Galilei** (definido por el equipo de diseño; no volver al estilo anterior):
    - **Las casillas van solo en los azules de la marca, sin grises ni verdes** (valores exactos de los tokens de Figma): `#ABE3F8` (info-light), `#61BDDF` (info-vivid) y `#17536A` (info-dark). Oscuro y claro se alternan: la mitad de las casillas son `#17536A` y entre cada dos va `#ABE3F8` o `#61BDDF`, turnándose. El aro y los bombillos siguen en neutros. Nombres: `#0A0B0C` sobre los azules claros y `#ABE3F8` sobre el azul oscuro.
    - **La flecha va en lima `#B3F131`.** Fuera de la ruleta y la flecha, el lima solo se admite como toque mínimo en el confeti y como estado activo o de foco en el panel: no en el botón Girar, las cifras ni el anuncio del ganador.
    - **El resto de la interfaz va en neutros:** `#0A0B0C` (fondo), `#0E1012`, `#171A1E`, `#292F36`, `#3D444C`, `#8B939E`, `#C7CCD4`, `#F0F2F5` y `#FFFFFF`. No agregar otros colores.
@@ -78,7 +81,7 @@ Aplican a cualquier cambio, lo haga una persona o una IA.
    - **Estilo 3D del Galiverso**, como los íconos 3D y el personaje Gali del Figma "Galiverso · Galilei Learning": volumen, brillo suave y sombras coherentes con una sola luz fija arriba a la izquierda. La luz no gira con la ruleta: el aro metálico satinado, el sombreado y el reflejo son capas fijas, y solo giran las casillas y los bombillos. Las casillas conservan sus colores de marca debajo de ese sombreado.
    - **Gali solo aparece en el anuncio del ganador**, con gafas, apoyado en la rueda delantera de la moto (`moto-gali.webp`, imagen hecha por el equipo). No va al lado de la ruleta.
    - **Fondo del planeta de Siderax** (`assets/fondo-siderax.webp`, generado a partir de la imagen de referencia): oscuro, suave y de poco contraste para no distraer de la ruleta. Los lados se atenúan con un degradado para no iluminar a los presentadores; es lo único que se permite en los lados, y debe seguir siendo tenue.
-8. **Sin emojis** en la interfaz. Íconos en SVG.
-9. **Todo debe funcionar sin internet en el standalone.** No cargar nada de otros sitios, salvo las fuentes de Google, que el build embebe.
-10. **Si cambias un valor por defecto** (empresas excluidas, sonido elegido, etc.), sube la versión de la clave de `localStorage` (`ruleta6:` → `ruleta7:`) para que se aplique en los computadores donde ya se abrió. Eso borra su historial: avisa antes si ya se hicieron sorteos reales.
-11. **Después de cambiar algo, prueba un giro completo:** que el ganador anunciado sea el mismo nombre que marca la flecha, y que los lados sigan vacíos (tecla G).
+9. **Sin emojis** en la interfaz. Íconos en SVG.
+10. **Todo debe funcionar sin internet en el standalone.** No cargar nada de otros sitios, salvo las fuentes de Google, que el build embebe.
+11. **Si cambias un valor por defecto** (empresas excluidas, sonido elegido, etc.), sube la versión de la clave de `localStorage` (`ruleta6:` → `ruleta7:`) para que se aplique en los computadores donde ya se abrió. Eso borra su historial: avisa antes si ya se hicieron sorteos reales.
+12. **Después de cambiar algo, prueba un giro completo:** que el ganador anunciado sea el mismo nombre que marca la flecha, y que los lados sigan vacíos (tecla G).

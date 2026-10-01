@@ -30,18 +30,47 @@ body {
 body.idle { cursor: none; }
 
 .stage {
-  position: relative;
+  position: relative; overflow: hidden;
   width: min(100vw, calc(100vh * 16 / 9));
   aspect-ratio: 16 / 9; max-width: 100%;
   container-type: size;
+  background: var(--n00);
+}
+.stage.sacudida { animation: sacudida .38s ease-out; }
+@keyframes sacudida {
+  20% { transform: translate(.7cqh, .35cqh); } 40% { transform: translate(-.6cqh, -.3cqh); }
+  60% { transform: translate(.35cqh, .2cqh); } 80% { transform: translate(-.2cqh, -.1cqh); }
+}
+/* Escena de la ruleta. Fondo: planeta de origen de Siderax, oscuro y suave; los lados se atenúan
+   para no iluminar a los presentadores. Al terminar el giro se aleja hasta caber en la puerta del cuarto. */
+.scene {
+  position: absolute; inset: 0; z-index: 2;
   display: grid; grid-template-columns: 24fr 52fr 24fr;
-  /* Fondo: planeta de origen de Siderax (generado a partir de la referencia), oscuro y suave.
-     Los lados se atenúan más para no iluminar a los presentadores. */
   background:
     linear-gradient(90deg, rgba(10,11,12,.55) 0%, rgba(10,11,12,.3) 24%, rgba(10,11,12,.1) 42%, rgba(10,11,12,.1) 58%, rgba(10,11,12,.3) 76%, rgba(10,11,12,.55) 100%),
     url("assets/fondo-siderax.webp") center / cover no-repeat,
     var(--n00);
+  transform-origin: 49.3% 52.7%;
+  transition: transform 1.8s cubic-bezier(.6, 0, .3, 1), opacity .5s ease-in 1.35s;
 }
+.scene.alejar { transform: scale(.56); opacity: 0; }
+.scene.sin-transicion { transition: none; }
+/* Transición al ganador: el cuarto con la puerta abierta, y las dos hojas que se cierran y se abren */
+.room { position: absolute; inset: 0; z-index: 1; background: url("assets/cuarto.webp") 0 0 / 100% 100% no-repeat, var(--n00); }
+.doors { position: absolute; inset: 0; z-index: 9; pointer-events: none; }
+.leaf { position: absolute; top: 15.5cqh; height: 73cqh; overflow: hidden; }
+.leaf.l { left: 21.4cqw; width: 28.3cqw; }
+.leaf.r { left: 49.7cqw; width: 27.9cqw; }
+/* Cada hoja muestra solo su mitad de la puerta cerrada y, abierta, queda escondida dentro del marco */
+.leaf-img {
+  position: absolute; inset: 0;
+  background-image: url("assets/puerta-cerrada.webp"); background-size: 100cqw 100cqh; background-repeat: no-repeat;
+  transition: transform .8s cubic-bezier(.55, 0, .85, .35);
+}
+.leaf.l .leaf-img { background-position: -21.4cqw -15.5cqh; transform: translateX(-100%); }
+.leaf.r .leaf-img { background-position: -49.7cqw -15.5cqh; transform: translateX(100%); }
+.doors.cerradas .leaf-img { transform: none; }
+.doors.abriendo .leaf-img { transition: transform 1.1s cubic-bezier(.3, .1, .2, 1); }
 .side { position: relative; }
 .side .guide {
   position: absolute; inset: 3cqh 1.2cqw;
@@ -140,7 +169,7 @@ body.spinning .pointer-wrap { animation: none; }
   animation: bg-in .6s ease-out both;
 }
 @keyframes bg-in { from { opacity: 0; } }
-.winner { position: absolute; inset: 0; z-index: 5; text-align: center; }
+.winner { position: absolute; top: 0; bottom: 0; left: 24%; width: 52%; z-index: 7; text-align: center; }
 /* Título del anuncio entre laureles dorados: texto de entrada, premio, nombre y empresa · sede */
 .winner .w-top {
   position: absolute; left: 0; right: 0; top: 2.2cqh;
@@ -217,7 +246,7 @@ body.spinning .pointer-wrap { animation: none; }
 .btn.soft { background: var(--n09-a12); border-color: var(--n09-a12); color: var(--n08); }
 .btn.soft:hover { background: var(--n09-a20); }
 .btn.sm { font-size: 12px; height: 28px; padding: 0 10px; border-radius: 8px; }
-#confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 6; }
+#confetti { position: absolute; top: 0; left: 24%; width: 52%; height: 100%; pointer-events: none; z-index: 8; }
 
 /* Controles flotantes, se ocultan solos */
 .toolbar { position: fixed; right: 12px; bottom: 12px; display: flex; gap: 6px; z-index: 20; flex-wrap: wrap; justify-content: flex-end; transition: opacity .4s; }
@@ -275,6 +304,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .count-line { font-variant-numeric: tabular-nums; color: var(--n07); }
 
 @media (prefers-reduced-motion: reduce) {
+  .scene { transition: none; }
   .winner .name, .winner .w-top, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
   .drawer { transition: none; }
 }
@@ -282,7 +312,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 </head>
 <body>
 <div class="stage" id="stage">
-  <div class="winner-bg" id="winnerBg" hidden></div>
+  <div class="room" id="room" hidden></div>
+  <div class="scene" id="scene">
   <div class="side"><div class="guide">Presentador 1</div></div>
 
   <div class="center">
@@ -325,34 +356,40 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     <img class="moto" id="headMoto" alt="Siderax junto a la moto Victory Combat 100">
 
 
-    <div class="winner" id="winner" hidden role="dialog" aria-live="assertive" aria-label="Ganador">
-      <div class="w-top">
-        <img class="laurel" src="assets/laurel.svg" alt="">
-        <div class="w-title">
-          <div class="w-kicker" id="wOver"></div>
-          <div class="w-prize" id="wPrize"></div>
-          <div class="name" id="wName"></div>
-          <div class="w-place" id="wPlace"></div>
-        </div>
-        <img class="laurel derecha" src="assets/laurel.svg" alt="">
-      </div>
-      <img class="prize-img" id="wImg" alt="">
-      <div class="w-bottom">
-        <div class="stats">
-          <div class="stat"><img class="stat-icon" src="assets/icono-juegos.svg" alt=""><div><b id="wGames"></b><span>Juegos en el mes</span></div></div>
-          <div class="stat"><img class="stat-icon" src="assets/icono-puntaje.svg" alt=""><div><b id="wScore"></b><span>Puntaje máximo</span></div></div>
-          <div class="stat tk"><img class="stat-icon" src="assets/icono-tickets.svg" alt=""><div><b id="wTickets"></b><span>Tickets</span></div></div>
-        </div>
-        <div class="actions">
-          <button class="btn primary" id="removeBtn" type="button">Sacar de la ruleta</button>
-          <button class="btn soft" id="keepBtn" type="button">Dejar en la ruleta</button>
-        </div>
-      </div>
-    </div>
-    <canvas id="confetti"></canvas>
   </div>
 
   <div class="side"><div class="guide">Presentador 2</div></div>
+  </div>
+  <div class="winner-bg" id="winnerBg" hidden></div>
+  <div class="doors" id="doors" hidden>
+    <div class="leaf l"><div class="leaf-img"></div></div>
+    <div class="leaf r"><div class="leaf-img"></div></div>
+  </div>
+  <div class="winner" id="winner" hidden role="dialog" aria-live="assertive" aria-label="Ganador">
+    <div class="w-top">
+      <img class="laurel" src="assets/laurel.svg" alt="">
+      <div class="w-title">
+        <div class="w-kicker" id="wOver"></div>
+        <div class="w-prize" id="wPrize"></div>
+        <div class="name" id="wName"></div>
+        <div class="w-place" id="wPlace"></div>
+      </div>
+      <img class="laurel derecha" src="assets/laurel.svg" alt="">
+    </div>
+    <img class="prize-img" id="wImg" alt="">
+    <div class="w-bottom">
+      <div class="stats">
+        <div class="stat"><img class="stat-icon" src="assets/icono-juegos.svg" alt=""><div><b id="wGames"></b><span>Juegos en el mes</span></div></div>
+        <div class="stat"><img class="stat-icon" src="assets/icono-puntaje.svg" alt=""><div><b id="wScore"></b><span>Puntaje máximo</span></div></div>
+        <div class="stat tk"><img class="stat-icon" src="assets/icono-tickets.svg" alt=""><div><b id="wTickets"></b><span>Tickets</span></div></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="removeBtn" type="button">Sacar de la ruleta</button>
+        <button class="btn soft" id="keepBtn" type="button">Dejar en la ruleta</button>
+      </div>
+    </div>
+  </div>
+  <canvas id="confetti"></canvas>
 </div>
 
 <div class="toolbar">
@@ -659,6 +696,32 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     g.gain.setValueAtTime(0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
     o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.035);
   }
+  // Efectos de la transición: soplido al alejarse y golpe al cerrar las puertas
+  function noiseBuf(len) {
+    const b = ac.createBuffer(1, Math.floor(ac.sampleRate * len), ac.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+  }
+  function whoosh() {
+    if (!state.sound || !audio()) return;
+    const t = ac.currentTime, src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+    src.buffer = noiseBuf(1.8); f.type = "bandpass"; f.Q.value = 1.2;
+    f.frequency.setValueAtTime(1800, t); f.frequency.exponentialRampToValueAtTime(260, t + 1.7);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22, t + 0.5); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.75);
+    src.connect(f).connect(g).connect(ac.destination); src.start(t);
+  }
+  function thud() {
+    if (!state.sound || !audio()) return;
+    const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
+    o.type = "sine"; o.frequency.setValueAtTime(95, t); o.frequency.exponentialRampToValueAtTime(38, t + 0.5);
+    g.gain.setValueAtTime(0.9, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+    o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.75);
+    const n = ac.createBufferSource(), lp = ac.createBiquadFilter(), ng = ac.createGain();
+    n.buffer = noiseBuf(0.4); lp.type = "lowpass"; lp.frequency.value = 500;
+    ng.gain.setValueAtTime(0.5, t); ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+    n.connect(lp).connect(ng).connect(ac.destination); n.start(t);
+  }
+
   // Audio de celebración (grabación recortada). Se decodifica una vez con Web Audio.
   const WIN_AUDIO = "assets/victoria.mp3"; // se reemplaza por el audio embebido al armar el standalone
   let winBuf = null, winLoading = null;
@@ -793,10 +856,33 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
         // la flecha celebra sobre el ganador y luego se revela
         document.body.classList.remove("spinning");
         const w = $("pointerWrap"); w.classList.remove("win"); void w.offsetWidth; w.classList.add("win");
-        setTimeout(() => finish(current[indexAt(rot, n)]), reduced ? 0 : 1300);
+        setTimeout(() => revelar(current[indexAt(rot, n)]), reduced ? 0 : 1300);
       }
     }
     requestAnimationFrame(frame);
+  }
+
+  // Transición: la ruleta se aleja hasta la puerta del cuarto, las puertas se cierran con un golpe
+  // y se abren mostrando al ganador.
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  async function revelar(p) {
+    if (reduced) { finish(p); return; }
+    const scene = $("scene"), room = $("room"), doors = $("doors"), stage = $("stage");
+    room.hidden = false; doors.hidden = false; doors.classList.remove("cerradas", "abriendo");
+    void scene.offsetWidth; scene.classList.add("alejar"); whoosh();
+    await wait(1850);
+    doors.classList.add("cerradas");
+    await wait(780);
+    thud(); stage.classList.remove("sacudida"); void stage.offsetWidth; stage.classList.add("sacudida");
+    await wait(900);
+    // detrás de las puertas cerradas: fondo del ganador y la escena de la ruleta vuelve a su lugar
+    room.hidden = true; $("winnerBg").hidden = false;
+    scene.classList.add("sin-transicion"); scene.classList.remove("alejar"); void scene.offsetWidth; scene.classList.remove("sin-transicion");
+    doors.classList.add("abriendo"); doors.classList.remove("cerradas");
+    await wait(450);
+    finish(p);
+    await wait(900);
+    doors.hidden = true; doors.classList.remove("abriendo");
   }
 
   function finish(p) {
