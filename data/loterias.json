@@ -14,7 +14,7 @@
       "La Causa",
       "Galilei"
     ],
-    "escena": null,
+    "escena": "assets/siderax-dinero.webp",
     "premio": "assets/gali-dinero.webp"
   },
   {
@@ -22,7 +22,7 @@
     "nombre": "Reviews",
     "titulo": "Premio en efectivo",
     "csv": "loteria-reviews.csv",
-    "escena": null,
+    "escena": "assets/siderax-dinero.webp",
     "premio": "assets/gali-dinero.webp",
     "unidad": "reviews",
     "minimo": 50,

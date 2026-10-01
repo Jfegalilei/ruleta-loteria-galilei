@@ -154,6 +154,9 @@ body.guides .side .guide { opacity: 1; }
   display: block; height: 52cqh; width: auto; max-width: 100%; object-fit: contain; pointer-events: none;
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.8));
 }
+/* Siderax con la bolsa de dinero (loterías en efectivo): más ancha que la de la moto; corrida a la
+   izquierda para que la cabeza de Siderax no tape el botón Girar */
+.moto.escena-propia { left: 3cqh; }
 .tix { color: var(--g-brand); }
 .prize {
   margin: 0; font-family: var(--font-display); font-weight: 700;
@@ -1479,6 +1482,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   LOTERIAS.forEach(l => { const o = document.createElement("option"); o.value = l.id; o.textContent = l.nombre || l.titulo || l.id; $("loteriaIn").append(o); });
   $("loteriaIn").value = LOT.id;
   if (LOT.premio !== undefined) $("winner").classList.add("premio-propio");
+  if (LOT.escena !== undefined) $("headMoto").classList.add("escena-propia");
   if (POR_REVIEWS) document.querySelectorAll(".winner .stat").forEach(el => { el.hidden = !el.classList.contains("rv"); });
   $("loteriaIn").addEventListener("change", e => {
     if (spinning) { e.target.value = LOT.id; return; }
