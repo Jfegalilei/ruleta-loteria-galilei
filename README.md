@@ -51,6 +51,12 @@ dist/                       Salidas del build (no se suben al repo)
 - Al abrir el link, la lista se pide como `data/participantes.js?t=<hora>`: nunca se usa una copia guardada (ni del navegador ni de GitHub Pages), así que se ven los datos que estén en el repo en ese momento.
 - La página siempre arranca con los datos del repo: participantes, empresas excluidas de base, premio y sin foto. Lo que alguien cambie o cargue desde el panel vale mientras la página esté abierta y solo en ese navegador; al volver a abrirla se recargan los del repo. Se recuerdan entre visitas solo los sacados, el historial y el sonido.
 
+## Sumar tickets en vivo
+
+En el panel (tecla E), sección Lista: escribe cuántos tickets sumar en "Tickets a sumar" (un número negativo resta) y toca el botón `+N` junto a cada persona. La ruleta se actualiza al instante y la lista muestra lo sumado entre paréntesis. Lo sumado se guarda en ese navegador (sobrevive a recargar) mientras la lista del repo no cambie.
+
+Para que todos lo vean: "Descargar CSV con los tickets sumados" baja la lista con los totales (`<id>-con-tickets-sumados-<fecha>.csv`, con Player id, así que los IDs no cambian). Ese archivo se pone en `data/` en lugar del CSV de esa lotería, se corre el build y se hace push. Al recargar, todos ven los totales y lo sumado en el navegador se borra solo (la lista del repo cambió), para no contarlo dos veces. En Reviews se suman reviews.
+
 ## Varias loterías
 
 El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `data/loterias.json`. También se puede abrir una directamente con `?loteria=<id>` (por ejemplo `?loteria=auteco`). Hoy hay tres:
