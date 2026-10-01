@@ -253,8 +253,9 @@ body.spinning .pointer-wrap { animation: none; }
 /* Tickets que salen despedidos de la ruleta mientras gira. Es la única excepción a los lados vacíos:
    el canvas cubre todo el escenario (la columna central es el 52%) para que los tickets salgan de pantalla. */
 .spin-tix { position: absolute; top: 0; left: -46.154%; width: 192.308%; height: 100%; z-index: 2; pointer-events: none; }
-/* Volcanes de pólvora a cada lado del pedestal en el anuncio (dentro de la columna central) */
-#fuentes { position: absolute; top: 0; left: 24%; width: 52%; height: 100%; pointer-events: none; z-index: 8; }
+/* Volcanes de pólvora a cada lado del pedestal en el anuncio (dentro de la columna central),
+   detrás de todos los elementos del anuncio: encima del fondo (z 4) y debajo del anuncio (z 7) */
+#fuentes { position: absolute; top: 0; left: 24%; width: 52%; height: 100%; pointer-events: none; z-index: 5; }
 #confetti { position: absolute; top: 0; left: 24%; width: 52%; height: 100%; pointer-events: none; z-index: 8; }
 
 /* Controles flotantes, se ocultan solos */
@@ -1053,7 +1054,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   }
   // ---------- Volcanes de pólvora junto al pedestal ----------
   // Dos conos en el piso, a los lados del pedestal (sus lados están al 29,4% y 69,1% del ancho del
-  // escenario y su base al 88% del alto), que lanzan chispas doradas hacia arriba mientras dure el anuncio.
+  // escenario y su base al 88% del alto), que lanzan chispas doradas unos 14 s; apagados, siguen a la vista hasta cerrar el anuncio.
   const fz = $("fuentes"), volCtx = fz.getContext("2d");
   const VOLCANES = [0.031, 0.969];   // centro de cada cono en el canvas (25,6% y 74,4% del escenario)
   let sparks = [], fuenteRaf = 0;
@@ -1100,8 +1101,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       }
       volCtx.globalCompositeOperation = "source-over";
       for (const fx of VOLCANES) drawVolcan(volCtx, fx * W, baseY, coneW, coneH, power, t);
+      // al apagarse, los conos quedan en su lugar hasta cerrar el anuncio
       if (t < 14 || sparks.length) fuenteRaf = requestAnimationFrame(step);
-      else volCtx.clearRect(0, 0, W, H);
     };
     fuenteRaf = requestAnimationFrame(step);
   }
