@@ -130,6 +130,9 @@ def build_pages(data_js):
     mimes = {'.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.mp4': 'video/mp4'}
     html = re.sub(r'src="assets/([^"]+)"',
                   lambda m: f'src="{data_uri(p("assets", m.group(1)), mimes[os.path.splitext(m.group(1))[1].lower()])}"', html)
+    # imágenes dentro de SVG: href="assets/..."
+    html = re.sub(r'href="assets/([^"]+)"',
+                  lambda m: f'href="{data_uri(p("assets", m.group(1)), mimes[os.path.splitext(m.group(1))[1].lower()])}"', html)
     # fondos del CSS: url("assets/...")
     html = re.sub(r'url\("assets/([^"]+)"\)',
                   lambda m: f'url("{data_uri(p("assets", m.group(1)), mimes[os.path.splitext(m.group(1))[1].lower()])}")', html)

@@ -234,27 +234,16 @@ body.spinning .pointer-wrap { animation: none; }
   display: flex; flex-direction: column; align-items: center; gap: .7cqh; max-width: 70cqh;
   text-shadow: 0 .3cqh .6cqh rgba(10,11,12,.75), 0 0 2cqh rgba(10,11,12,.55);
 }
-/* Nombre del premio en letras de piedra sobre el frente del pedestal, debajo de la moto: la franja libre
-   va del 71,2% (debajo del borde de arriba del pedestal) al 77,9% (donde empiezan las cifras). El centro
-   del pedestal está al 49,25% del ancho del escenario (la columna del anuncio va del 24% al 76%).
-   Relleno con la textura piedra.webp y luz de arriba; ::before es la sombra que les da volumen. */
+/* Nombre del premio en letras de piedra sobre el frente del pedestal, debajo de la moto (SVG #wPlaca):
+   franja libre del 71,2% (debajo del borde de arriba del pedestal) al 77,9% (donde empiezan las cifras).
+   El centro del pedestal está al 49,25% del ancho del escenario (la columna del anuncio va del 24% al 76%).
+   Relleno con piedra en los tonos del pedestal (piedra.webp), reborde de piedra más oscuro, bisel con luz
+   de arriba a la izquierda y sombra, para que se separe del fondo. */
 .winner .w-placa {
-  position: absolute; left: 0; right: 0; top: 71.9cqh; transform: translateX(-1.44%); isolation: isolate;
-  font-family: var(--font-display); font-weight: 700; font-size: 5cqh; line-height: 1; letter-spacing: .06em;
-  text-align: center; white-space: nowrap; text-transform: uppercase; pointer-events: none;
-  color: #B9AAB0;
-  background:
-    linear-gradient(180deg, rgba(255,250,246,.62) 0%, rgba(255,250,246,.22) 40%, rgba(255,250,246,0) 58%, rgba(20,12,16,.22) 100%),
-    url("assets/piedra.webp") center / 26cqh auto repeat;
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: .07cqh rgba(38,26,32,.75);
+  position: absolute; left: 0; top: 70.4cqh; width: 100%; height: 8.2cqh; overflow: visible;
+  transform: translateX(-1.44%); pointer-events: none;
 }
-.winner .w-placa::before {
-  content: attr(data-texto); position: absolute; inset: 0; z-index: -1;
-  -webkit-text-fill-color: #1E1418; color: #1E1418; -webkit-text-stroke: 0;
-  transform: translate(.16cqh, .34cqh); filter: blur(.12cqh);
-  text-shadow: 0 .5cqh 1cqh rgba(10,6,8,.7);
-}
+.winner .w-placa text { font-family: var(--font-display); font-weight: 700; font-size: 100px; letter-spacing: 5px; }
 .winner .w-place { font-family: var(--font-body); font-weight: 700; font-size: 2.6cqh; color: var(--n08); }
 .winner .prize-img {
   position: absolute; left: 19.2cqh; bottom: 32cqh; height: 38cqh; width: auto; object-fit: contain;
@@ -463,7 +452,49 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       <img class="laurel derecha" src="assets/laurel.svg" alt="">
     </div>
     <img class="prize-img" id="wImg" alt="">
-    <div class="w-placa" id="wPrize"></div>
+    <svg class="w-placa" id="wPlaca" viewBox="0 0 1200 150" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs>
+        <pattern id="texPiedra" patternUnits="userSpaceOnUse" width="560" height="140">
+          <image href="assets/piedra.webp" width="560" height="140" preserveAspectRatio="none"/>
+        </pattern>
+        <!-- bisel: relieve con luz de arriba a la izquierda sobre el canal alfa; "oscura" baja el tono antes -->
+        <filter id="biselCara" x="-5%" y="-30%" width="110%" height="160%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="alto"/>
+          <feDiffuseLighting in="alto" surfaceScale="5" diffuseConstant="1.15" lighting-color="#fff" result="luz">
+            <feDistantLight azimuth="235" elevation="48"/>
+          </feDiffuseLighting>
+          <feSpecularLighting in="alto" surfaceScale="5" specularConstant=".55" specularExponent="22" lighting-color="#ffeef4" result="brillo">
+            <feDistantLight azimuth="235" elevation="48"/>
+          </feSpecularLighting>
+          <feComposite in="SourceGraphic" in2="luz" operator="arithmetic" k1="1.15" k2="0" k3="0" k4="0" result="sombreado"/>
+          <feComposite in="sombreado" in2="brillo" operator="arithmetic" k1="0" k2="1" k3=".7" k4="0" result="pulido"/>
+          <feComposite in="pulido" in2="SourceAlpha" operator="in"/>
+        </filter>
+        <filter id="biselBorde" x="-5%" y="-30%" width="110%" height="160%" color-interpolation-filters="sRGB">
+          <feComponentTransfer in="SourceGraphic" result="oscura">
+            <feFuncR type="linear" slope=".42"/><feFuncG type="linear" slope=".38"/><feFuncB type="linear" slope=".42"/>
+          </feComponentTransfer>
+          <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="alto"/>
+          <feDiffuseLighting in="alto" surfaceScale="7" diffuseConstant="1.3" lighting-color="#fff" result="luz">
+            <feDistantLight azimuth="235" elevation="40"/>
+          </feDiffuseLighting>
+          <feSpecularLighting in="alto" surfaceScale="7" specularConstant=".5" specularExponent="16" lighting-color="#f6d9e4" result="brillo">
+            <feDistantLight azimuth="235" elevation="40"/>
+          </feSpecularLighting>
+          <feComposite in="oscura" in2="luz" operator="arithmetic" k1="1.25" k2="0" k3="0" k4="0" result="sombreado"/>
+          <feComposite in="sombreado" in2="brillo" operator="arithmetic" k1="0" k2="1" k3=".6" k4="0" result="pulido"/>
+          <feComposite in="pulido" in2="SourceAlpha" operator="in"/>
+        </filter>
+        <filter id="sombraPlaca" x="-5%" y="-30%" width="110%" height="170%">
+          <feDropShadow dx="3" dy="7" stdDeviation="5" flood-color="#0c0508" flood-opacity=".8"/>
+        </filter>
+      </defs>
+      <g filter="url(#sombraPlaca)">
+        <text id="wPlacaBorde" x="600" y="112" text-anchor="middle" fill="url(#texPiedra)" stroke="url(#texPiedra)"
+              stroke-width="20" stroke-linejoin="round" filter="url(#biselBorde)"></text>
+        <text id="wPrize" x="600" y="112" text-anchor="middle" fill="url(#texPiedra)" filter="url(#biselCara)"></text>
+      </g>
+    </svg>
     <div class="w-bottom">
       <div class="stats">
         <div class="stat"><img class="stat-icon" src="assets/icono-juegos.svg" alt=""><div><b id="wGames"></b><span>Juegos en el mes</span></div></div>
@@ -1069,7 +1100,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     lastWinner = p;
     state.history.push({ id: p.id, n: p.n, c: companyOf(p), l: p.l, t: p.t, at: Date.now() });
     store.set("history", state.history);
-    $("wPrize").textContent = $("wPrize").dataset.texto = state.prize;
+    ponerPlaca();
     $("wName").textContent = p.n;
     $("wName").style.setProperty("--name-size", p.n.length > 30 ? "5.2cqh" : p.n.length > 22 ? "6cqh" : "7cqh");
     $("wPlace").textContent = [companyOf(p), p.l].filter(Boolean).join(" · ");
@@ -1449,7 +1480,16 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const e = state.photo || ESCENA_IMG;
     $("photoClear").hidden = !state.photo; $("headMoto").hidden = !e; if (e) $("headMoto").src = e;
   }
-  function ponerPremio() { const e = state.photo || PREMIO_IMG; $("wImg").hidden = !e; if (e) $("wImg").src = e; $("wPrize").textContent = $("wPrize").dataset.texto = state.prize; }
+  function ponerPremio() { const e = state.photo || PREMIO_IMG; $("wImg").hidden = !e; if (e) $("wImg").src = e; ponerPlaca(); }
+  // nombre del premio en la placa de piedra: en mayúsculas y achicado si no cabe en el pedestal
+  function ponerPlaca() {
+    const t = (state.prize || "").toLocaleUpperCase("es"), cara = $("wPrize"), borde = $("wPlacaBorde");
+    for (const el of [cara, borde]) { el.textContent = t; el.style.fontSize = ""; }
+    try {
+      const largo = cara.getComputedTextLength(), max = 1120;
+      if (largo > max) for (const el of [cara, borde]) el.style.fontSize = (100 * max / largo).toFixed(1) + "px";
+    } catch {}
+  }
   // selector de lotería: recarga la página con la elegida
   LOTERIAS.forEach(l => { const o = document.createElement("option"); o.value = l.id; o.textContent = l.nombre || l.titulo || l.id; $("loteriaIn").append(o); });
   $("loteriaIn").value = LOT.id;
