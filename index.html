@@ -361,7 +361,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .drawer section { display: flex; flex-direction: column; gap: 10px; background: var(--n02); border-radius: 12px; padding: 14px; }
 .drawer .kicker { font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--n06); margin: 0; }
 .drawer .field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500; color: var(--n07); }
-.drawer input[type=text], .drawer input[type=search], .drawer input[type=number], .drawer select {
+.drawer input[type=text], .drawer input[type=search], .drawer select {
   font: 400 15px/1.4 var(--font-body); color: var(--n08); background: var(--n01);
   border: 1px solid var(--n03); border-radius: 8px; padding: 9px 11px;
 }
@@ -379,9 +379,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .plist li { display: flex; align-items: center; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--n09-a08); }
 .plist li .who { min-width: 0; flex: 1; }
 .plist li .who b { display: block; font-weight: 500; color: var(--n08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sumar-row { align-items: flex-end; }
-.sumar-field { width: 9em; }
-.plist li .t .extra { color: var(--n07); margin-left: 4px; }
 .plist li .t { color: var(--g-brand); font-variant-numeric: tabular-nums; font-size: 13px; white-space: nowrap; }
 .plist li .who span { display: block; font-size: 12px; color: var(--n06); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .plist li.off .who b { color: var(--n06); text-decoration: line-through; }
@@ -566,11 +563,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
   <section>
     <p class="kicker">Lista</p>
-    <div class="row sumar-row">
-      <label class="field sumar-field">Tickets a sumar<input type="number" id="sumarIn" value="10" step="1"></label>
-      <button class="btn soft sm" id="descargarBtn" type="button">Descargar CSV con los tickets sumados</button>
-    </div>
-    <p class="hint" id="extraHint"></p>
     <input type="search" id="searchIn" placeholder="Buscar por nombre, empresa o sede">
     <ul class="plist" id="plistEl"></ul>
   </section>
@@ -654,17 +646,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     sound: store.get("sound", true),
     win: store.get("win", "celebracion"),
   };
-  // Tickets sumados en vivo desde el panel (botón +N junto a cada persona). Se guardan en este navegador
-  // mientras la lista del repo sea la misma; cuando se sube al repo la lista con los totales (la que se
-  // descarga desde el panel), cambia la firma y se borran solos para no contarlos dos veces.
-  const firma = v => { let h = 0; const t = JSON.stringify(v); for (let i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) | 0; return h; };
-  const FIRMA_REPO = firma(SAMPLE);
-  let extra = (() => { const e = store.get("extra", null); return e && e.firma === FIRMA_REPO ? e.porId : {}; })();
-  function aplicarExtra() {
-    for (const p of state.rows) { if (p.base === undefined) p.base = p.t; p.t = Math.max(0, p.base + (extra[p.id] || 0)); }
-  }
-  function guardarExtra() { store.set("extra", { firma: FIRMA_REPO, porId: extra }); }
-  aplicarExtra();
   let rot = 0, spinning = false, current = [], lastWinner = null, starts = [0];
 
   function normalize(list) {
@@ -1466,7 +1447,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       seen.add(id);
       out.push({ id, n, c, l, t, g, s: sc, y, max: t });
     });
-    state.rows = normalize(out); state.removed = []; state.source = fileName; extra = {};
+    state.rows = normalize(out); state.removed = []; state.source = fileName;
     store.set("rows", state.rows); store.set("removed", []); store.set("source", fileName);
     refresh(); renderDrawer();
     return out.length;
@@ -1493,10 +1474,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     $("countLine").textContent = `${n} en la ruleta · ${total} cargados${state.removed.length ? ` · ${state.removed.length} ya sacados` : ""}${zero ? ` · ${zero} ${bajo}` : ""}`;
     $("sourceHint").textContent = `Fuente: ${state.source}. Columnas que lee: Player o Nombre, Empresa, Location o Sede, y ${POR_REVIEWS ? "Reviews (cada review es una oportunidad)" : "Tickets"}. Los repetidos por Player id cuentan una sola vez. Quien tiene ${MINIMO > 1 ? `menos de ${MINIMO} ${UNIDAD[1]}` : `0 ${UNIDAD[1]}`} no entra a la ruleta.`;
     $("restoreBtn").hidden = !state.removed.length;
-    const sumados = Object.keys(extra).length;
-    $("extraHint").textContent = sumados
-      ? `Sumados en este navegador a ${sumados} ${sumados === 1 ? "persona" : "personas"}. Descarga el CSV y súbelo al repo; al recargar, todos ven los totales y lo sumado aquí se borra solo.`
-      : `Escribe cuántos ${UNIDAD[1]} sumar (o un número negativo para restar) y toca el botón junto a cada persona.`;
     // empresas
     const counts = new Map();
     state.rows.forEach(p => counts.set(companyOf(p), (counts.get(companyOf(p)) || 0) + 1));
@@ -1524,20 +1501,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       li.className = off ? "off" : "";
       b.textContent = p.n; s.textContent = metaOf(p); who.className = "who"; who.append(b, s);
       const tk = document.createElement("span"); tk.className = "t"; tk.textContent = p.t ? NUM.format(p.t) : "0";
-      if (extra[p.id]) { const ex2 = document.createElement("span"); ex2.className = "extra"; ex2.textContent = `(${extra[p.id] > 0 ? "+" : ""}${NUM.format(extra[p.id])})`; tk.append(ex2); }
       li.append(who, tk);
-      if (!ex.has(companyOf(p))) {
-        const k = parseInt($("sumarIn").value, 10) || 0;
-        const mas = document.createElement("button");
-        mas.type = "button"; mas.className = "btn soft sm"; mas.textContent = `${k < 0 ? "−" : "+"}${Math.abs(k)}`;
-        mas.title = `Sumar ${k} ${UNIDAD[1]} a ${p.n}`; mas.disabled = !k;
-        mas.addEventListener("click", () => {
-          extra[p.id] = (extra[p.id] || 0) + k;
-          if (!extra[p.id]) delete extra[p.id];
-          guardarExtra(); aplicarExtra(); refresh(); renderDrawer();
-        });
-        li.append(mas);
-      }
       if (!ex.has(companyOf(p)) && p.t >= MINIMO) {
         const btn = document.createElement("button");
         btn.type = "button"; btn.className = "btn soft sm"; btn.textContent = rm.has(p.id) ? "Devolver" : "Sacar";
@@ -1575,19 +1539,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   $("soundBtn").addEventListener("click", toggleSound);
   $("fsBtn").addEventListener("click", toggleFs);
   $("searchIn").addEventListener("input", renderList);
-  $("sumarIn").addEventListener("input", renderList);
-  // CSV con los totales (tickets del repo + sumados), en columnas que el build lee
-  $("descargarBtn").addEventListener("click", () => {
-    const q = v => /[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v);
-    const filas = POR_REVIEWS
-      ? [["Player id", "Nombre", "location_name", "company", "reviews"], ...state.rows.map(p => [p.id, p.n, p.l, p.c, p.t])]
-      : [["Player id", "Player", "Empresa", "Location", "Tickets actuales", "Games played", "Max score"], ...state.rows.map(p => [p.id, p.n, p.c, p.l, p.t, p.g, p.s])];
-    const blob = new Blob(["\ufeff" + filas.map(f => f.map(q).join(",")).join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
-    const a = document.createElement("a"), d = new Date();
-    a.href = URL.createObjectURL(blob);
-    a.download = `${LOT.id}-con-tickets-sumados-${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}.csv`;
-    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  });
   $("prizeIn").addEventListener("input", e => { state.prize = e.target.value; store.set("prize", state.prize); $("prizeEl").textContent = state.prize; });
   $("shuffleBtn").addEventListener("click", () => {
     const a = state.rows.slice();
