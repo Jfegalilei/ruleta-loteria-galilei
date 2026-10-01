@@ -32,6 +32,10 @@
       "Total reviews",
       "Cantidad de reviews",
       "Número de reviews"
+    ],
+    "excluidas": [
+      "Auteco",
+      "Galilei"
     ]
   }
 ]
