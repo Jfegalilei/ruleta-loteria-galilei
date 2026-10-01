@@ -1412,19 +1412,19 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const col = names => h.findIndex(x => names.includes(x));
     const iN = col(["player", "nombre", "name", "jugador", "participante"]);
     const iC = col(["empresa", "compania", "company", "cliente"]);
-    const iL = col(["location", "location_name", "sede", "ubicacion", "locacion", "punto"]);
+    const iL = col(["location", "location_name", "sede", "ubicacion", "locacion", "punto", "rol"]);
     const iId = col(["player id", "id", "documento", "cedula"]);
     const iT = col([...(POR_REVIEWS ? ["reviews", "resenas", "total reviews", "cantidad de reviews", "numero de reviews"] : []),
       "tickets actuales", "tickets", "galitickets", "boletas", "oportunidades"]);
-    const iG = col(["games played", "partidas", "juegos", "juegos en el mes"]);
-    const iS = col(["max score", "puntaje maximo", "puntos maximos", "puntaje"]);
+    const iG = col(["games played", "partidas", "juegos", "juegos en el mes", "juegos sept"]);
+    const iS = col(["max score", "puntaje maximo", "puntos maximos", "puntaje", "puntaje max sept"]);
     const iY = col(["year", "anio", "ano"]);
     const int = v => parseInt(String(v || "").replace(/\D/g, ""), 10) || 0;
     if (iN < 0) throw new Error("No encontré la columna del nombre. Debe llamarse Player o Nombre.");
     const seen = new Set(), out = [];
     rows.slice(1).forEach((r, i) => {
       const n = (r[iN] || "").trim(); if (!n) return;
-      const c = iC >= 0 ? (r[iC] || "").trim() : "", l = iL >= 0 ? (r[iL] || "").trim() : "";
+      const c = (iC >= 0 ? (r[iC] || "").trim() : "") || LOT.empresa || "", l = iL >= 0 ? (r[iL] || "").trim() : "";
       // sin Player id, una persona es su nombre + empresa (en Reviews hay una fila por persona y sede)
       const id = iId >= 0 && r[iId] ? r[iId].trim()
         : `${n}|${c}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();

@@ -15,7 +15,8 @@
       "Galilei"
     ],
     "escena": "assets/siderax-dinero.webp",
-    "premio": "assets/gali-dinero.webp"
+    "premio": "assets/gali-dinero.webp",
+    "empresa": "Auteco"
   },
   {
     "id": "reviews",

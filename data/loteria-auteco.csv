@@ -1,106 +1,42 @@
-﻿Player id,Year,Games played,Max score,Empresa,Location,Tickets actuales,Player
-a0928d14-4455-4036-9388-bd9bf1de0ff1,2026,37,105,Auteco,INVERSIONES ELECTROMOTOS SAS ITAGUI,292,Juan Pablo restrepo
-918e1346-dd6b-4ae8-9e13-619ce5c24a91,2026,36,33,Auteco,MUNDIAL DE REPUESTOS LA PAZ SAS,125,Christian Camilo Alvarez Palacio
-95875a87-6b52-41a0-896c-20163fb8877a,2026,36,34,Auteco,DISMERCA SA MACROCENTRO,145,Luis miguel Cueto
-814ceef1-55d9-4d5b-aa80-c0d78a7013f2,2026,35,56,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,103,Juan Manuel Soto Castañeda
-d80ab193-d20a-4cb6-93b6-33e2fba96773,2026,35,71,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,252,Valentina Ramos ECHAVARRIA
-763e8b67-e0a1-4c89-baa7-2e7cfb632444,2026,35,46,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,183,Rene gustavo Vargas castaño
-f22ebdc9-8f6e-4700-8d29-115c6dcc3f18,2026,35,70,Auteco,DISMERCA SAS LA 33 NORTE,296,Luis Enrique Rivero Guevara
-9aaf695a-32c7-4ac5-88c0-bb31b56ebbde,2026,35,35,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,142,andres giraldo
-25811865-cc45-414b-aa1e-f734c0a0ccc8,2026,35,39,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,123,Santiago Vélez Acevedo
-60eb3976-77c3-4be0-9f3e-5b6a6db4ac5c,2026,35,39,Auteco,ALVAREZ MOLERO NELSON YESID,221,Nelson ALVAREZ
-f5d47c2b-1b5f-4826-8db1-acd239264e0f,2026,35,33,Auteco,DISMERCA SA MACROCENTRO,257,Cristian camilo Giraldo Sepulveda
-9cfd31c5-9b1b-43ea-b3ab-767fa8fce27e,2026,35,91,Auteco,MUNDIAL DE REPUESTOS DE MOTOS SAS,89,Diego Alejandro Betancur ramirez
-662e1bb8-1a05-4e78-8e5a-9b2057768efd,2026,35,48,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,246,Daniel A Vidal
-ce173dea-adeb-4a77-a407-adcfd2a53959,2026,35,47,Auteco,DISMERCA SA MACROCENTRO,242,Marlon Yesid Tamayo Velez
-cb00d09d-ab2e-465f-a344-3b5f14b4a832,2026,34,86,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,101,Michael Zapata
-4143e50d-1a6b-419b-bd5b-1933115776fd,2026,34,53,Auteco,DISMERCA SA MACROCENTRO,85,JUAN PABLO MEJIA ANGEL
-c9906ee8-feba-4b24-80a5-867be702eb6c,2026,34,42,Auteco,ALVAREZ MOLERO NELSON YESID,111,Rosiris Padilla
-7eb01217-e4d0-464b-9ce2-3ce6a31e49bc,2026,34,50,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,243,Karen Dahiana Marulanda García
-d3ad8742-4899-4a96-be36-933752773d10,2026,34,72,Auteco,DISMERCA SA MACROCENTRO,193,Sebastián Muñoz Álvarez
-b35b086c-7f5d-4585-8858-9532c11c3f94,2026,34,34,Auteco,DISMERCA SA MACROCENTRO,56,Dylan Javier Luna Cardozo
-2cab1e26-ed7a-42fc-9a60-0edf0244032b,2026,34,41,Auteco,MONTERREY MOTOS SAS LA 38,104,Dilmer Freyle Andrade
-1deda485-35c1-4fd6-a15a-789b955838ea,2026,34,79,Auteco,DISMERCA SA MACROCENTRO,232,Brayan Stiven Urrego patiño
-be09b5cc-5265-4e05-8b40-fd358ca6fb19,2026,34,115,Auteco,DISMERCA SA MACROCENTRO,213,John Andrey Galvis arcila
-a3b221bb-103b-491a-883e-21b5b46add00,2026,34,47,Auteco,DISMERCA SA MACROCENTRO,130,Mateo Naranjo marquez
-1224a2c8-f3f6-4515-a8b3-1ef49c73c15a,2026,34,68,Auteco,DISMERCA SA MACROCENTRO,192,Emanuel Gutiérrez Alzate
-4e4ae07d-02bb-4f0f-986c-12aa1dcec026,2026,34,42,Auteco,MUNDIAL DE REPUESTOS DE MOTOS SAS,138,Cristian Camilo Cristian Romero
-1fe19f52-bbd5-4ad0-9eda-941bf7c01df7,2026,34,44,Auteco,DISMERCA SAS LA 33 NORTE,94,Yeferson Molina Román
-b618aacb-034a-4317-82c1-71614c5ead9d,2026,34,110,Auteco,INVERSIONES ELECTROMOTOS SAS ITAGUI,176,Jesús Ospina
-53b67a0a-f342-4dd7-a038-e28782bddc46,2026,34,73,Auteco,DISMERCA SA MACROCENTRO,402,Alexander Gallego
-90f651ef-415e-4c55-aa09-cd931226ff43,2026,34,51,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,420,Wilmer Alexander
-4a38c02b-0a55-4d98-aa63-29b4e0090e79,2026,34,85,Auteco,INVERSIONES ELECTROMOTOS SAS ITAGUI,187,Natalia Muñoz sanmiguel
-d414eb5f-2ed7-419b-ad7d-4fc38917a9a2,2026,33,33,Auteco,VIÃ‘AS MONTES EFRAIN,113,Efraín Viñas
-7b60bc3f-779b-4433-be41-d671d2f69ad0,2026,33,33,Auteco,VIÃ‘AS MONTES EFRAIN,134,Luisa Cecilia
-ce46d2fd-d3c7-4ae9-9dda-0ed1f57a261e,2026,33,72,Auteco,DISMERCA SA MACROCENTRO,205,alexander alvarez
-0456bab9-e450-44ff-b542-7c223743e558,2026,33,109,Auteco,INVERSIONES ELECTROMOTOS SAS ITAGUI,141,Estefany Betancur
-6d71be1d-60a9-4322-a5b1-5d3d492b3e84,2026,32,65,Auteco,DISMERCA SA MACROCENTRO,310,Fredy Escobar
-83768e44-5cb5-475f-9964-82661c09613e,2026,32,45,Auteco,MUNDIAL DE REPUESTOS DE MOTOS SAS,113,Camilo Zapata
-7fbb1e78-5bee-4d03-94a4-2d4319cd311d,2026,32,37,Auteco,MUNDIAL DE REPUESTOS DE MOTOS SAS,151,Yeison Saldarriaga
-5afafd9e-3935-4f7a-a1cd-91dbe10e706e,2026,32,56,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,279,Brayan Carmona Castañeda
-0feee672-1186-4a63-ab6f-23080b540a90,2026,31,45,Auteco,MONTERREY MOTOS SAS LA 38,88,Romario Almendrales Rodríguez
-c9d0bafe-1a62-4f52-b5c4-29c38f960b25,2026,31,36,Auteco,DISMERCA SA MACROCENTRO,72,Luis Mario Ramos Álvarez
-4002675c-77d0-47ec-8f70-5b3b2788ff2b,2026,31,49,Auteco,MONTERREY MOTOS SAS LA 38,364,SANTIAGO ROJAS
-f0cca1bb-fe85-428d-a952-41d8466f0705,2026,31,44,Auteco,DISMERCA SA MACROCENTRO,95,Edward Correa
-d88c6ca3-6ab8-4d52-b72e-cbf6c7cafe59,2026,30,48,Auteco,DISMERCA SA MACROCENTRO,358,Yordan stiven Arrieta castaño
-6b92ffa3-bdfc-4173-a1ba-f3d3c794de1c,2026,29,43,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,78,Julian Ramirez
-af96c278-c9cb-43e9-b727-ec6175858e3d,2026,29,41,Auteco,DISMERCA SAS LA 33 NORTE,118,Oswaldo jose barboza blanco
-895be32c-901e-455b-a69c-5a184425121f,2026,29,40,Auteco,SERVIMOTOS EXPRESS SAS,43,Ayda Viviana Gomez Guerrero
-16d1d4c6-7b22-4583-8410-37cd96ed0553,2026,28,47,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,121,Alejandro Menjura Fernández
-92ffe903-00a0-4be5-9d40-15fd8ac3451c,2026,28,105,Auteco,CASTRO PEREZ GILBERTO,320,Cristian David Rueda Perez
-241251a1-579b-4579-846c-6809c1276e80,2026,28,36,Auteco,TÉCNICOS,95,Katerine Alvarez
-bf9944b5-d7fb-4e5f-aa0d-12ff9d4b8afb,2026,28,48,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,98,Anderson Bastidas
-1636d55c-10bd-47b0-9209-71d44e1cecbe,2026,28,47,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,187,Yeison Pulgarin
-898fa99a-4367-4ee0-a5ba-aaeb21ed62dd,2026,28,49,Auteco,TÉCNICOS,89,Jose Manuel Ramirez cabrera
-6fde7ea2-e8ac-48e8-813f-711b237cb7c6,2026,28,75,Auteco,DISMERCA SA MACROCENTRO,61,John esteban Villa torres
-bfabab9c-531f-4d8b-9631-3f090c536d3d,2026,28,39,Auteco,CASTRO PEREZ GILBERTO,74,Gilberto Castro Pérez
-98927e7b-7ed9-4c35-b307-f83791ab37da,2026,28,57,Auteco,MONTERREY MOTOS SAS LA 38,275,Andrés Felipe Gómez Ramos
-1b586da7-5058-43cb-bc2a-17d709d1d300,2026,27,49,Auteco,TÉCNICOS,116,Yeimy Andrea Carvajal alban
-152ecddc-70c5-48bb-96d8-d9a0554a34c1,2026,27,63,Auteco,CASTRO PEREZ GILBERTO,63,Katherine Mayorga
-2e5f86ce-3a97-499b-ac9b-08ca059f189a,2026,27,52,Auteco,OTRO,85,Johan Arevalo
-32c2d1a3-11f8-49f7-bbc5-4bd88be2bf94,2026,27,61,Auteco,TÉCNICOS,130,José Aníbal Obando
-dd238ed0-a78b-459e-89b2-f3efd5951071,2026,27,35,Auteco,TÉCNICOS,100,Liliana Lopez
-d9bde426-c94d-47a1-b484-3ca19fc00764,2026,26,37,Auteco,MUNDIMOTOS ENGATIVÁ,82,Anderson Cruz
-8ddcbdaa-068d-4ff0-9575-89ffcec0875e,2026,26,44,Auteco,OTRO,41,Omar Castillo
-29cd74a3-8212-4e71-a4eb-1422f0b4dc5f,2026,26,74,Auteco,CASTRO PEREZ GILBERTO,116,Samir Hernandez
-a4e26bd5-3562-4e22-bcf6-a327e6fbe6b6,2026,26,45,Auteco,OTRO,81,María José Rodríguez
-0974e1e5-0451-446e-bde8-b65770b54e16,2026,26,41,Auteco,MOTO KEYMAN SAS,57,Jose Arago
-ab7cd1d9-5f44-4965-bb6e-61d89a9169ab,2026,26,53,Auteco,TÉCNICOS,111,Miguel Angel Martínez Mosquera
-e44b4d69-4763-43e1-93c5-45b69d4d1f1d,2026,26,70,Auteco,TÉCNICOS,147,Michael Alexander Vaca Cardozozo
-952cd600-0f6b-40c1-9101-ccc425964396,2026,26,33,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,81,kevin segura
-098e1753-3c9f-42ef-a0c7-fb38c80cbb50,2026,26,104,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,120,Daniel Marin
-fbaa84e9-de68-44dc-912a-6a6e1510abb0,2026,25,55,Auteco,TÉCNICOS,60,David stiven Barreiro Rodríguez
-4396ccf5-5919-4091-99d4-a6d8633efc96,2026,25,40,Auteco,MUNDIMOTOS ENGATIVÁ,79,Kevin Ferney Hernández Ortiz
-4e7e5dc6-8865-4f0e-b2b4-3bfea5d54670,2026,25,32,Auteco,TÉCNICOS,69,Julio César Gómez Valencia
-07b1adc9-1395-4465-81f8-49900c591777,2026,25,35,Auteco,OTRO,81,Camilo Muñoz
-70467b43-8074-4495-a88a-dd77bdf2e2c8,2026,25,58,Auteco,TÉCNICOS,46,Laura marcela Gomez salinas
-811960be-1bab-4faa-b974-63b400d4d950,2026,25,54,Auteco,OTRO,47,Gladys Arevalo
-41066496-56e4-4bdc-8081-2a358f81ec37,2026,25,72,Auteco,OTRO,109,Elizabet Soler
-c6d8f002-2d6a-4c76-9524-ebb075554356,2026,25,61,Auteco,OTRO,100,Michael Galindo
-5b023538-af0a-4c35-84af-c10635c84cd0,2026,24,45,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,92,Yoel Diaz
-a3a284e8-e10b-4451-9b0e-cd6e597672f7,2026,24,34,Auteco,OTRO,64,Luis alberto Oyuela zarate
-9eead78a-c786-4886-9142-f0370fb06763,2026,24,34,Auteco,ORDOÑEZ JIMENEZ SEBASTIAN FELIPE,34,Sebastian Ordoñez
-218d529c-c393-430c-8dd1-b2f1f005e1c7,2026,24,61,Auteco,MUNDIMOTOS ENGATIVÁ,62,Luis Andrey Tibaquira Garzon
-28f763b2-3339-46ab-a782-0ca747ed0072,2026,23,79,Auteco,CASTRO PEREZ GILBERTO,65,Felipe Castro Serna
-8f0703ef-9146-4c3c-b600-c0484bb87f7f,2026,23,34,Auteco,OTRO,36,Sergio Armero
-06f8d0d1-7315-4959-aef7-8aa0fb070dbe,2026,23,51,Auteco,TÉCNICOS,27,Juan Calderon
-eb676f3f-f32f-4055-887c-42804d61fd1b,2026,23,59,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,92,Keren Silva diaz
-19c38d07-4e92-48d1-b166-5991a61ae32c,2026,23,43,Auteco,MUNDIMOTOS PRIMERA DE MAY,35,Diego Vergel
-f0d8de20-3238-44b4-8ff4-97ad61d6cfca,2026,22,34,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,48,Cristian Andrés Cordoba bastidas
-247ec350-9eaa-4a00-aa92-c23f2ed8bc91,2026,22,32,Auteco,OTRO,45,Brayan Paez
-7799fc5d-0784-4324-bce4-8f5dec8a5a80,2026,22,32,Auteco,OTRO,31,Leidi tatiana Muñeton villarraga
-dc717ba4-5a41-479c-a350-515ee26c7700,2026,21,31,Auteco,PLAZA MORALES MAYRA ALEJANDRA,41,distrirepuestos plaza
-febc7d0c-3c8a-46ef-962f-774063ce1d83,2026,21,47,Auteco,TÉCNICOS,72,Sebastian Chacon
-fdb4465f-0bcf-47fb-abdd-f50f9841dbac,2026,21,34,Auteco,OTRO,34,Yuliana Ayala
-4c3002a5-2c6d-47a1-8e2c-cf664c353ef1,2026,21,39,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,69,Andrés  camilo Samboni miranda
-bab73a22-b7eb-465d-96fd-4e36602380c9,2026,20,31,Auteco,OTRO,28,Esteban Junca bohorquez
-47cb62c6-f883-4163-8034-145494f4315c,2026,20,33,Auteco,TÉCNICOS,68,Carol Ante
-8bb26f80-cc21-4dec-b756-513a28b59ed2,2026,20,36,Auteco,OTRO,72,Juan Camilo Díaz Vega
-87c42ba6-97bb-4d0d-9fcb-5ca0f00dc96d,2026,19,52,Auteco,CASTRO PEREZ GILBERTO,72,Sara Castro Serna
-7fcc94ad-96ff-416d-946f-bcbdffc3f114,2026,18,92,Auteco,CASTRO PEREZ GILBERTO,32,Antonio Piñero
-71da77c5-4f1d-4a03-9623-19cf7c7c1834,2026,17,35,Auteco,TÉCNICOS,21,Danilo González Calderón
-1bc718f3-641a-426b-b049-9082c6509565,2026,17,64,Auteco,OTRO,43,Karen Alvarez
-f1b38283-a645-4487-be53-95607696b61c,2026,17,57,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,21,Isai Villa criollo
-2d6e965c-a3bc-4a9b-8a73-92b54e06dcef,2026,17,35,Auteco,OTRO,33,Sebastian Mestra
-22b71df9-4d2b-4e72-9383-d3b0cd5482e5,2026,16,76,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,54,Maicol Granda
-bd7d48a6-c315-47c7-b49f-ed6ce3e1997d,2026,16,65,Auteco,TÉCNICOS,116,José Miguel Jaramillo López
+Player id,Rol,Escaneos,Juegos sept,Puntaje max sept,Tickets actuales,Player
+d80ab193-d20a-4cb6-93b6-33e2fba96773,Asesores,86,35,71,252,Valentina Ramos ECHAVARRIA
+6d5ff324-134a-45c9-ae30-6b984b30bdc5,Asesores,83,12,33,46,Jorge Arturo Bolaños nicoliche
+90f651ef-415e-4c55-aa09-cd931226ff43,Asesores,69,34,51,420,Wilmer Alexander
+9aaf695a-32c7-4ac5-88c0-bb31b56ebbde,Asesores,68,35,35,144,andres giraldo
+be09b5cc-5265-4e05-8b40-fd358ca6fb19,Asesores,59,34,115,213,John Andrey Galvis arcila
+cb00d09d-ab2e-465f-a344-3b5f14b4a832,Asesores,55,34,86,101,Michael Zapata
+e44b4d69-4763-43e1-93c5-45b69d4d1f1d,Asesores,47,26,70,147,Michael Alexander Vaca Cardozozo
+814ceef1-55d9-4d5b-aa80-c0d78a7013f2,Asesores,37,35,56,103,Juan Manuel Soto Castañeda
+1fe19f52-bbd5-4ad0-9eda-941bf7c01df7,Asesores,37,34,44,94,Yeferson Molina Román
+1deda485-35c1-4fd6-a15a-789b955838ea,Asesores,35,34,79,232,Brayan Stiven Urrego patiño
+1636d55c-10bd-47b0-9209-71d44e1cecbe,Asesores,33,28,47,189,Yeison Pulgarin
+051b50e5-0152-4cf9-ad3f-f2c55d05a4f5,Asesores,33,25,28,70,Diana Marcela López
+d168170c-3bea-440f-932a-d2f00c31e7a1,Asesores,30,21,25,185,Sebastian Flórez Lopez
+d357ba74-4141-4cc5-9ad3-21a1042e6a92,Asesores,30,35,26,111,Mario Molina
+32c2d1a3-11f8-49f7-bbc5-4bd88be2bf94,Asesores,29,27,61,130,José Aníbal Obando
+f22ebdc9-8f6e-4700-8d29-115c6dcc3f18,Asesores,28,35,70,296,Luis Enrique Rivero Guevara
+dd238ed0-a78b-459e-89b2-f3efd5951071,Asesores,28,27,35,100,Liliana Lopez
+4002675c-77d0-47ec-8f70-5b3b2788ff2b,Asesores,27,31,49,364,SANTIAGO ROJAS
+9cfd31c5-9b1b-43ea-b3ab-767fa8fce27e,Asesores,27,35,91,91,Diego Alejandro Betancur ramirez
+4a38c02b-0a55-4d98-aa63-29b4e0090e79,Asesores,26,34,85,187,Natalia Muñoz sanmiguel
+4f694444-973c-4da9-9207-efd54a0c5d48,Asesores,26,31,27,111,Brayan Mauricio Rios Muñoz
+a0928d14-4455-4036-9388-bd9bf1de0ff1,Asesores,25,37,105,292,Juan Pablo restrepo
+07b1adc9-1395-4465-81f8-49900c591777,Asesores,24,25,35,81,Camilo Muñoz
+bfabab9c-531f-4d8b-9631-3f090c536d3d,Asesores,23,28,39,74,Gilberto Castro Pérez
+70467b43-8074-4495-a88a-dd77bdf2e2c8,Asesores,23,25,58,46,Laura marcela Gomez salinas
+662e1bb8-1a05-4e78-8e5a-9b2057768efd,Asesores,22,35,48,246,Daniel A Vidal
+7eb01217-e4d0-464b-9ce2-3ce6a31e49bc,Asesores,22,34,50,243,Karen Dahiana Marulanda García
+41066496-56e4-4bdc-8081-2a358f81ec37,Asesores,21,25,72,109,Elizabet Soler
+918e1346-dd6b-4ae8-9e13-619ce5c24a91,Asesores,21,36,33,125,Christian Camilo Alvarez Palacio
+d88c6ca3-6ab8-4d52-b72e-cbf6c7cafe59,Asesores,21,30,48,358,Yordan stiven Arrieta castaño
+d3ad8742-4899-4a96-be36-933752773d10,Técnicos,58,34,72,193,Sebastián Muñoz Álvarez
+0b660fdc-03d8-4762-bf18-93deda91a793,Técnicos,35,29,19,33,Jonni Valdes
+898fa99a-4367-4ee0-a5ba-aaeb21ed62dd,Técnicos,26,28,49,89,Jose Manuel Ramirez cabrera
+bd7d48a6-c315-47c7-b49f-ed6ce3e1997d,Técnicos,25,16,65,119,José Miguel Jaramillo López
+6b92ffa3-bdfc-4173-a1ba-f3d3c794de1c,Técnicos,24,29,43,78,Julian Ramirez
+fbaa84e9-de68-44dc-912a-6a6e1510abb0,Técnicos,23,25,55,62,David stiven Barreiro Rodríguez
+6fde7ea2-e8ac-48e8-813f-711b237cb7c6,Técnicos,18,28,75,61,John esteban Villa torres
+febc7d0c-3c8a-46ef-962f-774063ce1d83,Técnicos,15,21,47,72,Sebastian Chacon
+f0cca1bb-fe85-428d-a952-41d8466f0705,Técnicos,12,31,44,95,Edward Correa
+098e1753-3c9f-42ef-a0c7-fb38c80cbb50,Técnicos,11,26,104,120,Daniel Marin
+0feee672-1186-4a63-ab6f-23080b540a90,Técnicos,11,31,45,88,Romario Almendrales Rodríguez

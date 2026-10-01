@@ -1,216 +1,106 @@
-Player id,Year,Games played,Max score,Empresa,Location,Tickets actuales,Player
-8e767216-270b-4d13-980d-dfbbcc461b28,"2,026",43,70,Niku,Cartagena,41,Yosselin Caicedo cuesta
-735ce9ee-ec6a-4865-a502-056861f95ae9,"2,026",38,40,Mimos,HOSPITAL,85,Daniela Polo
-b6e1b26a-33c2-4533-a02d-2df9c9a20afe,"2,026",37,51,Lavocadería,Laureles,775,Mauricio Maya Agudelo
-3dfe1c1d-e5a0-486b-847b-bf557746b5c2,"2,026",36,32,Mimos,SANTA FE,138,Yulibeth CHOPERENA
-02d18896-2c4b-4264-b45d-961862e9b695,"2,026",36,48,Mimos,HOSPITAL,82,Britney Guerrero
-a5803634-8406-448f-b97f-8dfda48086eb,"2,026",36,64,Smash Avocadería,Manila,181,Sindy Stephany Sanchez Uribe
-b1b95e4f-e9fc-4cef-ba88-348896c0e524,"2,026",36,56,Smash Avocadería,Manila,278,María Angélica Caicedo duque
-a0928d14-4455-4036-9388-bd9bf1de0ff1,"2,026",36,105,Auteco,INVERSIONES ELECTROMOTOS SAS ITAGUI,274,Juan Pablo restrepo
-c89a3ee1-a762-4d5a-92b2-12147b4c3be3,"2,026",36,65,Smash Avocadería,Manila,128,Kelly Yuliana Tobon pulgarin
-d033edd2-3074-4bea-8fcb-7d786886540f,"2,026",35,260,Lavocadería,Laureles,"1,839",Daniel Alvarez hernandez
-8cc71741-0d3c-4e35-aa1f-fa85e9ae034f,"2,026",35,57,Lavocadería,Manila,850,Keyla Beltran
-a1d60fa3-32e4-4641-bfd2-fee7bd8ebeac,"2,026",35,146,Lavocadería,San Lucas,453,Adriannis Cervantes
-88c13002-32aa-4d99-b33f-04c8edcd648f,"2,026",35,466,Mimos,VIVA CAUCASIA,126,Santiago Mena
-2c67eac8-32cb-40bb-87fd-e98bfe0e04b0,"2,026",35,48,Lavocadería,Manila,276,Vanessa Velez
-1e574c86-ba59-49b2-a43e-1e3f0a0db674,"2,026",35,36,Mimos,CITY PLAZA,74,Marielis Michell Villa
-47470bb3-1246-4325-95c8-bf3f39b5b98a,"2,026",35,83,Lavocadería,Laureles,235,Sebastian Velez
-ada66d16-e769-4ab9-afd6-65facc0cea91,"2,026",35,203,Lavocadería,Laureles,"1,001",Juliana Gil
-101856e3-afe0-427b-bb80-18e77f712e6c,"2,026",35,71,Mimos,VIVA CAUCASIA,48,Valery andrea Patiño payares
-5ba28f89-5cba-4fc1-905e-fef0b7e1aaae,"2,026",34,308,Mimos,VIVA CAUCASIA,85,Mario Oquendo
-763e8b67-e0a1-4c89-baa7-2e7cfb632444,"2,026",34,41,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,164,Rene gustavo Vargas castaño
-0186bbff-4f1b-4111-935a-33bb3629ef44,"2,026",34,132,Lavocadería,San Lucas,256,Jeanpierre FERRER Mosquera
-a1b5712e-a975-4ab2-81c8-a90177e2d457,"2,026",34,39,Mimos,VEGAS PLAZA,114,Jesus David Canabal
-9cfd31c5-9b1b-43ea-b3ab-767fa8fce27e,"2,026",34,91,Auteco,MUNDIAL DE REPUESTOS DE MOTOS SAS,70,Diego Alejandro Betancur ramirez
-10365189-0487-4e37-a94f-0dabe82f2ee3,"2,026",34,75,Smash Avocadería,Laureles,262,Karol Rondón
-f22ebdc9-8f6e-4700-8d29-115c6dcc3f18,"2,026",34,70,Auteco,DISMERCA SAS LA 33 NORTE,198,Luis Enrique Rivero Guevara
-4303fd7e-f6dd-434e-a1f9-bf0c41b8bf35,"2,026",34,36,General Café,Medellín,393,Alejandra Amaya Torres
-18fc0fd3-1cf6-4753-a471-e1d4b5cca733,"2,026",34,54,Smash Avocadería,Laureles,615,Giseth Yohana Rosales
-ae2150ec-f2bc-49eb-b347-d014bf48d497,"2,026",34,51,Smash Avocadería,Laureles,311,Sonia Garcia
-25811865-cc45-414b-aa1e-f734c0a0ccc8,"2,026",34,39,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,77,Santiago Vélez Acevedo
-f5d47c2b-1b5f-4826-8db1-acd239264e0f,"2,026",34,33,Auteco,DISMERCA SA MACROCENTRO,240,Cristian camilo Giraldo Sepulveda
-662e1bb8-1a05-4e78-8e5a-9b2057768efd,"2,026",34,48,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,228,Daniel A Vidal
-30c163f3-4bc3-4a27-8065-e63b6e7622fd,"2,026",34,34,Lavocadería,Manila,251,Rosvely Gonzalez
-2bc16ef9-10bd-4e9f-82db-15f274987153,"2,026",34,55,Smash Avocadería,Poblado,310,Liliana Sanchez
-ce173dea-adeb-4a77-a407-adcfd2a53959,"2,026",34,47,Auteco,DISMERCA SA MACROCENTRO,229,Marlon Yesid Tamayo Velez
-f7dcb8ae-b618-4979-8376-ca838bd33f5b,"2,026",34,31,Mimos,FABRICATO 2,20,Dayana Salas nurillo
-fe371365-3469-485f-9b31-6f4af62792a1,"2,026",34,51,Smash Avocadería,Poblado,125,Liliana del Carmen Chanagá Barrera
-e01ea8c7-196a-4cf3-b1ef-a84dd80716d9,"2,026",33,85,Smash Avocadería,Laureles,432,Isabel Cristina Arrieta Bracamonte
-7f42e200-c15b-4b91-a0a1-08734d59548e,"2,026",33,59,Smash Avocadería,Envigado,550,Erika Prada
-d80ab193-d20a-4cb6-93b6-33e2fba96773,"2,026",33,71,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,235,Valentina Ramos ECHAVARRIA
-4a38c02b-0a55-4d98-aa63-29b4e0090e79,"2,026",33,73,Auteco,INVERSIONES ELECTROMOTOS SAS ITAGUI,168,Natalia Muñoz sanmiguel
-05691069-755c-4646-bcc4-52dad7e03e15,"2,026",33,33,Mimos,FLORIDA 2,78,Sule ZPalaciosvalencia
-87b87424-9857-470a-ae84-6d559db49b23,"2,026",33,120,Lavocadería,Laureles,842,Carolina Macias Cuassi
-53b67a0a-f342-4dd7-a038-e28782bddc46,"2,026",33,73,Auteco,DISMERCA SA MACROCENTRO,351,Alexander Gallego
-be09b5cc-5265-4e05-8b40-fd358ca6fb19,"2,026",33,115,Auteco,DISMERCA SA MACROCENTRO,196,John Andrey Galvis arcila
-60eb3976-77c3-4be0-9f3e-5b6a6db4ac5c,"2,026",33,39,Auteco,ALVAREZ MOLERO NELSON YESID,201,Nelson ALVAREZ
-6e58fe70-d290-48ff-bae6-9be7339e3f7d,"2,026",33,117,Smash Avocadería,Envigado,653,Aída Fernanda Larios Daza
-95875a87-6b52-41a0-896c-20163fb8877a,"2,026",33,34,Auteco,DISMERCA SA MACROCENTRO,124,Luis miguel Cueto
-4143e50d-1a6b-419b-bd5b-1933115776fd,"2,026",33,53,Auteco,DISMERCA SA MACROCENTRO,72,JUAN PABLO MEJIA ANGEL
-d3ad8742-4899-4a96-be36-933752773d10,"2,026",33,72,Auteco,DISMERCA SA MACROCENTRO,176,Sebastián Muñoz Álvarez
-3c86eae5-9649-4b71-be23-1a64f07cf567,"2,026",33,69,Smash Avocadería,Poblado,166,Maroli Beltran
-1deda485-35c1-4fd6-a15a-789b955838ea,"2,026",33,79,Auteco,DISMERCA SA MACROCENTRO,194,Brayan Stiven Urrego patiño
-43d47186-4729-4f76-9f76-a4547ba5ddde,"2,026",33,47,Smash Avocadería,Envigado,235,Luisa Hernadez
-918e1346-dd6b-4ae8-9e13-619ce5c24a91,"2,026",33,33,Auteco,MUNDIAL DE REPUESTOS LA PAZ SAS,110,Christian Camilo Alvarez Palacio
-eb8e4e7e-8fe6-474a-85a0-baac940aea6f,"2,026",33,79,Lavocadería,Contenedores,528,Estefany Alvarez
-2959831d-8703-4942-8c3c-53d8192c038a,"2,026",33,50,Mimos,VIVA VILLAVICENCIO,45,Iveth Tuay
-7eb01217-e4d0-464b-9ce2-3ce6a31e49bc,"2,026",33,44,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,226,Karen Dahiana Marulanda García
-40698752-e0c0-4ec6-8085-69f7d0979eb9,"2,026",33,39,Smash Avocadería,Poblado,131,NilkA Montilla
-90f651ef-415e-4c55-aa09-cd931226ff43,"2,026",33,51,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,402,Wilmer Alexander
-b618aacb-034a-4317-82c1-71614c5ead9d,"2,026",33,110,Auteco,INVERSIONES ELECTROMOTOS SAS ITAGUI,159,Jesús Ospina
-85bd0106-ed5c-49ce-889b-5cb28ce7112d,"2,026",32,35,Mimos,PLAZA DEL RIO,57,Yasleidy alexandra Meléndez caicedo
-174c4c23-a690-43f1-ab39-5d0ae43b6250,"2,026",32,53,Maximo,Medellín,11,Lizardo Cossio
-0784d5a6-3c51-4a38-be9e-35740fa03be8,"2,026",32,109,Smash Avocadería,Laureles,253,Karen Ruendes
-ca58589c-8c67-4f75-89be-f9f0fa41d4f9,"2,026",32,117,Maximo,Medellín,119,Sonia Lizeth Forero león
-4e5a87d3-3979-48a7-a7eb-226557e31332,"2,026",32,37,Mimos,VIVA WAJIRA,53,Wiston Vasquez
-0456bab9-e450-44ff-b542-7c223743e558,"2,026",32,77,Auteco,INVERSIONES ELECTROMOTOS SAS ITAGUI,122,Estefany Betancur
-9aaf695a-32c7-4ac5-88c0-bb31b56ebbde,"2,026",32,34,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,128,andres giraldo
-87414dff-898d-4cef-b2f3-b9ac342cddb5,"2,026",31,44,Smash Avocadería,Envigado,174,Kelly Velásquez
-cb00d09d-ab2e-465f-a344-3b5f14b4a832,"2,026",31,86,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,82,Michael Zapata
-b35b086c-7f5d-4585-8858-9532c11c3f94,"2,026",31,34,Auteco,DISMERCA SA MACROCENTRO,172,Dylan Javier Luna Cardozo
-a3b221bb-103b-491a-883e-21b5b46add00,"2,026",31,47,Auteco,DISMERCA SA MACROCENTRO,113,Mateo Naranjo marquez
-1224a2c8-f3f6-4515-a8b3-1ef49c73c15a,"2,026",31,35,Auteco,DISMERCA SA MACROCENTRO,174,Emanuel Gutiérrez Alzate
-4e783f2a-0d88-4eca-98cb-c53443cfd73a,"2,026",31,34,General Café,Medellín,27,Luz Mariana Ruiz Rendón
-6d71be1d-60a9-4322-a5b1-5d3d492b3e84,"2,026",31,60,Auteco,DISMERCA SA MACROCENTRO,297,Fredy Escobar
-4e4ae07d-02bb-4f0f-986c-12aa1dcec026,"2,026",31,40,Auteco,MUNDIAL DE REPUESTOS DE MOTOS SAS,120,Cristian Camilo Cristian Romero
-1fe19f52-bbd5-4ad0-9eda-941bf7c01df7,"2,026",31,44,Auteco,DISMERCA SAS LA 33 NORTE,51,Yeferson Molina Román
-ffc2d3c8-dd1d-4323-8fb7-89c68535886a,"2,026",31,79,Lavocadería,Contenedores,281,Mariana Marin Castaño
-7b60bc3f-779b-4433-be41-d671d2f69ad0,"2,026",31,32,Auteco,VIÃ‘AS MONTES EFRAIN,119,Luisa Cecilia
-05691069-755c-4646-bcc4-52dad7e03e15,"2,025",30,40,Mimos,FLORIDA 2,78,Sule ZPalaciosvalencia
-c9d0bafe-1a62-4f52-b5c4-29c38f960b25,"2,026",30,36,Auteco,DISMERCA SA MACROCENTRO,58,Luis Mario Ramos Álvarez
-cdd18796-c82c-4f71-9387-d69eec770fd0,"2,026",30,39,Maximo,Medellín,96,Sara Melisa Parra cano
-13ef23bf-f1d9-40c1-9d37-441b21f8ca92,"2,026",30,40,Mimos,GUATAPURI,20,Yuribeth Rangel
-a1b5712e-a975-4ab2-81c8-a90177e2d457,"2,025",30,40,Mimos,VEGAS PLAZA,114,Jesus David Canabal
-814ceef1-55d9-4d5b-aa80-c0d78a7013f2,"2,026",30,52,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,86,Juan Manuel Soto Castañeda
-d414eb5f-2ed7-419b-ad7d-4fc38917a9a2,"2,026",30,33,Auteco,VIÃ‘AS MONTES EFRAIN,98,Efraín Viñas
-101856e3-afe0-427b-bb80-18e77f712e6c,"2,025",30,52,Mimos,VIVA CAUCASIA,48,Valery andrea Patiño payares
-c9906ee8-feba-4b24-80a5-867be702eb6c,"2,026",30,37,Auteco,ALVAREZ MOLERO NELSON YESID,91,Rosiris Padilla
-2cab1e26-ed7a-42fc-9a60-0edf0244032b,"2,026",30,41,Auteco,MONTERREY MOTOS SAS LA 38,91,Dilmer Freyle Andrade
-ce46d2fd-d3c7-4ae9-9dda-0ed1f57a261e,"2,026",30,72,Auteco,DISMERCA SA MACROCENTRO,146,alexander alvarez
-86a45a7e-c34f-4bde-bdca-d66727d9a012,"2,026",30,74,Lavocadería,Floresta,769,Mónica Hinestroza Muñoz
-0bf16d74-d2fc-4e90-8647-223d4b5ca041,"2,026",30,65,Maximo,Medellín,114,Yojana Gerardino
-6ddf9b1b-7659-4c0c-ae66-e0c241602ba5,"2,026",30,49,ONI Nikkei,ONI Nikkei,83,Samuel Cordoba
-829a3f72-1fea-4857-9428-a2cbc3b88c9e,"2,026",29,49,Smash Avocadería,Manila,197,Aliany Gutierrez
-d29b5057-d1a3-40fb-b97a-da7830c50e0a,"2,025",29,60,Galilei,Engineering,314,Andy Mota
-649de220-d93a-45b9-b9e2-f0e68d17a55b,"2,026",29,38,,,16,Luisa Alarcon
-af96c278-c9cb-43e9-b727-ec6175858e3d,"2,026",29,41,Auteco,DISMERCA SAS LA 33 NORTE,103,Oswaldo jose barboza blanco
-88c13002-32aa-4d99-b33f-04c8edcd648f,"2,025",29,97,Mimos,VIVA CAUCASIA,126,Santiago Mena
-d88c6ca3-6ab8-4d52-b72e-cbf6c7cafe59,"2,026",29,48,Auteco,DISMERCA SA MACROCENTRO,345,Yordan stiven Arrieta castaño
-980b16c2-263b-42f5-80eb-075493bae5dc,"2,025",29,108,Mimos,VIVA CAUCASIA,,Sara Herrera
-7dcbf6b7-23ee-44cf-84fd-a016216ecadf,"2,026",29,51,Maximo,Medellín,80,King Rojas
-7fbb1e78-5bee-4d03-94a4-2d4319cd311d,"2,026",29,37,Auteco,MUNDIAL DE REPUESTOS DE MOTOS SAS,129,Yeison Saldarriaga
-5afafd9e-3935-4f7a-a1cd-91dbe10e706e,"2,026",29,44,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,257,Brayan Carmona Castañeda
-895be32c-901e-455b-a69c-5a184425121f,"2,026",28,40,Auteco,SERVIMOTOS EXPRESS SAS,31,Ayda Viviana Gomez Guerrero
-4002675c-77d0-47ec-8f70-5b3b2788ff2b,"2,026",28,49,Auteco,MONTERREY MOTOS SAS LA 38,144,SANTIAGO ROJAS
-3dfe1c1d-e5a0-486b-847b-bf557746b5c2,"2,025",28,36,Mimos,SANTA FE,138,Yulibeth CHOPERENA
-a9d7665c-b4ba-43ae-97e6-f863933af96d,"2,026",28,42,Smash Avocadería,Envigado,408,Marisabel Hernandez
-2665d806-012e-473d-9b65-c6cf982c53e9,"2,026",28,34,Mimos,JARDIN,69,Luisa Vergara
-1636d55c-10bd-47b0-9209-71d44e1cecbe,"2,026",28,47,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,172,Yeison Pulgarin
-98927e7b-7ed9-4c35-b307-f83791ab37da,"2,026",28,57,Auteco,MONTERREY MOTOS SAS LA 38,262,Andrés Felipe Gómez Ramos
-f5664461-6ccd-4db2-87ba-4c42a46f891b,"2,026",28,40,Niku,Cartagena,50,Christian Pomares
-0feee672-1186-4a63-ab6f-23080b540a90,"2,026",28,45,Auteco,MONTERREY MOTOS SAS LA 38,72,Romario Almendrales Rodríguez
-6b92ffa3-bdfc-4173-a1ba-f3d3c794de1c,"2,026",28,43,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,62,Julian Ramirez
-f069384a-7dfa-40ef-bfb6-6aa845dbed49,"2,026",28,119,Niku,Cartagena,179,Ramiro Jiménez Argumedo
-f0cca1bb-fe85-428d-a952-41d8466f0705,"2,026",28,44,Auteco,DISMERCA SA MACROCENTRO,79,Edward Correa
-6bfcbd4e-1b8c-4479-98f4-74313b3531c7,"2,025",28,57,Galilei,Engineering,4,Sebastian Motavita Medellin
-83768e44-5cb5-475f-9964-82661c09613e,"2,026",28,38,Auteco,MUNDIAL DE REPUESTOS DE MOTOS SAS,71,Camilo Zapata
-92ffe903-00a0-4be5-9d40-15fd8ac3451c,"2,026",27,105,Auteco,CASTRO PEREZ GILBERTO,105,Cristian David Rueda Perez
-593ab4ca-a496-4037-bc29-73b68a4f853f,"2,025",27,79,Galilei,Product,210,Andrés Yáñez Chavarriaga
-4ed4eb9e-fe8e-441a-abb7-8eecbece8107,"2,026",27,49,Smash Avocadería,Manila,116,Rosnagel Zea
-bfabab9c-531f-4d8b-9631-3f090c536d3d,"2,026",27,39,Auteco,CASTRO PEREZ GILBERTO,59,Gilberto Castro Pérez
-6fde7ea2-e8ac-48e8-813f-711b237cb7c6,"2,026",27,75,Auteco,DISMERCA SA MACROCENTRO,43,John esteban Villa torres
-8262c586-daa9-44cc-8a18-ba26e9f087d5,"2,025",27,96,Mimos,VIVA CAUCASIA,,Juliana Arias roche
-1cac9040-65ce-471b-a1b4-449897e60755,"2,025",27,95,Galilei,Sales,8,David Quiñonez
-985affbc-c52b-4fd6-ac6b-625cc5a5b752,"2,026",27,93,ONI Nikkei,ONI Nikkei,105,Cristal Rojas
-48c73d51-fe12-4b7c-8df7-6dca3c8b0ef8,"2,026",27,59,Niku,Cartagena,45,Miguel Berdugo
-1e0b1e06-3fcc-45b3-a739-0d2d30a163e8,"2,026",27,50,Maximo,Medellín,53,Daniel Pacheco
-dd4cf4bb-b760-4a6b-98e0-1294146e1c3c,"2,026",27,57,Smash Avocadería,Manila,25,María Villamediana
-599be1d0-5c0a-487f-b1ab-e32e4913d5a7,"2,026",27,59,Lavocadería,Contenedores,46,María José Cano
-898fa99a-4367-4ee0-a5ba-aaeb21ed62dd,"2,026",27,49,Auteco,TÉCNICOS,75,Jose Manuel Ramirez cabrera
-32c2d1a3-11f8-49f7-bbc5-4bd88be2bf94,"2,026",27,61,Auteco,TÉCNICOS,115,José Aníbal Obando
-b9923302-3b15-4a5d-90ec-5328f36b82e6,"2,026",27,37,La Causa,Llanogrande,150,César Arango Carmona
-860ca4ca-f2da-418c-b877-f0610aa92cd2,"2,026",26,52,Niku,Cartagena,68,Lina Maria Avila manga
-152ecddc-70c5-48bb-96d8-d9a0554a34c1,"2,026",26,63,Auteco,CASTRO PEREZ GILBERTO,49,Katherine Mayorga
-7f40c3c9-e37c-40ce-adc8-3328012fc762,"2,026",26,49,Lavocadería,Contenedores,214,José Zavala
-2e5f86ce-3a97-499b-ac9b-08ca059f189a,"2,026",26,52,Auteco,OTRO,68,Johan Arevalo
-536d6033-c8ad-484b-888a-4dac0bcfc046,"2,026",26,41,Maximo,Medellín,84,Martha Arias cabarcas
-6aa7770d-b97e-4cf2-9733-bfaad6125bd9,"2,025",26,51,Mimos,JARDIN,,Camila Garcia
-5c7ff2ad-fb47-4e43-a830-b916978b2264,"2,026",26,34,Maximo,Medellín,52,Glendy Gonzalez
-0da51079-2e34-43fd-941a-0ef70947a706,"2,026",26,53,Maximo,Medellín,41,Rosana Andreina Gutiérrez Montes
-c2f0070a-33bb-4600-8eea-e6852fb79da6,"2,026",26,45,Maximo,Medellín,16,Xavier Benavidez
-7a6412c2-2823-4ad0-82cb-605b8e16f5a4,"2,026",26,34,,,35,Susana Valencia
-ddb579c8-8348-4795-96a4-6cffbabdb832,"2,026",26,39,Mimos,VIVA VILLAVICENCIO,66,Deisy Rojas
-5c28859f-747f-4b0f-9dd3-2611806d21a3,"2,026",26,65,Niku,Cartagena,41,Ronald Bonfante
-8ddcbdaa-068d-4ff0-9575-89ffcec0875e,"2,026",25,39,Auteco,OTRO,28,Omar Castillo
-241251a1-579b-4579-846c-6809c1276e80,"2,026",25,36,Auteco,TÉCNICOS,80,Katerine Alvarez
-5f09ad53-2c58-4edf-993d-02f031223cd5,"2,026",25,35,Maximo,Medellín,43,Diana Martinez Bernal
-4e7e5dc6-8865-4f0e-b2b4-3bfea5d54670,"2,026",25,32,Auteco,TÉCNICOS,52,Julio César Gómez Valencia
-098e1753-3c9f-42ef-a0c7-fb38c80cbb50,"2,026",25,104,Auteco,INVERSIONES ELECTROMOTOS SAS BELEN,75,Daniel Marin
-0974e1e5-0451-446e-bde8-b65770b54e16,"2,026",25,41,Auteco,MOTO KEYMAN SAS,44,Jose Arago
-bf9944b5-d7fb-4e5f-aa0d-12ff9d4b8afb,"2,026",25,48,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,80,Anderson Bastidas
-29cd74a3-8212-4e71-a4eb-1422f0b4dc5f,"2,026",25,74,Auteco,CASTRO PEREZ GILBERTO,104,Samir Hernandez
-f1e5f77d-92ae-402b-9b8a-47fca2fb7f9e,"2,026",25,37,Maximo,Medellín,72,Deiris Pardo Benitez
-e44b4d69-4763-43e1-93c5-45b69d4d1f1d,"2,026",25,70,Auteco,TÉCNICOS,81,Michael Alexander Vaca Cardozozo
-5ba28f89-5cba-4fc1-905e-fef0b7e1aaae,"2,025",24,79,Mimos,VIVA CAUCASIA,85,Mario Oquendo
-b5424242-5de3-465f-889f-38600d1511e4,"2,026",24,82,Maximo,Medellín,94,Dayana Cataño
-4396ccf5-5919-4091-99d4-a6d8633efc96,"2,026",24,40,Auteco,MUNDIMOTOS ENGATIVÁ,65,Kevin Ferney Hernández Ortiz
-3647f4a3-f56b-4c4a-a8d7-1e8ad6dda873,"2,026",24,40,ONI Nikkei,ONI Nikkei,20,Jinalbert alfonso Velásquez contreras
-1b586da7-5058-43cb-bc2a-17d709d1d300,"2,026",24,49,Auteco,TÉCNICOS,97,Yeimy Andrea Carvajal alban
-dd238ed0-a78b-459e-89b2-f3efd5951071,"2,026",24,35,Auteco,TÉCNICOS,53,Liliana Lopez
-e8281a50-7ca1-4f38-804d-20a1dd7eebcc,"2,026",24,53,Smash Avocadería,Laureles,53,Briandy paola Truyol Martinez
-811960be-1bab-4faa-b974-63b400d4d950,"2,026",24,54,Auteco,OTRO,36,Gladys Arevalo
-58fd5e29-b552-4ac6-aeeb-97e40031a5ca,"2,026",24,99,Mimos,VIVA CAUCASIA,39,Lorena Mendez trespalacios
-c6d8f002-2d6a-4c76-9524-ebb075554356,"2,026",24,48,Auteco,OTRO,83,Michael Galindo
-9a58acf3-4d35-4650-b4c6-0779b873cbc6,"2,026",24,61,Niku,Medellín,81,Andrés Rodríguez
-fbaa84e9-de68-44dc-912a-6a6e1510abb0,"2,026",24,55,Auteco,TÉCNICOS,48,David stiven Barreiro Rodríguez
-5b023538-af0a-4c35-84af-c10635c84cd0,"2,026",24,45,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,80,Yoel Diaz
-16d1d4c6-7b22-4583-8410-37cd96ed0553,"2,026",24,47,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,100,Alejandro Menjura Fernández
-0dd623e6-d6fd-4fe7-a5fc-5452684581a5,"2,026",23,159,La Causa,Llanogrande,284,Yunior Landaeta
-70467b43-8074-4495-a88a-dd77bdf2e2c8,"2,026",23,58,Auteco,TÉCNICOS,30,Laura marcela Gomez salinas
-ab7cd1d9-5f44-4965-bb6e-61d89a9169ab,"2,026",23,40,Auteco,TÉCNICOS,91,Miguel Angel Martínez Mosquera
-9eead78a-c786-4886-9142-f0370fb06763,"2,026",23,33,Auteco,ORDOÑEZ JIMENEZ SEBASTIAN FELIPE,20,Sebastian Ordoñez
-d9bde426-c94d-47a1-b484-3ca19fc00764,"2,026",23,34,Auteco,MUNDIMOTOS ENGATIVÁ,63,Anderson Cruz
-19e3239f-1f1a-4845-a501-39d7d607819f,"2,026",23,47,Lavocadería,Manila,123,Laura Correa
-a3a284e8-e10b-4451-9b0e-cd6e597672f7,"2,026",23,34,Auteco,OTRO,49,Luis alberto Oyuela zarate
-0921c95f-1b17-4bae-9ba1-195a340f2364,"2,026",23,59,Niku,Cartagena,64,Juan Salas
-952cd600-0f6b-40c1-9101-ccc425964396,"2,026",23,33,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,65,kevin segura
-8f0703ef-9146-4c3c-b600-c0484bb87f7f,"2,026",22,34,Auteco,OTRO,24,Sergio Armero
-f998429a-eebe-45ad-af61-dd5279286d91,"2,026",22,47,Niku,Cartagena,35,Erika Johana Giraldo Duque
-247ec350-9eaa-4a00-aa92-c23f2ed8bc91,"2,026",22,32,Auteco,OTRO,35,Brayan Paez
-a4e26bd5-3562-4e22-bcf6-a327e6fbe6b6,"2,026",22,32,Auteco,OTRO,62,María José Rodríguez
-1f2ad31b-390f-4a61-93dc-babe14112782,"2,026",22,65,Niku,Cartagena,115,Tatiana Martínez vergara
-f0d8de20-3238-44b4-8ff4-97ad61d6cfca,"2,026",22,34,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,36,Cristian Andrés Cordoba bastidas
-06f8d0d1-7315-4959-aef7-8aa0fb070dbe,"2,026",22,51,Auteco,TÉCNICOS,15,Juan Calderon
-f72becc7-1bd2-4ed8-8d98-411340803c33,"2,026",22,48,Niku,Medellín,64,Alejandro Sugel
-e0153ab8-37a0-4960-b097-57f07a8d8c8d,"2,026",21,72,ONI Nikkei,ONI Nikkei,26,Luis Ordoñez
-7799fc5d-0784-4324-bce4-8f5dec8a5a80,"2,026",21,32,Auteco,OTRO,19,Leidi tatiana Muñeton villarraga
-dc717ba4-5a41-479c-a350-515ee26c7700,"2,026",21,31,Auteco,PLAZA MORALES MAYRA ALEJANDRA,31,distrirepuestos plaza
-218d529c-c393-430c-8dd1-b2f1f005e1c7,"2,026",21,61,Auteco,MUNDIMOTOS ENGATIVÁ,99,Luis Andrey Tibaquira Garzon
-98dd4dcf-805f-497d-9f8f-c726f3433ccd,"2,026",21,71,Niku,Medellín,58,Manuel Blandón
-febc7d0c-3c8a-46ef-962f-774063ce1d83,"2,026",21,47,Auteco,TÉCNICOS,61,Sebastian Chacon
-4a2e9b7b-8db8-4c5d-b573-d65686719c3b,"2,025",21,43,Mimos,FABRICATO 2,,Estefanía Bustos
-fb7d5a92-cfdb-4328-89b5-dcf0a1f5389c,"2,026",21,49,Niku,Medellín,70,Rinelkis Prieto
-19c38d07-4e92-48d1-b166-5991a61ae32c,"2,026",21,43,Auteco,MUNDIMOTOS PRIMERA DE MAY,20,Diego Vergel
-41066496-56e4-4bdc-8081-2a358f81ec37,"2,026",21,44,Auteco,OTRO,89,Elizabet Soler
-94f5b1c8-da98-4d8e-8b40-6b384bce9b42,"2,026",20,44,Niku,Medellín,40,Liliana Arenas
-bab73a22-b7eb-465d-96fd-4e36602380c9,"2,026",20,31,Auteco,OTRO,14,Esteban Junca bohorquez
-4c3002a5-2c6d-47a1-8e2c-cf664c353ef1,"2,026",20,39,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,57,Andrés  camilo Samboni miranda
-ac45641d-8140-4ce3-8583-f8cffb1bc8ec,"2,026",20,36,Mimos,BOSQUE PLAZA,19,Yulieth Izquierdo
-cc1ac6f8-c007-4403-8224-48ae28ecc4c0,"2,025",20,32,Mimos,FLORIDA 1,,Lilibeth Diaz bautista
-8bb26f80-cc21-4dec-b756-513a28b59ed2,"2,026",20,36,Auteco,OTRO,62,Juan Camilo Díaz Vega
-e19e1d80-5e5b-407e-a2c3-88a179a153a4,"2,026",20,55,Maximo,Medellín,26,Kevin Eduardo Hernandez Urbina
-47cb62c6-f883-4163-8034-145494f4315c,"2,026",19,33,Auteco,TÉCNICOS,35,Carol Ante
-a893ac9f-c1f2-48c5-b0e7-2c506ebc9c11,"2,026",19,51,Smash Avocadería,Llanogrande,196,Manuela Tabares
-414ae7b2-e82f-4ea4-8bae-434aff247069,"2,026",19,48,Niku,Medellín,39,Henry Landazábal
-c39e99e5-e222-4074-8a25-659b2c04f525,"2,026",19,33,Lavocadería,Manila,146,Arianna carolina Chirinos Torrealba
-28f763b2-3339-46ab-a782-0ca747ed0072,"2,026",19,79,Auteco,CASTRO PEREZ GILBERTO,50,Felipe Castro Serna
-eb676f3f-f32f-4055-887c-42804d61fd1b,"2,026",19,37,Auteco,INVERSIONES ELECTROMOTOS SAS CAMPO,71,Keren Silva diaz
-fdb4465f-0bcf-47fb-abdd-f50f9841dbac,"2,026",18,33,Auteco,OTRO,19,Yuliana Ayala
-7fcc94ad-96ff-416d-946f-bcbdffc3f114,"2,026",18,92,Auteco,CASTRO PEREZ GILBERTO,22,Antonio Piñero
-4bc4981f-0d9d-482f-9504-d51bdfdfd480,"2,025",18,40,Mimos,LE MONT,,Adrian Sabogal
-1bc718f3-641a-426b-b049-9082c6509565,"2,026",17,64,Auteco,OTRO,30,Karen Alvarez
-f1b38283-a645-4487-be53-95607696b61c,"2,026",17,57,Auteco,ARIAS ORTIZ OBRIEL FERNANDO,8,Isai Villa criollo
-eabec637-e977-46ec-b721-a15a0b0598c2,"2,026",16,46,Niku,Medellín,40,Jhon Alejandro Colorado Valencia
-cef5d60f-d2f1-40e6-aabd-84d2c895899a,"2,026",16,40,Niku,Cartagena,21,Wilson Galvis
-87c42ba6-97bb-4d0d-9fcb-5ca0f00dc96d,"2,026",16,34,Auteco,CASTRO PEREZ GILBERTO,32,Sara Castro Serna
-1cac9040-65ce-471b-a1b4-449897e60755,"2,026",16,35,Galilei,Sales,8,David Quiñonez
+Player id,Games played,Max score,Empresa,Tickets actuales,Player
+8e767216-270b-4d13-980d-dfbbcc461b28,46,70,Niku,62,Yosselin Caicedo cuesta
+735ce9ee-ec6a-4865-a502-056861f95ae9,39,40,Mimos,107,Daniela Polo
+3dfe1c1d-e5a0-486b-847b-bf557746b5c2,39,33,Mimos,159,Yulibeth CHOPERENA
+02d18896-2c4b-4264-b45d-961862e9b695,39,55,Mimos,103,Britney Guerrero
+d033edd2-3074-4bea-8fcb-7d786886540f,38,260,Lavocadería,1865,Daniel Alvarez hernandez
+c89a3ee1-a762-4d5a-92b2-12147b4c3be3,38,65,Smash Avocadería,147,Kelly Yuliana Tobon pulgarin
+30c163f3-4bc3-4a27-8065-e63b6e7622fd,38,36,Lavocadería,271,Rosvely Gonzalez
+b6e1b26a-33c2-4533-a02d-2df9c9a20afe,38,51,Lavocadería,791,Mauricio Maya Agudelo
+ada66d16-e769-4ab9-afd6-65facc0cea91,38,203,Lavocadería,1024,Juliana Gil
+88c13002-32aa-4d99-b33f-04c8edcd648f,38,466,Mimos,102,Santiago Mena
+f7dcb8ae-b618-4979-8376-ca838bd33f5b,37,32,Mimos,38,Dayana Salas nurillo
+ae2150ec-f2bc-49eb-b347-d014bf48d497,37,51,Smash Avocadería,328,Sonia Garcia
+0186bbff-4f1b-4111-935a-33bb3629ef44,37,132,Lavocadería,476,Jeanpierre FERRER Mosquera
+18fc0fd3-1cf6-4753-a471-e1d4b5cca733,37,54,Smash Avocadería,632,Giseth Yohana Rosales
+8cc71741-0d3c-4e35-aa1f-fa85e9ae034f,37,57,Lavocadería,874,Keyla Beltran
+a5803634-8406-448f-b97f-8dfda48086eb,37,64,Smash Avocadería,196,Sindy Stephany Sanchez Uribe
+2bc16ef9-10bd-4e9f-82db-15f274987153,37,55,Smash Avocadería,328,Liliana Sanchez
+1e574c86-ba59-49b2-a43e-1e3f0a0db674,37,36,Mimos,91,Marielis Michell Villa
+5ba28f89-5cba-4fc1-905e-fef0b7e1aaae,37,308,Mimos,118,Mario Oquendo
+b1b95e4f-e9fc-4cef-ba88-348896c0e524,37,56,Smash Avocadería,296,María Angélica Caicedo duque
+e01ea8c7-196a-4cf3-b1ef-a84dd80716d9,36,85,Smash Avocadería,223,Isabel Cristina Arrieta Bracamonte
+05691069-755c-4646-bcc4-52dad7e03e15,36,41,Mimos,102,Sule ZPalaciosvalencia
+101856e3-afe0-427b-bb80-18e77f712e6c,36,71,Mimos,78,Valery andrea Patiño payares
+10365189-0487-4e37-a94f-0dabe82f2ee3,36,75,Smash Avocadería,137,Karol Rondón
+174c4c23-a690-43f1-ab39-5d0ae43b6250,36,53,Maximo,28,Lizardo Cossio
+2959831d-8703-4942-8c3c-53d8192c038a,36,52,Mimos,65,Iveth Tuay
+2c67eac8-32cb-40bb-87fd-e98bfe0e04b0,36,48,Lavocadería,295,Vanessa Velez
+3c86eae5-9649-4b71-be23-1a64f07cf567,36,69,Smash Avocadería,182,Maroli Beltran
+40698752-e0c0-4ec6-8085-69f7d0979eb9,36,39,Smash Avocadería,144,NilkA Montilla
+43d47186-4729-4f76-9f76-a4547ba5ddde,36,47,Smash Avocadería,249,Luisa Hernadez
+47470bb3-1246-4325-95c8-bf3f39b5b98a,36,83,Lavocadería,254,Sebastian Velez
+6e58fe70-d290-48ff-bae6-9be7339e3f7d,36,117,Smash Avocadería,671,Aída Fernanda Larios Daza
+7f42e200-c15b-4b91-a0a1-08734d59548e,36,59,Smash Avocadería,566,Erika Prada
+87b87424-9857-470a-ae84-6d559db49b23,36,120,Lavocadería,871,Carolina Macias Cuassi
+a1d60fa3-32e4-4641-bfd2-fee7bd8ebeac,36,146,Lavocadería,484,Adriannis Cervantes
+ffc2d3c8-dd1d-4323-8fb7-89c68535886a,35,79,Lavocadería,302,Mariana Marin Castaño
+85bd0106-ed5c-49ce-889b-5cb28ce7112d,35,35,Mimos,71,Yasleidy alexandra Meléndez caicedo
+4e5a87d3-3979-48a7-a7eb-226557e31332,35,37,Mimos,74,Wiston Vasquez
+0784d5a6-3c51-4a38-be9e-35740fa03be8,35,109,Smash Avocadería,266,Karen Ruendes
+4303fd7e-f6dd-434e-a1f9-bf0c41b8bf35,35,36,General Café,461,Alejandra Amaya Torres
+fe371365-3469-485f-9b31-6f4af62792a1,35,51,Smash Avocadería,138,Liliana del Carmen Chanagá Barrera
+a1b5712e-a975-4ab2-81c8-a90177e2d457,35,39,Mimos,133,Jesus David Canabal
+4e783f2a-0d88-4eca-98cb-c53443cfd73a,34,35,General Café,44,Luz Mariana Ruiz Rendón
+eb8e4e7e-8fe6-474a-85a0-baac940aea6f,34,79,Lavocadería,542,Estefany Alvarez
+13ef23bf-f1d9-40c1-9d37-441b21f8ca92,34,45,Mimos,38,Yuribeth Rangel
+87414dff-898d-4cef-b2f3-b9ac342cddb5,34,44,Smash Avocadería,186,Kelly Velásquez
+86a45a7e-c34f-4bde-bdca-d66727d9a012,33,74,Lavocadería,795,Mónica Hinestroza Muñoz
+649de220-d93a-45b9-b9e2-f0e68d17a55b,33,46,Mimos,26,Luisa Alarcon
+cdd18796-c82c-4f71-9387-d69eec770fd0,33,39,Maximo,115,Sara Melisa Parra cano
+ca58589c-8c67-4f75-89be-f9f0fa41d4f9,33,117,Maximo,138,Sonia Lizeth Forero león
+2665d806-012e-473d-9b65-c6cf982c53e9,32,43,Mimos,89,Luisa Vergara
+829a3f72-1fea-4857-9428-a2cbc3b88c9e,32,49,Smash Avocadería,215,Aliany Gutierrez
+0bf16d74-d2fc-4e90-8647-223d4b5ca041,32,65,Maximo,132,Yojana Gerardino
+4ed4eb9e-fe8e-441a-abb7-8eecbece8107,31,49,Smash Avocadería,131,Rosnagel Zea
+6ddf9b1b-7659-4c0c-ae66-e0c241602ba5,31,52,ONI Nikkei,98,Samuel Cordoba
+87f6406c-88e8-460c-a1c3-1baf8986c7c9,31,31,Mimos,22,Cllaudia Hernandez
+f069384a-7dfa-40ef-bfb6-6aa845dbed49,31,119,Niku,201,Ramiro Jiménez Argumedo
+5c7ff2ad-fb47-4e43-a830-b916978b2264,30,34,Maximo,74,Glendy Gonzalez
+083621dc-3c33-4399-9645-8366fc572be3,30,38,Lavocadería,136,Manuela Monsalve
+7dcbf6b7-23ee-44cf-84fd-a016216ecadf,30,51,Maximo,92,King Rojas
+536d6033-c8ad-484b-888a-4dac0bcfc046,29,41,Maximo,101,Martha Arias cabarcas
+985affbc-c52b-4fd6-ac6b-625cc5a5b752,29,102,ONI Nikkei,129,Cristal Rojas
+f5664461-6ccd-4db2-87ba-4c42a46f891b,29,40,Niku,98,Christian Pomares
+7d1b5de8-6969-4c8a-93a5-164bf25b9395,29,41,Lavocadería,372,Dians Restrepo
+7a6412c2-2823-4ad0-82cb-605b8e16f5a4,29,41,Mimos,51,Susana Valencia
+7f40c3c9-e37c-40ce-adc8-3328012fc762,29,49,Lavocadería,232,José Zavala
+0da51079-2e34-43fd-941a-0ef70947a706,29,53,Maximo,55,Rosana Andreina Gutiérrez Montes
+dd4cf4bb-b760-4a6b-98e0-1294146e1c3c,29,57,Smash Avocadería,21,María Villamediana
+48c73d51-fe12-4b7c-8df7-6dca3c8b0ef8,28,59,Niku,61,Miguel Berdugo
+ddb579c8-8348-4795-96a4-6cffbabdb832,28,39,Mimos,86,Deisy Rojas
+5f09ad53-2c58-4edf-993d-02f031223cd5,28,35,Maximo,61,Diana Martinez Bernal
+1e0b1e06-3fcc-45b3-a739-0d2d30a163e8,28,50,Maximo,68,Daniel Pacheco
+a9d7665c-b4ba-43ae-97e6-f863933af96d,28,42,Smash Avocadería,420,Marisabel Hernandez
+599be1d0-5c0a-487f-b1ab-e32e4913d5a7,28,59,Lavocadería,61,María José Cano
+b9923302-3b15-4a5d-90ec-5328f36b82e6,27,37,La Causa,150,César Arango Carmona
+860ca4ca-f2da-418c-b877-f0610aa92cd2,27,52,Niku,81,Lina Maria Avila manga
+5c28859f-747f-4b0f-9dd3-2611806d21a3,27,65,Niku,59,Ronald Bonfante
+d3832107-88fa-426c-99f2-07f9a992f9f6,27,47,Maximo,46,Jorge luis Barboza orozco
+c2f0070a-33bb-4600-8eea-e6852fb79da6,27,45,Maximo,27,Xavier Benavidez
+b5424242-5de3-465f-889f-38600d1511e4,25,82,Maximo,108,Dayana Cataño
+e8281a50-7ca1-4f38-804d-20a1dd7eebcc,25,53,Smash Avocadería,67,Briandy paola Truyol Martinez
+9a58acf3-4d35-4650-b4c6-0779b873cbc6,25,61,Niku,94,Andrés Rodríguez
+f1e5f77d-92ae-402b-9b8a-47fca2fb7f9e,25,37,Maximo,87,Deiris Pardo Benitez
+58fd5e29-b552-4ac6-aeeb-97e40031a5ca,25,99,Mimos,55,Lorena Mendez trespalacios
+3647f4a3-f56b-4c4a-a8d7-1e8ad6dda873,24,40,ONI Nikkei,23,Jinalbert alfonso Velásquez contreras
+19e3239f-1f1a-4845-a501-39d7d607819f,24,47,Lavocadería,135,Laura Correa
+0921c95f-1b17-4bae-9ba1-195a340f2364,24,59,Niku,121,Juan Salas
+e0153ab8-37a0-4960-b097-57f07a8d8c8d,24,72,ONI Nikkei,48,Luis Ordoñez
+0dd623e6-d6fd-4fe7-a5fc-5452684581a5,23,159,La Causa,284,Yunior Landaeta
+f72becc7-1bd2-4ed8-8d98-411340803c33,23,48,Niku,81,Alejandro Sugel
+1f2ad31b-390f-4a61-93dc-babe14112782,23,65,Niku,180,Tatiana Martínez vergara
+f998429a-eebe-45ad-af61-dd5279286d91,23,47,Niku,33,Erika Johana Giraldo Duque
+98dd4dcf-805f-497d-9f8f-c726f3433ccd,22,71,Niku,76,Manuel Blandón
+fb7d5a92-cfdb-4328-89b5-dcf0a1f5389c,22,49,Niku,85,Rinelkis Prieto
+94f5b1c8-da98-4d8e-8b40-6b384bce9b42,21,52,Niku,58,Liliana Arenas
+e19e1d80-5e5b-407e-a2c3-88a179a153a4,20,55,Maximo,36,Kevin Eduardo Hernandez Urbina
+ac45641d-8140-4ce3-8583-f8cffb1bc8ec,20,36,Mimos,29,Yulieth Izquierdo
+c39e99e5-e222-4074-8a25-659b2c04f525,19,33,Lavocadería,156,Arianna carolina Chirinos Torrealba
+414ae7b2-e82f-4ea4-8bae-434aff247069,19,48,Niku,7,Henry Landazábal
+a893ac9f-c1f2-48c5-b0e7-2c506ebc9c11,19,51,Smash Avocadería,206,Manuela Tabares
+9aa52f7d-212a-486c-a78b-d7c10240b826,17,38,Lavocadería,27,Luisa Fernanda Serna Rodríguez
+cef5d60f-d2f1-40e6-aabd-84d2c895899a,16,40,Niku,33,Wilson Galvis
+eabec637-e977-46ec-b721-a15a0b0598c2,16,46,Niku,50,Jhon Alejandro Colorado Valencia
+1cac9040-65ce-471b-a1b4-449897e60755,16,35,Galilei,11,David Quiñonez
+a21ca6c4-f157-4388-95ed-80ac1459d1ff,16,39,Maximo,36,Jose Guerrero

@@ -43,7 +43,7 @@ def clave_persona(nombre, empresa):
     t = unicodedata.normalize('NFD', f'{nombre}|{empresa}'.lower())
     return re.sub(r'\s+', ' ', ''.join(ch for ch in t if not unicodedata.combining(ch))).strip()
 
-def read_csv(name, columnas=(), sumar=False):
+def read_csv(name, columnas=(), sumar=False, empresa_fija=''):
     """Una fila por persona (Player id, o nombre + empresa si no hay id).
     Normal: tickets, el mayor; juegos y puntaje, la fila del año más reciente.
     sumar=True (Reviews): el CSV trae una fila por persona y sede, y se suman las de cada persona;
@@ -54,7 +54,7 @@ def read_csv(name, columnas=(), sumar=False):
     with open(p('data', name), encoding='utf-8-sig') as f:
         for x in csv.DictReader(f):
             nombre = fix_mojibake(col(x, 'Player', 'Nombre').strip())
-            empresa = fix_mojibake(col(x, 'Empresa', 'company', 'Company').strip())
+            empresa = fix_mojibake(col(x, 'Empresa', 'company', 'Company').strip()) or empresa_fija  # Auteco: el export no trae empresa
             if not nombre:
                 continue
             pid = col(x, 'Player id', 'id') or hashlib.sha1(clave_persona(nombre, empresa).encode()).hexdigest()
@@ -63,10 +63,10 @@ def read_csv(name, columnas=(), sumar=False):
                 'id': pid[:8],
                 'n': nombre,
                 'c': empresa,
-                'l': fix_mojibake(col(x, 'Location', 'Sede', 'location_name').strip()),
+                'l': fix_mojibake(col(x, 'Location', 'Sede', 'location_name', 'Rol').strip()),  # Auteco: el rol hace de sede
                 't': num(col(x, *columnas, 'Tickets actuales', 'Tickets')),  # en Reviews, cada review es un ticket
-                'g': num(col(x, 'Games played', 'Partidas')),
-                's': num(col(x, 'Max score', 'Puntaje maximo')),
+                'g': num(col(x, 'Games played', 'Partidas', 'Juegos sept', 'Juegos')),
+                's': num(col(x, 'Max score', 'Puntaje maximo', 'Puntaje max sept', 'Puntaje máximo')),
                 '_y': year,
             }
             prev = people.get(pid)
@@ -94,7 +94,7 @@ def build_data():
     assert lots and lots[0]['id'] == 'moto', 'La primera lotería debe ser la de la moto (usa las claves de siempre)'
     out = []
     for l in lots:
-        rows = read_csv(l['csv'], l.get('columnas', ()), l.get('sumar', False))
+        rows = read_csv(l['csv'], l.get('columnas', ()), l.get('sumar', False), l.get('empresa', ''))
         item = {k: v for k, v in l.items() if k not in ('csv', 'columnas', 'sumar')}
         item['fuente'] = 'data/' + l['csv']
         item['participantes'] = rows
