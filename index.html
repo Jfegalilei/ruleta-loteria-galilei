@@ -575,7 +575,9 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   <p class="hint">Atajos: Espacio o Enter gira, E abre este panel, G muestra las zonas de los presentadores, S sonido, F pantalla completa, Esc cierra.</p>
 </aside>
 
-<script src="data/participantes.js"></script>
+<!-- La lista se pide con una marca de tiempo para no usar nunca una copia guardada (del navegador ni de
+     GitHub Pages): cada vez que se abre el link se cargan los datos actuales del repo. -->
+<script>document.write('<script src="data/participantes.js?t=' + Date.now() + '"><\/script>');</script>
 <script>
 (() => {
   // Participantes: data/participantes.js, generado desde data/participantes.csv con build/build.py
@@ -628,24 +630,20 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const totalTickets = list => list.reduce((a, p) => a + p.t, 0);
 
   // ---------- Estado ----------
+  // Al abrir siempre se parte de los datos del repo (lista, empresas excluidas, premio y foto). Lo que se
+  // cambie en el panel vale mientras la página esté abierta; al volver a abrirla se recargan los del repo.
+  // Se recuerdan solo los sacados, el historial y el sonido.
   let state = {
-    rows: store.get("rows", null),
-    source: store.get("source", SAMPLE_NAME),
-    excluded: store.get("excluded", LOT.excluidas || ["Auteco", "La Causa", "Galilei"]),
+    rows: normalize(SAMPLE),
+    source: SAMPLE_NAME,
+    excluded: LOT.excluidas || ["Auteco", "La Causa", "Galilei"],
     removed: store.get("removed", []),
     history: store.get("history", []),
-    prize: store.get("prize", LOT.titulo || "Victory Combat 100"),
-    photo: store.get("photo", ""),
+    prize: LOT.titulo || "Victory Combat 100",
+    photo: "",
     sound: store.get("sound", true),
     win: store.get("win", "celebracion"),
   };
-  if (!state.rows) state.rows = normalize(SAMPLE);
-  // Si se usa la lista del repo y esta cambió (export nuevo), se carga la nueva: así ningún computador
-  // sortea con una lista vieja guardada en el navegador.
-  const firma = v => { let h = 0; const t = JSON.stringify(v); for (let i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) | 0; return h; };
-  if (state.source === SAMPLE_NAME && store.get("dataSig", null) !== firma(SAMPLE)) {
-    state.rows = normalize(SAMPLE); store.set("rows", null); store.set("dataSig", firma(SAMPLE));
-  }
   let rot = 0, spinning = false, current = [], lastWinner = null, starts = [0];
 
   function normalize(list) {

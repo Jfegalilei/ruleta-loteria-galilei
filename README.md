@@ -46,6 +46,11 @@ dist/                       Salidas del build (no se suben al repo)
 .github/workflows/          Publica en GitHub Pages en cada push a main
 ```
 
+## Datos siempre del repo
+
+- Al abrir el link, la lista se pide como `data/participantes.js?t=<hora>`: nunca se usa una copia guardada (ni del navegador ni de GitHub Pages), así que se ven los datos que estén en el repo en ese momento.
+- La página siempre arranca con los datos del repo: participantes, empresas excluidas de base, premio y sin foto. Lo que alguien cambie o cargue desde el panel vale mientras la página esté abierta y solo en ese navegador; al volver a abrirla se recargan los del repo. Se recuerdan entre visitas solo los sacados, el historial y el sonido.
+
 ## Varias loterías
 
 El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `data/loterias.json`. También se puede abrir una directamente con `?loteria=<id>` (por ejemplo `?loteria=auteco`). Hoy hay tres:

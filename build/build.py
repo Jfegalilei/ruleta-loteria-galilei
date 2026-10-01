@@ -148,7 +148,8 @@ def build_pages(data_js):
         assert n == 1, pattern
         return out
 
-    html = sub_once(r'<script src="data/participantes\.js"></script>', '<script>\n' + data_js + '</script>', html)
+    # index.html pide la lista con document.write y una marca de tiempo (sin caché); aquí va embebida
+    html = sub_once(r'<script>document\.write\(\'<script src="data/participantes\.js\?t=[^\n]*?</script>', '<script>\n' + data_js + '</script>', html)
     html = sub_once(r'const MOTO = "assets/moto-gali\.webp";', f'const MOTO = "{data_uri(p("assets", "moto-gali.webp"), "image/webp")}";', html)
     html = sub_once(r'const ESCENA = "assets/siderax-moto\.webp";', f'const ESCENA = "{data_uri(p("assets", "siderax-moto.webp"), "image/webp")}";', html)
     # imágenes referenciadas con src="assets/..." en el HTML (símbolo de Galilei, Gali, etc.)
