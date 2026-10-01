@@ -141,11 +141,21 @@ body.spinning .pointer-wrap { animation: none; }
 }
 @keyframes bg-in { from { opacity: 0; } }
 .winner { position: absolute; inset: 0; z-index: 5; text-align: center; }
+/* Título del anuncio entre laureles dorados: texto de entrada, premio, nombre y empresa · sede */
 .winner .w-top {
-  position: absolute; left: 0; right: 0; top: 3.2cqh; padding-inline: 2cqh;
-  display: flex; flex-direction: column; align-items: center; gap: 4.2cqh;
+  position: absolute; left: 0; right: 0; top: 2.2cqh;
+  display: flex; align-items: center; justify-content: center; gap: 1.6cqh;
+  animation: rise .5s .1s ease-out both;
 }
-.winner .overline { color: var(--n09); font-size: 2.2cqh; letter-spacing: .18em; font-weight: 700; text-shadow: 0 .2cqh .5cqh rgba(10,11,12,.8), 0 0 1.6cqh rgba(10,11,12,.6); }
+.winner .laurel { height: 23cqh; width: auto; flex: none; filter: drop-shadow(0 .4cqh .8cqh rgba(10,11,12,.6)); }
+.winner .laurel.derecha { transform: scaleX(-1); }
+.winner .w-title {
+  display: flex; flex-direction: column; align-items: center; gap: .7cqh; max-width: 70cqh;
+  text-shadow: 0 .3cqh .6cqh rgba(10,11,12,.75), 0 0 2cqh rgba(10,11,12,.55);
+}
+.winner .w-kicker { font-family: var(--font-body); font-weight: 500; font-size: 2.8cqh; letter-spacing: .04em; text-transform: uppercase; color: var(--n08); }
+.winner .w-prize { font-family: var(--font-display); font-weight: 700; font-size: 6cqh; line-height: 1; white-space: nowrap; text-transform: uppercase; color: var(--n09); }
+.winner .w-place { font-family: var(--font-body); font-weight: 700; font-size: 2.6cqh; color: var(--n08); }
 .winner .prize-img {
   position: absolute; left: 19.2cqh; bottom: 32cqh; height: 38cqh; width: auto; object-fit: contain;
   filter: drop-shadow(0 1.2cqh 1.4cqh rgba(0,0,0,.55));
@@ -168,16 +178,13 @@ body.spinning .pointer-wrap { animation: none; }
 .winner .stat span { font-size: 1.5cqh; font-weight: 600; letter-spacing: .04em; color: var(--n06); }
 .winner .name {
   font-family: var(--font-display); font-weight: 700;
-  font-size: var(--name-size, 10cqh); line-height: .95; letter-spacing: normal; font-kerning: normal; color: var(--n09);
+  font-size: var(--name-size, 5.2cqh); line-height: 1; letter-spacing: normal; font-kerning: normal; color: var(--n09);
   text-shadow: 0 .3cqh .6cqh rgba(10,11,12,.7), 0 0 2.4cqh rgba(10,11,12,.55);
   text-wrap: balance; max-width: 100%; overflow-wrap: anywhere;
   animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) both;
 }
 @keyframes pop { from { transform: scale(.6); opacity: 0; } }
-.winner .where { display: flex; flex-direction: column; gap: .6cqh; animation: rise .5s .25s ease-out both; }
 @keyframes rise { from { transform: translateY(1.5cqh); opacity: 0; } }
-.winner .company { font-family: var(--font-display); font-weight: 700; font-size: 4.4cqh; letter-spacing: normal; font-kerning: normal; color: var(--n08); line-height: 1; }
-.winner .location { font-size: 2.6cqh; color: var(--n07); }
 .winner .draw-no { font-size: 1.6cqh; color: var(--n06); font-variant-numeric: tabular-nums; }
 .winner .actions { display: flex; gap: 1.2cqh; flex-wrap: wrap; justify-content: center; }
 
@@ -253,7 +260,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .count-line { font-variant-numeric: tabular-nums; color: var(--n07); }
 
 @media (prefers-reduced-motion: reduce) {
-  .winner .name, .winner .where, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
+  .winner .name, .winner .w-top, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
   .drawer { transition: none; }
 }
 </style>
@@ -305,15 +312,17 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
     <div class="winner" id="winner" hidden role="dialog" aria-live="assertive" aria-label="Ganador">
       <div class="w-top">
-        <div class="overline" id="wOver"></div>
-        <div class="name" id="wName"></div>
+        <img class="laurel" src="assets/laurel.svg" alt="">
+        <div class="w-title">
+          <div class="w-kicker" id="wOver"></div>
+          <div class="w-prize" id="wPrize"></div>
+          <div class="name" id="wName"></div>
+          <div class="w-place" id="wPlace"></div>
+        </div>
+        <img class="laurel derecha" src="assets/laurel.svg" alt="">
       </div>
       <img class="prize-img" id="wImg" alt="">
       <div class="w-bottom">
-        <div class="where">
-          <div class="company" id="wCompany"></div>
-          <div class="location" id="wLocation"></div>
-        </div>
         <div class="stats">
           <div class="stat"><img class="stat-icon" src="assets/icono-juegos.svg" alt=""><div><b id="wGames"></b><span>Juegos en el mes</span></div></div>
           <div class="stat"><img class="stat-icon" src="assets/icono-puntaje.svg" alt=""><div><b id="wScore"></b><span>Puntaje máximo</span></div></div>
@@ -780,12 +789,11 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     lastWinner = p;
     state.history.push({ id: p.id, n: p.n, c: companyOf(p), l: p.l, t: p.t, at: Date.now() });
     store.set("history", state.history);
-    $("wOver").textContent = `Se lleva la ${state.prize}`;
+    $("wOver").textContent = "Se lleva la lotería del mes:";
+    $("wPrize").textContent = state.prize;
     $("wName").textContent = p.n;
-    $("wName").style.setProperty("--name-size", p.n.length > 26 ? "5.6cqh" : p.n.length > 18 ? "7cqh" : "9cqh");
-    $("wCompany").textContent = companyOf(p);
-    $("wLocation").textContent = p.l || "";
-    $("wLocation").hidden = !p.l;
+    $("wName").style.setProperty("--name-size", p.n.length > 30 ? "3.8cqh" : p.n.length > 22 ? "4.5cqh" : "5.2cqh");
+    $("wPlace").textContent = [companyOf(p), p.l].filter(Boolean).join(" · ");
     $("wGames").textContent = NUM.format(p.g || 0);
     $("wScore").textContent = NUM.format(p.s || 0);
     $("wTickets").textContent = NUM.format(p.t);
