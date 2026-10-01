@@ -51,6 +51,17 @@ dist/                       Salidas del build (no se suben al repo)
 - Al abrir el link, la lista se pide como `data/participantes.js?t=<hora>`: nunca se usa una copia guardada (ni del navegador ni de GitHub Pages), así que se ven los datos que estén en el repo en ese momento.
 - La página siempre arranca con los datos del repo: participantes, empresas excluidas de base, premio y sin foto. Lo que alguien cambie o cargue desde el panel vale mientras la página esté abierta y solo en ese navegador; al volver a abrirla se recargan los del repo. Se recuerdan entre visitas solo los sacados, el historial y el sonido.
 
+## Sumar tickets durante la transmisión (en Excel)
+
+Quien maneja la ruleta no suma tickets desde la página. Se hace en el Excel de la lotería con dos columnas extra: `tickets_a_sumar` (amarilla, se escribe cuántos sumar; negativo resta) y `tickets_totales` (verde, fórmula). Antes del sorteo se convierte y se publica:
+
+```
+python build/excel-a-csv.py "GaliLotería Septiembre 2026 (para sumar tickets).xlsx" data/participantes.csv
+python build/build.py
+```
+
+El script pone en `tickets_actuales` el total (lo calcula él mismo, no depende de la fórmula) y quita las columnas de apoyo. Después del push, quienes manejan la ruleta solo refrescan la página: la lista se carga sin caché.
+
 ## Varias loterías
 
 El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `data/loterias.json`. También se puede abrir una directamente con `?loteria=<id>` (por ejemplo `?loteria=auteco`). Hoy hay tres:
