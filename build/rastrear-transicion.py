@@ -1,5 +1,5 @@
 import cv2, numpy as np, json, os, sys
-R = os.path.join(os.path.expanduser('~'), 'Downloads', 'Galilei', 'ruleta-loteria')
+R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 S = os.path.join(R, 'build', 'rastreo')  # salida: track.json y cuadros de control
 cap = cv2.VideoCapture(os.path.join(R, 'assets', 'transicion.mp4'))
 fps = cap.get(cv2.CAP_PROP_FPS)
