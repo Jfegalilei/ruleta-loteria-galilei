@@ -138,15 +138,14 @@ body.guides .side .guide { opacity: 1; }
 /* Keep the heading and raised pin clear above the larger wheel. */
 .head { display: flex; flex: none; justify-content: center; position: relative; z-index: 3; top: 1.93cqh; } /* encima de los tickets que salen volando; centrado al 6,13% del alto, a mitad entre el borde de arriba y la punta de la flecha (12,26%) */
 .head-text { display: flex; flex-direction: column; gap: .6cqh; text-align: center; }
-/* Marca arriba a la derecha de la pantalla (pedido del usuario): por encima de la capa que oscurece
-   los bordes, y se oculta junto con la ruleta durante la transición y el anuncio */
+/* Símbolo de Galilei, solo, arriba a la derecha de la pantalla (pedido del usuario): por encima de la
+   capa que oscurece los bordes, y se oculta junto con la ruleta durante la transición y el anuncio */
 .brand-lockup {
-  position: absolute; top: 4.48cqh; right: 3.6cqh; z-index: 11; /* centrado con el título (su centro está a 6,13cqh) */
-  display: flex; align-items: center; gap: 1cqh; transition: opacity .6s ease-in-out;
+  position: absolute; top: 2.88cqh; right: 3.6cqh; z-index: 11; /* centrado con el título (su centro está a 6,13cqh) */
+  display: flex; transition: opacity .6s ease-in-out;
 }
 .scene.sin-ui ~ .brand-lockup, .scene.viaje ~ .brand-lockup { opacity: 0; pointer-events: none; }
-.brand-mark { width: 3.3cqh; height: 3.3cqh; object-fit: contain; }
-.brand-lockup .overline { font-size: 2.4cqh; }
+.brand-mark { width: 6.5cqh; height: 6.5cqh; object-fit: contain; }
 /* Overlap the lower rim to enlarge the wheel while keeping the prize and ticker in frame. */
 /* Siderax parado a la izquierda de la moto, con la mano sobre el asiento de atrás (imagen compuesta).
    La moto queda centrada bajo la ruleta y su espejo termina justo debajo del botón Girar. */
@@ -156,7 +155,6 @@ body.guides .side .guide { opacity: 1; }
   filter: drop-shadow(0 1.4cqh 1.6cqh rgba(0,0,0,.8));
 }
 .tix { color: var(--g-brand); }
-.overline { font-family: var(--font-body); font-size: 1.8cqh; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--n07); }
 .prize {
   margin: 0; font-family: var(--font-display); font-weight: 700;
   font-size: 6cqh; line-height: 1; letter-spacing: normal; font-kerning: normal; color: var(--n09); text-wrap: balance;
@@ -427,7 +425,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   </div>
   <div class="brand-lockup" id="brandLockup">
     <img class="brand-mark" src="assets/galilei-symbol.png" alt="Galilei Learning">
-    <div class="overline" id="overlineEl">GaliLotería</div>
   </div>
   <video class="intro" id="introVid" src="assets/transicion.mp4" preload="auto" playsinline hidden></video>
   <div class="winner-bg" id="winnerBg" hidden></div>
@@ -488,7 +485,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   <section>
     <p class="kicker">Premio</p>
     <label class="field">Nombre del premio<input type="text" id="prizeIn" maxlength="48"></label>
-    <label class="field">Texto de arriba<input type="text" id="overlineIn" maxlength="48"></label>
     <div class="row">
       <span class="btn soft sm file-btn">Cambiar foto del premio<input type="file" id="photoIn" accept="image/*"></span>
       <button class="btn soft sm" id="photoClear" type="button" hidden>Quitar foto</button>
@@ -595,7 +591,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     removed: store.get("removed", []),
     history: store.get("history", []),
     prize: store.get("prize", LOT.titulo || "Victory Combat 100"),
-    overline: store.get("overline", "GaliLotería"),
     photo: store.get("photo", ""),
     sound: store.get("sound", true),
     win: store.get("win", "celebracion"),
@@ -1344,7 +1339,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   function refresh() {
     current = entries(); layout();
     $("prizeEl").textContent = state.prize;
-    $("overlineEl").textContent = state.overline;
     $("spinBtn").disabled = current.length === 0 || spinning;
     sizeCanvas(wheel); buildFace(); draw();
   }
@@ -1420,7 +1414,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   $("fsBtn").addEventListener("click", toggleFs);
   $("searchIn").addEventListener("input", renderList);
   $("prizeIn").addEventListener("input", e => { state.prize = e.target.value; store.set("prize", state.prize); $("prizeEl").textContent = state.prize; });
-  $("overlineIn").addEventListener("input", e => { state.overline = e.target.value; store.set("overline", state.overline); $("overlineEl").textContent = state.overline; });
   $("shuffleBtn").addEventListener("click", () => {
     const a = state.rows.slice();
     for (let i = a.length - 1; i > 0; i--) { const j = randInt(i + 1); [a[i], a[j]] = [a[j], a[i]]; }
@@ -1510,7 +1503,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
   new ResizeObserver(() => { sizeCanvas(wheel); buildFace(); draw(); }).observe(wheel);
 
-  $("prizeIn").value = state.prize; $("overlineIn").value = state.overline;
+  $("prizeIn").value = state.prize;
   syncSound(); syncWin(); syncPhoto(); refresh(); wake();
   document.fonts?.ready.then(() => { buildFace(); draw(); });
   try { navigator.wakeLock?.request("screen").catch(() => {}); } catch {}
