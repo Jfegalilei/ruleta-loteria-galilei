@@ -54,11 +54,22 @@ body.idle { cursor: none; }
 .scene {
   position: absolute; inset: 0; z-index: 2;
   display: grid; grid-template-columns: 24fr 52fr 24fr;
+  background: var(--n00);
+}
+/* El fondo va en una capa propia para poder desvanecerlo y dejar ver el video debajo */
+.scene::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; transition: opacity .4s ease-in-out;
   background:
     linear-gradient(90deg, rgba(10,11,12,.55) 0%, rgba(10,11,12,.3) 24%, rgba(10,11,12,.1) 42%, rgba(10,11,12,.1) 58%, rgba(10,11,12,.3) 76%, rgba(10,11,12,.55) 100%),
     url("assets/fondo-siderax.webp") center / cover no-repeat,
     var(--n00);
 }
+/* Viaje: la ruleta con Siderax se queda parada en el planeta mientras la cámara retrocede. La escena
+   sube por encima del video y del cuarto (z 5), sin fondo, y se encoge hacia el punto de fuga del suelo
+   (horizonte al 58% del alto) al ritmo del video. Las puertas (z 9) la tapan al cerrarse. */
+.scene.viaje { z-index: 5; background: transparent; transform-origin: 49.5% 58%; will-change: transform; }
+.scene.viaje.sin-fondo::before { opacity: 0; }
+.scene.viaje .head { opacity: 0; transition: opacity .5s ease-in-out; }
 .scene > .side, .scene > .center { transition: opacity .9s ease-in-out; }
 .scene.sin-ui > .side, .scene.sin-ui > .center { opacity: 0; }
 /* Video de la transición: la cámara retrocede por el planeta y sale por la puerta del cuarto.
@@ -119,7 +130,7 @@ body.guides .side .guide { opacity: 1; }
   position: absolute; top: 1.6cqh; right: 3.6cqh; z-index: 11; /* centrado con el título (su centro está a 4,2cqh) */
   display: flex; align-items: center; gap: 1.6cqh; transition: opacity .6s ease-in-out;
 }
-.scene.sin-ui ~ .brand-lockup { opacity: 0; pointer-events: none; }
+.scene.sin-ui ~ .brand-lockup, .scene.viaje ~ .brand-lockup { opacity: 0; pointer-events: none; }
 .brand-mark { width: 5.2cqh; height: 5.2cqh; object-fit: contain; }
 .brand-lockup .overline { font-size: 3.8cqh; }
 /* Overlap the lower rim to enlarge the wheel while keeping the prize and ticker in frame. */
@@ -925,15 +936,24 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     if (reduced) { finish(p); return; }
     const scene = $("scene"), room = $("room"), doors = $("doors"), stage = $("stage"), vid = $("introVid");
     doors.hidden = false; doors.classList.remove("cerradas", "abriendo", "brillo");
-    // 1) la ruleta se desvanece y queda el planeta de Siderax; el video entra superpuesto
-    scene.classList.add("sin-ui");
+    // 1) se van el título y la marca; la ruleta con Siderax se queda
+    scene.classList.add("viaje"); scene.style.transform = "";
     await wait(450);
-    // 2) video: la cámara retrocede por el planeta hasta quedar en el cuarto con la puerta abierta
-    vid.muted = !state.sound; vid.currentTime = 0; vid.hidden = false;
+    // 2) video: la cámara retrocede por el planeta hasta quedar en el cuarto con la puerta abierta.
+    // Va debajo de la escena; cuando tiene un cuadro pintado se desvanece el fondo de la escena.
+    vid.muted = !state.sound; vid.currentTime = 0; vid.hidden = false; vid.classList.add("visible");
     try { await vid.play(); } catch {}
-    // no mostrarlo hasta que tenga un cuadro pintado (si no, se vería negro)
     if (vid.readyState < 2) await new Promise(r => { const t = setTimeout(r, 1500); vid.addEventListener("playing", () => { clearTimeout(t); r(); }, { once: true }); });
-    vid.classList.add("visible");
+    scene.classList.add("sin-fondo");
+    // la ruleta se encoge como un objeto parado en el suelo mientras la cámara se aleja
+    // (tamaño = 1 / distancia; la cámara arranca despacio y acelera)
+    let viajeRaf = 0;
+    const seguir = () => {
+      const t = vid.currentTime || 0;
+      scene.style.transform = `scale(${(1 / (1 + 0.12 * t + 0.11 * t * t)).toFixed(4)})`;
+      if (!vid.paused && !vid.ended) viajeRaf = requestAnimationFrame(seguir);
+    };
+    viajeRaf = requestAnimationFrame(seguir);
     // en los últimos 0,8 s el cuarto quieto aparece debajo y el video se desvanece sobre él
     await new Promise(r => {
       const t = setTimeout(r, 9500);
@@ -949,7 +969,9 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     await wait(780);
     thud(); stage.classList.remove("sacudida"); void stage.offsetWidth; stage.classList.add("sacudida");
     await wait(700);
-    // detrás de las puertas cerradas: fondo del ganador y la ruleta vuelve a su lugar
+    // detrás de las puertas cerradas: fondo del ganador; la ruleta se oculta y vuelve a su tamaño
+    cancelAnimationFrame(viajeRaf);
+    scene.classList.add("sin-ui"); scene.classList.remove("viaje", "sin-fondo"); scene.style.transform = "";
     $("winnerBg").classList.add("sin-fundido"); $("winnerBg").hidden = false; room.hidden = true;
     $("wImg").src = state.photo || MOTO; $("winner").classList.add("previa", "moto-fija"); $("winner").hidden = false;
     // la luz del valle empieza a colarse por la rendija
