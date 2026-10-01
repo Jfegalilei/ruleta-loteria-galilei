@@ -146,14 +146,8 @@ body.spinning .pointer-wrap { animation: none; }
   display: flex; flex-direction: column; align-items: center; gap: 4.2cqh;
 }
 .winner .overline { color: var(--n09); font-size: 2.2cqh; letter-spacing: .18em; font-weight: 700; text-shadow: 0 .2cqh .5cqh rgba(10,11,12,.8), 0 0 1.6cqh rgba(10,11,12,.6); }
-.winner .gali-king {
-  position: absolute; left: 20.3cqh; bottom: 32.5cqh; height: 25cqh; width: auto;
-  filter: drop-shadow(0 1.2cqh 1.2cqh rgba(0,0,0,.55));
-  animation: king .7s .15s cubic-bezier(.2, 1.5, .4, 1) both;
-}
-@keyframes king { from { transform: translateY(40%) scale(.6); opacity: 0; } }
 .winner .prize-img {
-  position: absolute; left: 32.8cqh; bottom: 32.5cqh; height: 32cqh; width: auto; object-fit: contain;
+  position: absolute; left: 30.1cqh; bottom: 32.5cqh; height: 32cqh; width: auto; object-fit: contain;
   filter: drop-shadow(0 1.2cqh 1.4cqh rgba(0,0,0,.55));
   animation: ride .9s cubic-bezier(.2, 1.15, .3, 1) both;
 }
@@ -259,7 +253,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .count-line { font-variant-numeric: tabular-nums; color: var(--n07); }
 
 @media (prefers-reduced-motion: reduce) {
-  .winner .name, .winner .where, .winner .prize-img, .winner .gali-king, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
+  .winner .name, .winner .where, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
   .drawer { transition: none; }
 }
 </style>
@@ -314,7 +308,6 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
         <div class="overline" id="wOver"></div>
         <div class="name" id="wName"></div>
       </div>
-      <img class="gali-king" src="assets/gali-corona.webp" alt="Gali con corona">
       <img class="prize-img" id="wImg" alt="">
       <div class="w-bottom">
         <div class="where">
@@ -412,7 +405,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // Participantes: data/participantes.js, generado desde data/participantes.csv con build/build.py
   const SAMPLE = window.PARTICIPANTES || [];
   const SAMPLE_NAME = window.PARTICIPANTES_FUENTE || "data/participantes.csv";
-  const MOTO = "assets/moto.webp"; // se reemplaza por la imagen embebida al armar el standalone
+  const MOTO = "assets/moto-gali.webp"; // moto con Gali apoyado; se embebe al armar el standalone
   const ESCENA = "assets/siderax-moto.webp"; // Siderax con la moto, debajo de la ruleta
 
   const store = {

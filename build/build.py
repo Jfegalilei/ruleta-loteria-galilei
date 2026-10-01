@@ -96,7 +96,7 @@ def build_pages(data_js):
         return out
 
     html = sub_once(r'<script src="data/participantes\.js"></script>', '<script>\n' + data_js + '</script>', html)
-    html = sub_once(r'const MOTO = "assets/moto\.webp";', f'const MOTO = "{data_uri(p("assets", "moto.webp"), "image/webp")}";', html)
+    html = sub_once(r'const MOTO = "assets/moto-gali\.webp";', f'const MOTO = "{data_uri(p("assets", "moto-gali.webp"), "image/webp")}";', html)
     html = sub_once(r'const ESCENA = "assets/siderax-moto\.webp";', f'const ESCENA = "{data_uri(p("assets", "siderax-moto.webp"), "image/webp")}";', html)
     # imágenes referenciadas con src="assets/..." en el HTML (símbolo de Galilei, Gali, etc.)
     mimes = {'.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg'}
