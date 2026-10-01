@@ -937,7 +937,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const scene = $("scene"), room = $("room"), doors = $("doors"), stage = $("stage"), vid = $("introVid");
     doors.hidden = false; doors.classList.remove("cerradas", "abriendo", "brillo");
     // 1) se van el título y la marca; la ruleta con Siderax se queda
-    scene.classList.add("viaje"); scene.style.transform = "";
+    scene.classList.add("viaje"); scene.style.transform = ""; scene.style.opacity = "";
     await wait(450);
     // 2) video: la cámara retrocede por el planeta hasta quedar en el cuarto con la puerta abierta.
     // Va debajo de la escena; cuando tiene un cuadro pintado se desvanece el fondo de la escena.
@@ -946,11 +946,14 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     if (vid.readyState < 2) await new Promise(r => { const t = setTimeout(r, 1500); vid.addEventListener("playing", () => { clearTimeout(t); r(); }, { once: true }); });
     scene.classList.add("sin-fondo");
     // la ruleta se encoge como un objeto parado en el suelo mientras la cámara se aleja
-    // (tamaño = 1 / distancia; la cámara arranca despacio y acelera)
+    // (tamaño = 1 / distancia; la cámara arranca despacio y acelera). En el punto más lejano es
+    // tan pequeña que ya no se ve: el último tramo también se desvanece.
     let viajeRaf = 0;
     const seguir = () => {
       const t = vid.currentTime || 0;
-      scene.style.transform = `scale(${(1 / (1 + 0.12 * t + 0.11 * t * t)).toFixed(4)})`;
+      const k = 1 / (1 + 0.12 * t + 0.11 * t * t + 0.0016 * t ** 5);
+      scene.style.transform = `scale(${k.toFixed(4)})`;
+      scene.style.opacity = Math.min(1, k / 0.04).toFixed(3);
       if (!vid.paused && !vid.ended) viajeRaf = requestAnimationFrame(seguir);
     };
     viajeRaf = requestAnimationFrame(seguir);
@@ -971,7 +974,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     await wait(700);
     // detrás de las puertas cerradas: fondo del ganador; la ruleta se oculta y vuelve a su tamaño
     cancelAnimationFrame(viajeRaf);
-    scene.classList.add("sin-ui"); scene.classList.remove("viaje", "sin-fondo"); scene.style.transform = "";
+    scene.classList.add("sin-ui"); scene.classList.remove("viaje", "sin-fondo"); scene.style.transform = ""; scene.style.opacity = "";
     $("winnerBg").classList.add("sin-fundido"); $("winnerBg").hidden = false; room.hidden = true;
     $("wImg").src = state.photo || MOTO; $("winner").classList.add("previa", "moto-fija"); $("winner").hidden = false;
     // la luz del valle empieza a colarse por la rendija
