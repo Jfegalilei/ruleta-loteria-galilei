@@ -172,6 +172,7 @@ body.spinning .pointer-wrap { animation: none; }
   animation: bg-in .6s ease-out both;
 }
 @keyframes bg-in { from { opacity: 0; } }
+.winner-bg.sin-fundido { animation: none; }  /* detrás de las puertas cerradas ya debe estar completo */
 .winner { position: absolute; top: 0; bottom: 0; left: 24%; width: 52%; z-index: 7; text-align: center; }
 /* Título del anuncio entre laureles dorados: texto de entrada, premio, nombre y empresa · sede */
 .winner .w-top {
@@ -887,7 +888,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     thud(); stage.classList.remove("sacudida"); void stage.offsetWidth; stage.classList.add("sacudida");
     await wait(900);
     // detrás de las puertas cerradas: fondo del ganador y la ruleta vuelve a su lugar
-    room.hidden = true; $("winnerBg").hidden = false; scene.classList.remove("sin-ui");
+    $("winnerBg").classList.add("sin-fundido"); $("winnerBg").hidden = false; room.hidden = true;
+    // la ruleta sigue oculta durante el anuncio; vuelve al cerrarlo
     // 4) las puertas se abren y aparece el ganador
     doors.classList.add("abriendo"); doors.classList.remove("cerradas");
     await wait(450);
@@ -918,7 +920,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   function closeWinner(remove) {
     if ($("winner").hidden) return;
     if (remove && lastWinner) { state.removed.push(lastWinner.id); store.set("removed", state.removed); }
-    $("winner").hidden = true; $("winnerBg").hidden = true; lastWinner = null; $("pointerWrap").classList.remove("win");
+    $("winner").hidden = true; $("winnerBg").hidden = true; $("winnerBg").classList.remove("sin-fundido");
+    $("scene").classList.remove("sin-ui"); lastWinner = null; $("pointerWrap").classList.remove("win");
     stopConfetti(); refresh(); $("spinBtn").focus();
   }
 
