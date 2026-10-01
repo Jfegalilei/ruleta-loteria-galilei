@@ -1415,7 +1415,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   function importCSV(text, fileName) {
     const rows = parseCSV(text);
     if (rows.length < 2) throw new Error("El archivo no tiene filas de participantes.");
-    const h = rows[0].map(s => s.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""));
+    const h = rows[0].map(s => s.trim().toLowerCase().replace(/_/g, " ").normalize("NFD").replace(/[̀-ͯ]/g, "")); // tickets_actuales = tickets actuales
     const col = names => h.findIndex(x => names.includes(x));
     const iN = col(["player", "nombre", "name", "jugador", "participante"]);
     const iC = col(["empresa", "compania", "company", "cliente"]);

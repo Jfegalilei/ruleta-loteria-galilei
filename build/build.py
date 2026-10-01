@@ -32,10 +32,16 @@ def fix_mojibake(s):
 def num(v):
     return int(re.sub(r'\D', '', v or '') or 0)
 
+def norm_col(s):
+    """Nombre de columna comparable: sin mayúsculas, tildes ni guiones bajos (tickets_actuales = Tickets actuales)."""
+    s = unicodedata.normalize('NFD', (s or '').strip().lower().replace('_', ' '))
+    return re.sub(r'\s+', ' ', ''.join(ch for ch in s if not unicodedata.combining(ch)))
+
 def col(row, *names):
+    cols = {norm_col(k): v for k, v in row.items() if k is not None}
     for n in names:
-        if n in row:
-            return row[n]
+        if norm_col(n) in cols and cols[norm_col(n)] is not None:
+            return cols[norm_col(n)]
     return ''
 
 def clave_persona(nombre, empresa):
@@ -53,7 +59,7 @@ def read_csv(name, columnas=(), sumar=False, empresa_fija=''):
         return []
     with open(p('data', name), encoding='utf-8-sig') as f:
         for x in csv.DictReader(f):
-            nombre = fix_mojibake(col(x, 'Player', 'Nombre').strip())
+            nombre = fix_mojibake(col(x, 'Player', 'Nombre', 'Jugador').strip())
             empresa = fix_mojibake(col(x, 'Empresa', 'company', 'Company').strip()) or empresa_fija  # Auteco: el export no trae empresa
             if not nombre:
                 continue
