@@ -1117,7 +1117,14 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     await wait(450);
     // 2) video: la cámara retrocede por el planeta hasta quedar en el cuarto con la puerta abierta.
     // Va debajo de la escena; cuando tiene un cuadro pintado se desvanece el fondo de la escena.
-    vid.muted = !state.sound; vid.currentTime = 0; vid.hidden = false; vid.classList.add("visible");
+    vid.muted = !state.sound; vid.volume = 1; vid.currentTime = 0; vid.hidden = false; vid.classList.add("visible");
+    // el sonido del video se apaga suave en su último segundo y medio, para que no se corte en seco
+    const bajarSonido = () => {
+      const quedan = vid.duration ? vid.duration - vid.currentTime : 99;
+      vid.volume = Math.pow(Math.max(0, Math.min(1, (quedan - 0.15) / 1.4)), 1.6);
+      if (!vid.paused && !vid.ended && quedan > 0.15) requestAnimationFrame(bajarSonido); else vid.volume = 0;
+    };
+    vid.addEventListener("playing", () => requestAnimationFrame(bajarSonido), { once: true });
     try { await vid.play(); } catch {}
     if (vid.readyState < 2) await new Promise(r => { const t = setTimeout(r, 1500); vid.addEventListener("playing", () => { clearTimeout(t); r(); }, { once: true }); });
     scene.classList.add("sin-fondo");
@@ -1153,7 +1160,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     await Promise.all(precargadas);
     room.hidden = false; vid.classList.remove("visible");
     await wait(850);
-    vid.hidden = true; vid.pause();
+    vid.volume = 0; vid.hidden = true; vid.pause();
     // 3) las puertas se cierran con un golpe
     doors.classList.add("cerradas");
     await wait(780);
