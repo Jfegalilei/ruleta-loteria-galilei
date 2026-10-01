@@ -52,11 +52,11 @@ body.idle { cursor: none; }
     url("assets/fondo-siderax.webp") center / cover no-repeat,
     var(--n00);
 }
-.scene > .side, .scene > .center { transition: opacity .6s ease-in-out; }
+.scene > .side, .scene > .center { transition: opacity .9s ease-in-out; }
 .scene.sin-ui > .side, .scene.sin-ui > .center { opacity: 0; }
 /* Video de la transición: la cámara retrocede por el planeta y sale por la puerta del cuarto.
    Está recortado para que su último cuadro calce con cuarto.webp y las puertas. */
-.intro { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s ease-out; pointer-events: none; }
+.intro { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s ease-in-out; pointer-events: none; }
 .intro.visible { opacity: 1; }
 /* Transición al ganador: el cuarto con la puerta abierta, y las dos hojas que se cierran y se abren */
 .room { position: absolute; inset: 0; z-index: 3; background: url("assets/cuarto.webp") 0 0 / 100% 100% no-repeat, var(--n00); }
@@ -865,16 +865,22 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     if (reduced) { finish(p); return; }
     const scene = $("scene"), room = $("room"), doors = $("doors"), stage = $("stage"), vid = $("introVid");
     doors.hidden = false; doors.classList.remove("cerradas", "abriendo");
-    // 1) la ruleta se desvanece y queda el planeta de Siderax
+    // 1) la ruleta se desvanece y queda el planeta de Siderax; el video entra superpuesto
     scene.classList.add("sin-ui");
-    await wait(650);
+    await wait(450);
     // 2) video: la cámara retrocede por el planeta hasta quedar en el cuarto con la puerta abierta
     vid.muted = !state.sound; vid.currentTime = 0; vid.hidden = false;
     void vid.offsetWidth; vid.classList.add("visible");
     try { await vid.play(); } catch {}
-    await new Promise(r => { const t = setTimeout(r, 9500); vid.onended = () => { clearTimeout(t); r(); }; });
-    room.hidden = false;                       // el cuarto quieto, igual al último cuadro
-    vid.classList.remove("visible"); vid.hidden = true; vid.pause();
+    // en los últimos 0,8 s el cuarto quieto aparece debajo y el video se desvanece sobre él
+    await new Promise(r => {
+      const t = setTimeout(r, 9500);
+      const check = () => { if (vid.duration && vid.currentTime >= vid.duration - 0.8) { vid.removeEventListener("timeupdate", check); clearTimeout(t); r(); } };
+      vid.addEventListener("timeupdate", check); vid.onended = () => { clearTimeout(t); r(); };
+    });
+    room.hidden = false; vid.classList.remove("visible");
+    await wait(850);
+    vid.hidden = true; vid.pause();
     // 3) las puertas se cierran con un golpe
     doors.classList.add("cerradas");
     await wait(780);
