@@ -99,7 +99,7 @@ def build_pages(data_js):
     html = sub_once(r'const MOTO = "assets/moto-gali\.webp";', f'const MOTO = "{data_uri(p("assets", "moto-gali.webp"), "image/webp")}";', html)
     html = sub_once(r'const ESCENA = "assets/siderax-moto\.webp";', f'const ESCENA = "{data_uri(p("assets", "siderax-moto.webp"), "image/webp")}";', html)
     # imágenes referenciadas con src="assets/..." en el HTML (símbolo de Galilei, Gali, etc.)
-    mimes = {'.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg'}
+    mimes = {'.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.mp4': 'video/mp4'}
     html = re.sub(r'src="assets/([^"]+)"',
                   lambda m: f'src="{data_uri(p("assets", m.group(1)), mimes[os.path.splitext(m.group(1))[1].lower()])}"', html)
     # fondos del CSS: url("assets/...")

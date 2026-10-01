@@ -42,7 +42,8 @@ body.idle { cursor: none; }
   60% { transform: translate(.35cqh, .2cqh); } 80% { transform: translate(-.2cqh, -.1cqh); }
 }
 /* Escena de la ruleta. Fondo: planeta de origen de Siderax, oscuro y suave; los lados se atenúan
-   para no iluminar a los presentadores. Al terminar el giro se aleja hasta caber en la puerta del cuarto. */
+   para no iluminar a los presentadores. Al terminar el giro, la ruleta se desvanece y queda el planeta,
+   que es el primer cuadro del video de la transición. */
 .scene {
   position: absolute; inset: 0; z-index: 2;
   display: grid; grid-template-columns: 24fr 52fr 24fr;
@@ -50,13 +51,15 @@ body.idle { cursor: none; }
     linear-gradient(90deg, rgba(10,11,12,.55) 0%, rgba(10,11,12,.3) 24%, rgba(10,11,12,.1) 42%, rgba(10,11,12,.1) 58%, rgba(10,11,12,.3) 76%, rgba(10,11,12,.55) 100%),
     url("assets/fondo-siderax.webp") center / cover no-repeat,
     var(--n00);
-  transform-origin: 49.3% 52.7%;
-  transition: transform 1.8s cubic-bezier(.6, 0, .3, 1), opacity .5s ease-in 1.35s;
 }
-.scene.alejar { transform: scale(.56); opacity: 0; }
-.scene.sin-transicion { transition: none; }
+.scene > .side, .scene > .center { transition: opacity .6s ease-in-out; }
+.scene.sin-ui > .side, .scene.sin-ui > .center { opacity: 0; }
+/* Video de la transición: la cámara retrocede por el planeta y sale por la puerta del cuarto.
+   Está recortado para que su último cuadro calce con cuarto.webp y las puertas. */
+.intro { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s ease-out; pointer-events: none; }
+.intro.visible { opacity: 1; }
 /* Transición al ganador: el cuarto con la puerta abierta, y las dos hojas que se cierran y se abren */
-.room { position: absolute; inset: 0; z-index: 1; background: url("assets/cuarto.webp") 0 0 / 100% 100% no-repeat, var(--n00); }
+.room { position: absolute; inset: 0; z-index: 3; background: url("assets/cuarto.webp") 0 0 / 100% 100% no-repeat, var(--n00); }
 .doors { position: absolute; inset: 0; z-index: 9; pointer-events: none; }
 .leaf { position: absolute; top: 15.5cqh; height: 73cqh; overflow: hidden; }
 .leaf.l { left: 21.4cqw; width: 28.3cqw; }
@@ -304,7 +307,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .count-line { font-variant-numeric: tabular-nums; color: var(--n07); }
 
 @media (prefers-reduced-motion: reduce) {
-  .scene { transition: none; }
+  .scene > .side, .scene > .center, .intro { transition: none; }
   .winner .name, .winner .w-top, .winner .prize-img, .winner .stats, .pointer-wrap, .pointer-wrap.win { animation: none; }
   .drawer { transition: none; }
 }
@@ -360,6 +363,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
   <div class="side"><div class="guide">Presentador 2</div></div>
   </div>
+  <video class="intro" id="introVid" src="assets/transicion.mp4" preload="auto" playsinline hidden></video>
   <div class="winner-bg" id="winnerBg" hidden></div>
   <div class="doors" id="doors" hidden>
     <div class="leaf l"><div class="leaf-img"></div></div>
@@ -696,19 +700,11 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     g.gain.setValueAtTime(0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
     o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.035);
   }
-  // Efectos de la transición: soplido al alejarse y golpe al cerrar las puertas
+  // Efecto de la transición: golpe al cerrar las puertas
   function noiseBuf(len) {
     const b = ac.createBuffer(1, Math.floor(ac.sampleRate * len), ac.sampleRate), d = b.getChannelData(0);
     for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
     return b;
-  }
-  function whoosh() {
-    if (!state.sound || !audio()) return;
-    const t = ac.currentTime, src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
-    src.buffer = noiseBuf(1.8); f.type = "bandpass"; f.Q.value = 1.2;
-    f.frequency.setValueAtTime(1800, t); f.frequency.exponentialRampToValueAtTime(260, t + 1.7);
-    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22, t + 0.5); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.75);
-    src.connect(f).connect(g).connect(ac.destination); src.start(t);
   }
   function thud() {
     if (!state.sound || !audio()) return;
@@ -867,17 +863,26 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const wait = ms => new Promise(r => setTimeout(r, ms));
   async function revelar(p) {
     if (reduced) { finish(p); return; }
-    const scene = $("scene"), room = $("room"), doors = $("doors"), stage = $("stage");
-    room.hidden = false; doors.hidden = false; doors.classList.remove("cerradas", "abriendo");
-    void scene.offsetWidth; scene.classList.add("alejar"); whoosh();
-    await wait(1850);
+    const scene = $("scene"), room = $("room"), doors = $("doors"), stage = $("stage"), vid = $("introVid");
+    doors.hidden = false; doors.classList.remove("cerradas", "abriendo");
+    // 1) la ruleta se desvanece y queda el planeta de Siderax
+    scene.classList.add("sin-ui");
+    await wait(650);
+    // 2) video: la cámara retrocede por el planeta hasta quedar en el cuarto con la puerta abierta
+    vid.muted = !state.sound; vid.currentTime = 0; vid.hidden = false;
+    void vid.offsetWidth; vid.classList.add("visible");
+    try { await vid.play(); } catch {}
+    await new Promise(r => { const t = setTimeout(r, 9500); vid.onended = () => { clearTimeout(t); r(); }; });
+    room.hidden = false;                       // el cuarto quieto, igual al último cuadro
+    vid.classList.remove("visible"); vid.hidden = true; vid.pause();
+    // 3) las puertas se cierran con un golpe
     doors.classList.add("cerradas");
     await wait(780);
     thud(); stage.classList.remove("sacudida"); void stage.offsetWidth; stage.classList.add("sacudida");
     await wait(900);
-    // detrás de las puertas cerradas: fondo del ganador y la escena de la ruleta vuelve a su lugar
-    room.hidden = true; $("winnerBg").hidden = false;
-    scene.classList.add("sin-transicion"); scene.classList.remove("alejar"); void scene.offsetWidth; scene.classList.remove("sin-transicion");
+    // detrás de las puertas cerradas: fondo del ganador y la ruleta vuelve a su lugar
+    room.hidden = true; $("winnerBg").hidden = false; scene.classList.remove("sin-ui");
+    // 4) las puertas se abren y aparece el ganador
     doors.classList.add("abriendo"); doors.classList.remove("cerradas");
     await wait(450);
     finish(p);
