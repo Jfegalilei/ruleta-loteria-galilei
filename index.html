@@ -860,10 +860,37 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     r.connect(lp).connect(g2).connect(ac.destination); r.start(t);
   }
   // Sonidos grabados (puerta que se cierra, moto que arranca): <audio> en el HTML para que el build los embeba
-  function sonar(id) {
+  // Se tocan con Web Audio, que queda habilitado con el clic de Girar (ac.resume): así suenan también
+  // en navegadores que bloquean <audio> sin un clic reciente (Safari, iPhone, Chrome sin historial).
+  // Si no se pudieron decodificar (por ejemplo, abierto con doble clic), se usa el <audio>.
+  const sonBufs = {};
+  function cargarSon(id) {
+    if (sonBufs[id] || !audio()) return sonBufs[id] || Promise.resolve(null);
+    const src = $(id).getAttribute("src");
+    const bytes = src.startsWith("data:")
+      ? Promise.resolve(Uint8Array.from(atob(src.split(",")[1]), c => c.charCodeAt(0)).buffer)
+      : fetch(src).then(r => r.arrayBuffer());
+    sonBufs[id] = bytes.then(buf => new Promise(res => ac.decodeAudioData(buf, res, () => res(null)))).catch(() => null);
+    return sonBufs[id];
+  }
+  async function sonar(id) {
     if (!state.sound) return;
+    const b = audio() ? await cargarSon(id) : null;
+    if (b) { const n = ac.createBufferSource(); n.buffer = b; n.connect(ac.destination); n.start(); return; }
     const a = $(id);
     try { a.currentTime = 0; a.volume = 1; const p = a.play(); if (p) p.catch(() => {}); } catch {}
+  }
+  // En el clic de Girar se "desbloquea" el video: se reproduce en silencio un instante y se pausa. Los
+  // navegadores que exigen un clic para reproducir con sonido lo dejan sonar después en la transición.
+  function desbloquearVideo() {
+    const v = $("introVid");
+    if (v.dataset.listo) return;
+    try {
+      v.volume = 0;
+      const p = v.play();
+      const listo = () => { v.pause(); v.currentTime = 0; v.volume = 1; v.dataset.listo = "1"; };
+      if (p) p.then(listo).catch(() => { v.volume = 1; }); else listo();
+    } catch {}
   }
 
 
@@ -969,6 +996,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const n = current.length;
     if (spinning || n === 0 || !$("winner").hidden || $("drawer").classList.contains("open")) return;
     audio(); if (ac && ac.state === "suspended") ac.resume(); loadWinBuf();
+    desbloquearVideo(); cargarSon("sonPuerta"); cargarSon("sonMoto");
     spinning = true; $("spinBtn").disabled = true;
 
     // cada ticket es una oportunidad: se sortea un ticket y gana su dueño
@@ -1121,8 +1149,15 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       if (!vid.paused && !vid.ended && quedan > 0.15) requestAnimationFrame(bajarSonido); else vid.volume = 0;
     };
     vid.addEventListener("playing", () => requestAnimationFrame(bajarSonido), { once: true });
-    try { await vid.play(); } catch {}
+    try { await vid.play(); } catch {
+      // el navegador no deja reproducir con sonido: se reproduce sin sonido para que la animación siga
+      vid.muted = true;
+      try { await vid.play(); } catch {}
+    }
     if (vid.readyState < 2) await new Promise(r => { const t = setTimeout(r, 1500); vid.addEventListener("playing", () => { clearTimeout(t); r(); }, { once: true }); });
+    // si ni así arranca (por ejemplo, un iPhone en ahorro de batería), se salta el video en vez de quedarse quieto
+    const sinVideo = vid.paused;
+    if (sinVideo) { vid.classList.remove("visible"); scene.classList.add("sin-ui"); await wait(600); }
     scene.classList.add("sin-fondo");
     // la escena queda pegada al suelo: sigue la posición y la escala del punto donde pisan Siderax y
     // la moto, rastreadas en cada cuadro del video. A los 5,3 s le cae un rayo y desaparece con la ruleta.
@@ -1148,7 +1183,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       viajeRaf = requestAnimationFrame(seguir);
     }
     // en los últimos 0,8 s el cuarto quieto aparece debajo y el video se desvanece sobre él
-    await new Promise(r => {
+    if (!sinVideo) await new Promise(r => {
       const t = setTimeout(r, 9500);
       const check = () => { if (vid.duration && vid.currentTime >= vid.duration - 0.8) { vid.removeEventListener("timeupdate", check); clearTimeout(t); r(); } };
       vid.addEventListener("timeupdate", check); vid.onended = () => { clearTimeout(t); r(); };

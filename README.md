@@ -46,6 +46,10 @@ dist/                       Salidas del build (no se suben al repo)
 .github/workflows/          Publica en GitHub Pages en cada push a main
 ```
 
+## Reproducción en cualquier dispositivo
+
+Los navegadores sin "confianza" en la página (Safari, iPhone/iPad, Chrome recién abierto) bloquean reproducir el video con sonido si no hubo un clic reciente; antes eso dejaba la transición quieta varios segundos. Ahora: en el clic de Girar se desbloquea el video (se reproduce en silencio un instante) y se habilita el audio; si aun así el navegador no deja el sonido, el video sigue sin sonido; y si ni así arranca (por ejemplo, ahorro de batería en iPhone), se salta el video y se pasa directo al cuarto. Los sonidos de la puerta y la moto se tocan con Web Audio (`sonar()`), igual que los tics y la celebración.
+
 ## Datos siempre del repo
 
 - Al abrir el link, la lista se pide como `data/participantes.js?t=<hora>`: nunca se usa una copia guardada (ni del navegador ni de GitHub Pages), así que se ven los datos que estén en el repo en ese momento.
