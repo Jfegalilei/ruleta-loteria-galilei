@@ -37,6 +37,13 @@ body.idle { cursor: none; }
   background: var(--n00);
 }
 .stage.sacudida { animation: sacudida .38s ease-out; }
+/* Bordes laterales más oscuros en todas las escenas (ruleta, transición y anuncio), para no iluminar
+   a los presentadores. Solo cubre los lados; la columna central (24%-76%) queda igual. */
+.stage::after {
+  content: ""; position: absolute; inset: 0; z-index: 10; pointer-events: none;
+  background: linear-gradient(90deg, rgba(10,11,12,.5) 0%, rgba(10,11,12,.28) 14%, rgba(10,11,12,0) 24%,
+    rgba(10,11,12,0) 76%, rgba(10,11,12,.28) 86%, rgba(10,11,12,.5) 100%);
+}
 @keyframes sacudida {
   20% { transform: translate(.7cqh, .35cqh); } 40% { transform: translate(-.6cqh, -.3cqh); }
   60% { transform: translate(.35cqh, .2cqh); } 80% { transform: translate(-.2cqh, -.1cqh); }

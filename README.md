@@ -63,7 +63,7 @@ Reemplaza `data/participantes.csv` por el export nuevo de Gali Admin y corre `py
 
 Aplican a cualquier cambio, lo haga una persona o una IA.
 
-1. **Los lados quedan vacíos.** El escenario es 16:9 fijo: la columna central mide el 52% del ancho y cada lado el 24%. Nada visible del escenario (título, ruleta, moto, textos, anuncio del ganador, confeti) puede entrar en los lados. Única excepción: los tickets que salen volando de la ruleta mientras gira, que cruzan los lados de paso hasta salir de la pantalla. La barra de botones flotante se esconde sola y no cuenta.
+1. **Los lados quedan vacíos.** El escenario es 16:9 fijo: la columna central mide el 52% del ancho y cada lado el 24%. Nada visible del escenario (título, ruleta, moto, textos, anuncio del ganador, confeti) puede entrar en los lados. Sobre todas las escenas hay una capa (`.stage::after`) que oscurece los bordes laterales; no la quites. Única excepción: los tickets que salen volando de la ruleta mientras gira, que cruzan los lados de paso hasta salir de la pantalla. La barra de botones flotante se esconde sola y no cuenta.
 2. **El sorteo se pondera por tickets.** Se sortea un ticket con `crypto.getRandomValues` (función `randInt`, sin sesgo de módulo) y gana su dueño. No usar `Math.random` para elegir al ganador. Quien tiene 0 tickets no participa.
 3. **Cada casilla mide según los tickets de su dueño.** La flecha debe detenerse dentro de la casilla del ganador. Los nombres se achican para caber en su casilla y no se dibujan si no caben legibles.
 4. **Nunca mostrar el total de tickets en juego.** Ni en pantalla ni en el panel.
