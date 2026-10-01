@@ -270,9 +270,11 @@ body.spinning .pointer-wrap { animation: none; }
   width: 27cqh; padding: 1.4cqh 1.6cqh; border-radius: 2cqh; box-sizing: border-box;
   display: grid; grid-template-columns: auto auto; grid-template-areas: "icono cifra" "texto texto";
   justify-content: center; align-items: center; column-gap: 1.2cqh; row-gap: .6cqh;
+  /* cristal oscuro y más opaco: los números blancos contrastan con el valle claro de atrás */
   background:
-    linear-gradient(170deg, rgba(255,255,255,.26) 0%, rgba(255,255,255,.08) 45%, rgba(255,255,255,.04) 100%);
-  -webkit-backdrop-filter: blur(1.4cqh) saturate(1.4); backdrop-filter: blur(1.4cqh) saturate(1.4);
+    linear-gradient(170deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.04) 40%, rgba(255,255,255,0) 100%),
+    rgba(16,12,20,.66);
+  -webkit-backdrop-filter: blur(1.8cqh) saturate(1.2); backdrop-filter: blur(1.8cqh) saturate(1.2);
   border: .22cqh solid rgba(255,255,255,.42);
   box-shadow:
     inset 0 .5cqh .9cqh rgba(255,255,255,.35), inset 0 -.7cqh 1.4cqh rgba(10,11,12,.32),
