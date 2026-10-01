@@ -228,6 +228,7 @@ body.spinning .pointer-wrap { animation: none; }
 /* Título del anuncio entre laureles dorados: texto de entrada, premio, nombre y empresa · sede */
 .winner .w-top {
   position: absolute; left: 0; right: 0; top: 5.6cqh; /* bajado para quedar más cerca de la moto */
+  z-index: 2; /* siempre encima de la imagen del premio, aunque el nombre ocupe dos líneas */
   display: flex; align-items: center; justify-content: center; gap: 1.6cqh;
   animation: rise .5s .1s ease-out both;
 }
@@ -248,7 +249,7 @@ body.spinning .pointer-wrap { animation: none; }
 .winner .w-placa text { font-family: var(--font-display); font-weight: 700; font-size: 86px; letter-spacing: 6px; }
 .winner .w-place { font-family: var(--font-body); font-weight: 700; font-size: 2.6cqh; color: var(--n08); }
 .winner .prize-img {
-  position: absolute; left: 19.2cqh; bottom: 32cqh; height: 38cqh; width: auto; object-fit: contain;
+  position: absolute; left: 19.2cqh; bottom: 32cqh; height: 38cqh; width: auto; object-fit: contain; z-index: 1;
   filter: drop-shadow(0 1.2cqh 1.4cqh rgba(0,0,0,.55));
   animation: ride .9s cubic-bezier(.2, 1.15, .3, 1) both;
 }
