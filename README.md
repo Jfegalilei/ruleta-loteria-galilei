@@ -46,6 +46,12 @@ dist/                       Salidas del build (no se suben al repo)
 .github/workflows/          Publica en GitHub Pages en cada push a main
 ```
 
+## Visitantes y administrador
+
+- **Modo visitante (por defecto):** quien abra el link solo puede girar. No hay panel de participantes (ni tecla E), no se puede sacar a nadie y se usan siempre los datos del repo tal cual (lista, exclusiones de base y premio), sin cambios guardados en el navegador. Al cerrar el anuncio solo está "Volver a la ruleta".
+- **Modo administrador:** abrir el link con `?admin=1` (por ejemplo `https://jfegalilei.github.io/ruleta-loteria-galilei/?admin=1`). Queda recordado en ese navegador; `?admin=0` lo quita. Ahí vuelven el panel, cargar CSV, excluir empresas y sacar ganadores.
+- No es una protección de seguridad: lo que se cambia en un navegador solo afecta a ese navegador. Los datos que ven todos se actualizan en el repo (`data/`) y se publican con cada push.
+
 ## Varias loterías
 
 El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `data/loterias.json`. También se puede abrir una directamente con `?loteria=<id>` (por ejemplo `?loteria=auteco`). Hoy hay tres:

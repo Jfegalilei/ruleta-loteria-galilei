@@ -588,6 +588,17 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     try { if (id) localStorage.setItem("ruleta6:@loteria", id); else id = localStorage.getItem("ruleta6:@loteria"); } catch {}
     return LOTERIAS.find(l => l.id === id) || LOTERIAS[0];
   })();
+  // Modo visitante (por defecto): solo se gira, con los datos del repo tal cual; no hay panel ni se
+  // puede sacar a nadie. Modo administrador: abrir con ?admin=1 (queda recordado en ese navegador;
+  // ?admin=0 lo quita). No es una protección de seguridad: cada navegador solo cambia lo suyo.
+  const ADMIN = (() => {
+    const q = new URLSearchParams(location.search).get("admin");
+    try {
+      if (q === "1") localStorage.setItem("ruleta6:@admin", "1");
+      if (q === "0") localStorage.removeItem("ruleta6:@admin");
+      return localStorage.getItem("ruleta6:@admin") === "1";
+    } catch { return q === "1"; }
+  })();
   const SAMPLE = LOT.participantes || [];
   const SAMPLE_NAME = LOT.fuente;
   const MOTO = "assets/moto-gali.webp"; // moto con Gali apoyado; se embebe al armar el standalone
@@ -629,13 +640,14 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 
   // ---------- Estado ----------
   let state = {
-    rows: store.get("rows", null),
-    source: store.get("source", SAMPLE_NAME),
-    excluded: store.get("excluded", LOT.excluidas || ["Auteco", "La Causa", "Galilei"]),
-    removed: store.get("removed", []),
+    // en modo visitante no se usan cambios guardados: la lista, las exclusiones y el premio son los del repo
+    rows: ADMIN ? store.get("rows", null) : null,
+    source: ADMIN ? store.get("source", SAMPLE_NAME) : SAMPLE_NAME,
+    excluded: ADMIN ? store.get("excluded", LOT.excluidas || ["Auteco", "La Causa", "Galilei"]) : (LOT.excluidas || ["Auteco", "La Causa", "Galilei"]),
+    removed: ADMIN ? store.get("removed", []) : [],
     history: store.get("history", []),
-    prize: store.get("prize", LOT.titulo || "Victory Combat 100"),
-    photo: store.get("photo", ""),
+    prize: ADMIN ? store.get("prize", LOT.titulo || "Victory Combat 100") : (LOT.titulo || "Victory Combat 100"),
+    photo: ADMIN ? store.get("photo", "") : "",
     sound: store.get("sound", true),
     win: store.get("win", "celebracion"),
   };
@@ -1196,14 +1208,14 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     $("wScore").textContent = NUM.format(p.s || 0);
     $("wTickets").textContent = $("wReviews").textContent = NUM.format(p.t);
     ponerPremio();
-    $("winnerBg").hidden = false; $("winner").classList.remove("previa"); $("winner").hidden = false; $("removeBtn").focus();
+    $("winnerBg").hidden = false; $("winner").classList.remove("previa"); $("winner").hidden = false; $(ADMIN ? "removeBtn" : "keepBtn").focus();
     fanfare(); if (!reduced) { confetti(); fuentes(); }
     renderHistory();
   }
 
   function closeWinner(remove) {
     if ($("winner").hidden) return;
-    if (remove && lastWinner) { state.removed.push(lastWinner.id); store.set("removed", state.removed); }
+    if (remove && lastWinner && ADMIN) { state.removed.push(lastWinner.id); store.set("removed", state.removed); }
     $("winner").hidden = true; $("winner").classList.remove("previa", "moto-fija"); $("winnerBg").hidden = true; $("winnerBg").classList.remove("sin-fundido");
     $("scene").classList.remove("sin-ui"); lastWinner = null; $("pointerWrap").classList.remove("win");
     stopConfetti(); stopFuentes(); refresh(); $("spinBtn").focus();
@@ -1528,7 +1540,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   }
 
   function openDrawer(open) {
-    if (spinning) return;
+    if (spinning || !ADMIN) return;
     $("drawer").classList.toggle("open", open);
     if (open) renderDrawer(); else $("spinBtn").focus();
   }
@@ -1590,6 +1602,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // selector de lotería: recarga la página con la elegida
   LOTERIAS.forEach(l => { const o = document.createElement("option"); o.value = l.id; o.textContent = l.nombre || l.titulo || l.id; $("loteriaIn").append(o); });
   $("loteriaIn").value = LOT.id;
+  if (!ADMIN) { $("editBtn").hidden = true; $("removeBtn").hidden = true; $("keepBtn").textContent = "Volver a la ruleta"; $("keepBtn").className = "btn primary"; }
   if (LOT.premio !== undefined) $("winner").classList.add("premio-propio");
   if (LOT.escena !== undefined) $("headMoto").classList.add("escena-propia");
   if (POR_REVIEWS) document.querySelectorAll(".winner .stat").forEach(el => { el.hidden = !el.classList.contains("rv"); });
