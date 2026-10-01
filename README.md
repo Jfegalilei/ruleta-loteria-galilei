@@ -28,7 +28,7 @@ assets/siderax-moto.webp    Siderax a la izquierda de la moto, con la mano sobre
 assets/galilei-symbol.png   Símbolo de Galilei que acompaña a "GaliLotería"
 assets/fondo-siderax.webp   Fondo: planeta de origen de Siderax, oscuro y suave
 assets/fondo-ganador.webp   Fondo del anuncio del ganador: bóveda de metal oscuro abierta a un valle con arcoíris y un pedestal
-assets/cuarto.webp          Transición: cuarto con la puerta abierta al planeta de Siderax
+assets/cuarto.webp          Transición: cuarto con la puerta abierta al planeta de Siderax, sin pedestal
 assets/puerta-cerrada.webp  Transición: la misma puerta cerrada (se usan sus dos hojas)
 assets/laurel.svg          Rama de laurel dorada para el título del anuncio
 assets/moto-gali.webp       Moto con Gali (gafas) apoyado en la rueda delantera, en el anuncio del ganador
