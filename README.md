@@ -53,10 +53,10 @@ El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `da
 | id | Lotería | CSV | Imágenes |
 | --- | --- | --- | --- |
 | `moto` | Moto Victory Combat 100 | `data/participantes.csv` | Siderax con la moto y moto con Gali |
-| `auteco` | Auteco | `data/loteria-auteco.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
-| `reviews` | Reviews | `data/loteria-reviews.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
+| `auteco` | Auteco (5.000.000$) | `data/loteria-auteco.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
+| `reviews` | Reviews (500.000$) | `data/loteria-reviews.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
 
-**Reviews es distinta:** no cuenta tickets, juegos ni puntaje. Cada review es una oportunidad (columna `Reviews`, o las que diga `columnas` en `loterias.json`), y solo participan quienes tienen 50 o más (`minimo`). En el anuncio sale una sola cifra, las reviews, con `assets/icono-reviews.svg` (la estrella amarilla de las reseñas de Google, #FBBC04, plana); al girar siguen volando GaliTickets.
+**Reviews es distinta:** no cuenta tickets, juegos ni puntaje. Cada review es una oportunidad (columna `Reviews`, o las que diga `columnas` en `loterias.json`), y solo participan quienes tienen 50 o más (`minimo`). Su CSV (export "Reviews Ambassadors": `Nombre`, `location_name`, `company`, `reviews`) trae una fila por persona y sede y no tiene Player id: se identifica a cada persona por nombre + empresa y se suman sus reviews de todas las sedes (`sumar` en `loterias.json`; el panel hace lo mismo al cargar el CSV); la sede que se muestra es la de más reviews. En el anuncio sale una sola cifra, las reviews, con `assets/icono-reviews.svg` (la estrella amarilla de las reseñas de Google, #FBBC04, plana); al girar siguen volando GaliTickets.
 
 - Cada lotería tiene sus propios participantes, título del premio, imágenes, empresas excluidas, sacados e historial. Cambiar de lotería recarga la página y no toca las demás.
 - La de la moto debe seguir siendo la primera y con id `moto`: usa las claves de `localStorage` de siempre (`ruleta6:...`); las demás usan `ruleta6:<id>:...`.

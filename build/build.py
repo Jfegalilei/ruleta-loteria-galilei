@@ -13,7 +13,7 @@ Uso (desde la raíz del repo):  python build/build.py
 
 Solo usa la librería estándar de Python. Necesita internet para bajar las fuentes.
 """
-import base64, csv, json, os, re, urllib.request
+import base64, csv, hashlib, json, os, re, unicodedata, urllib.request
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 p = lambda *a: os.path.join(ROOT, *a)
@@ -38,33 +38,52 @@ def col(row, *names):
             return row[n]
     return ''
 
-def read_csv(name, columnas=()):
-    """Una fila por Player id. Tickets: el mayor. Juegos y puntaje: la fila del año más reciente."""
+def clave_persona(nombre, empresa):
+    """Sin Player id, una persona es su nombre + empresa (sin tildes, mayúsculas ni espacios de más)."""
+    t = unicodedata.normalize('NFD', f'{nombre}|{empresa}'.lower())
+    return re.sub(r'\s+', ' ', ''.join(ch for ch in t if not unicodedata.combining(ch))).strip()
+
+def read_csv(name, columnas=(), sumar=False):
+    """Una fila por persona (Player id, o nombre + empresa si no hay id).
+    Normal: tickets, el mayor; juegos y puntaje, la fila del año más reciente.
+    sumar=True (Reviews): el CSV trae una fila por persona y sede, y se suman las de cada persona;
+    la sede que se muestra es la de más reviews."""
     people = {}
     if not os.path.exists(p('data', name)):
         return []
     with open(p('data', name), encoding='utf-8-sig') as f:
         for x in csv.DictReader(f):
-            pid = col(x, 'Player id', 'id')
+            nombre = fix_mojibake(col(x, 'Player', 'Nombre').strip())
+            empresa = fix_mojibake(col(x, 'Empresa', 'company', 'Company').strip())
+            if not nombre:
+                continue
+            pid = col(x, 'Player id', 'id') or hashlib.sha1(clave_persona(nombre, empresa).encode()).hexdigest()
             year = num(col(x, 'Year', 'Anio', 'Año'))
             row = {
                 'id': pid[:8],
-                'n': fix_mojibake(col(x, 'Player', 'Nombre').strip()),
-                'c': fix_mojibake(col(x, 'Empresa').strip()),
-                'l': fix_mojibake(col(x, 'Location', 'Sede').strip()),
+                'n': nombre,
+                'c': empresa,
+                'l': fix_mojibake(col(x, 'Location', 'Sede', 'location_name').strip()),
                 't': num(col(x, *columnas, 'Tickets actuales', 'Tickets')),  # en Reviews, cada review es un ticket
                 'g': num(col(x, 'Games played', 'Partidas')),
                 's': num(col(x, 'Max score', 'Puntaje maximo')),
                 '_y': year,
             }
             prev = people.get(pid)
+            if prev and sumar:
+                if row['t'] > prev['_max']:
+                    prev['l'], prev['_max'] = row['l'], row['t']
+                prev['t'] += row['t']
+                continue
+            if sumar:
+                row['_max'] = row['t']
             if prev:
                 row['t'] = max(row['t'], prev['t'])
                 if year <= prev['_y']:
                     prev['t'] = row['t']
                     continue
             people[pid] = row
-    return [{k: v for k, v in r.items() if k != '_y'} for r in people.values()]
+    return [{k: v for k, v in r.items() if k not in ('_y', '_max')} for r in people.values()]
 
 IMG_MIMES = {'.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml'}
 
@@ -75,8 +94,8 @@ def build_data():
     assert lots and lots[0]['id'] == 'moto', 'La primera lotería debe ser la de la moto (usa las claves de siempre)'
     out = []
     for l in lots:
-        rows = read_csv(l['csv'], l.get('columnas', ()))
-        item = {k: v for k, v in l.items() if k not in ('csv', 'columnas')}
+        rows = read_csv(l['csv'], l.get('columnas', ()), l.get('sumar', False))
+        item = {k: v for k, v in l.items() if k not in ('csv', 'columnas', 'sumar')}
         item['fuente'] = 'data/' + l['csv']
         item['participantes'] = rows
         out.append(item)

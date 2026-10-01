@@ -1412,7 +1412,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const col = names => h.findIndex(x => names.includes(x));
     const iN = col(["player", "nombre", "name", "jugador", "participante"]);
     const iC = col(["empresa", "compania", "company", "cliente"]);
-    const iL = col(["location", "sede", "ubicacion", "locacion", "punto"]);
+    const iL = col(["location", "location_name", "sede", "ubicacion", "locacion", "punto"]);
     const iId = col(["player id", "id", "documento", "cedula"]);
     const iT = col([...(POR_REVIEWS ? ["reviews", "resenas", "total reviews", "cantidad de reviews", "numero de reviews"] : []),
       "tickets actuales", "tickets", "galitickets", "boletas", "oportunidades"]);
@@ -1425,17 +1425,23 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     rows.slice(1).forEach((r, i) => {
       const n = (r[iN] || "").trim(); if (!n) return;
       const c = iC >= 0 ? (r[iC] || "").trim() : "", l = iL >= 0 ? (r[iL] || "").trim() : "";
-      const id = iId >= 0 && r[iId] ? r[iId].trim() : `${n}|${c}|${l}`.toLowerCase();
+      // sin Player id, una persona es su nombre + empresa (en Reviews hay una fila por persona y sede)
+      const id = iId >= 0 && r[iId] ? r[iId].trim()
+        : `${n}|${c}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
       const t = iT >= 0 ? parseInt(String(r[iT] || "").replace(/\D/g, ""), 10) || 0 : 1;
       const g = iG >= 0 ? int(r[iG]) : 0, sc = iS >= 0 ? int(r[iS]) : 0, y = iY >= 0 ? int(r[iY]) : 0;
       const prev = out.find(o => o.id === id);
+      if (prev && POR_REVIEWS) { // Reviews: se suman las de cada sede; se muestra la sede con más
+        if (t > prev.max) { prev.l = l; prev.max = t; }
+        prev.t += t; return;
+      }
       if (prev) {
         prev.t = Math.max(prev.t, t);
         if (y > prev.y) Object.assign(prev, { n, c, l, g, s: sc, y }); // juegos y puntaje del año más reciente
         return;
       }
       seen.add(id);
-      out.push({ id, n, c, l, t, g, s: sc, y });
+      out.push({ id, n, c, l, t, g, s: sc, y, max: t });
     });
     state.rows = normalize(out); state.removed = []; state.source = fileName;
     store.set("rows", state.rows); store.set("removed", []); store.set("source", fileName);

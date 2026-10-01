@@ -8,7 +8,7 @@
   {
     "id": "auteco",
     "nombre": "Auteco",
-    "titulo": "Premio en efectivo",
+    "titulo": "5.000.000$",
     "csv": "loteria-auteco.csv",
     "excluidas": [
       "La Causa",
@@ -20,13 +20,14 @@
   {
     "id": "reviews",
     "nombre": "Reviews",
-    "titulo": "Premio en efectivo",
+    "titulo": "500.000$",
     "csv": "loteria-reviews.csv",
     "escena": "assets/siderax-dinero.webp",
     "premio": "assets/gali-dinero.webp",
     "unidad": "reviews",
     "minimo": 50,
     "columnas": [
+      "reviews",
       "Reviews",
       "Reseñas",
       "Total reviews",
@@ -36,6 +37,7 @@
     "excluidas": [
       "Auteco",
       "Galilei"
-    ]
+    ],
+    "sumar": true
   }
 ]
