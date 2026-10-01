@@ -234,23 +234,26 @@ body.spinning .pointer-wrap { animation: none; }
   display: flex; flex-direction: column; align-items: center; gap: .7cqh; max-width: 70cqh;
   text-shadow: 0 .3cqh .6cqh rgba(10,11,12,.75), 0 0 2cqh rgba(10,11,12,.55);
 }
-/* Nombre del premio en letras de fuego sobre el frente del pedestal, debajo de la moto: la franja libre
+/* Nombre del premio en letras de piedra sobre el frente del pedestal, debajo de la moto: la franja libre
    va del 71,2% (debajo del borde de arriba del pedestal) al 77,9% (donde empiezan las cifras). El centro
-   del pedestal está al 49,25% del ancho del escenario (la columna del anuncio va del 24% al 76%). */
+   del pedestal está al 49,25% del ancho del escenario (la columna del anuncio va del 24% al 76%).
+   Relleno con la textura piedra.webp y luz de arriba; ::before es la sombra que les da volumen. */
 .winner .w-placa {
-  position: absolute; left: 0; right: 0; top: 72.2cqh; transform: translateX(-1.44%);
-  font-family: var(--font-display); font-weight: 700; font-size: 4.6cqh; line-height: 1; letter-spacing: .05em;
+  position: absolute; left: 0; right: 0; top: 71.9cqh; transform: translateX(-1.44%); isolation: isolate;
+  font-family: var(--font-display); font-weight: 700; font-size: 5cqh; line-height: 1; letter-spacing: .06em;
   text-align: center; white-space: nowrap; text-transform: uppercase; pointer-events: none;
-  color: #FF8A1F;
-  background: linear-gradient(0deg, #7A1400 0%, #D9360A 20%, #FF7A1A 42%, #FFC23D 64%, #FFF1B8 84%, #FFC23D 100%);
-  background-size: 100% 220%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 .5cqh rgba(255,140,40,.95)) drop-shadow(0 0 1.6cqh rgba(255,80,0,.6));
-  animation: fuego 1.1s ease-in-out infinite alternate;
+  color: #B9AAB0;
+  background:
+    linear-gradient(180deg, rgba(255,250,246,.62) 0%, rgba(255,250,246,.22) 40%, rgba(255,250,246,0) 58%, rgba(20,12,16,.22) 100%),
+    url("assets/piedra.webp") center / 26cqh auto repeat;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .07cqh rgba(38,26,32,.75);
 }
-@keyframes fuego {
-  0% { background-position: 50% 0%; filter: drop-shadow(0 0 .5cqh rgba(255,140,40,.95)) drop-shadow(0 0 1.6cqh rgba(255,80,0,.6)); }
-  45% { background-position: 50% 60%; filter: drop-shadow(0 0 .7cqh rgba(255,170,60,1)) drop-shadow(0 0 2.2cqh rgba(255,96,0,.75)); }
-  100% { background-position: 50% 100%; filter: drop-shadow(0 0 .45cqh rgba(255,130,30,.9)) drop-shadow(0 0 1.4cqh rgba(255,70,0,.55)); }
+.winner .w-placa::before {
+  content: attr(data-texto); position: absolute; inset: 0; z-index: -1;
+  -webkit-text-fill-color: #1E1418; color: #1E1418; -webkit-text-stroke: 0;
+  transform: translate(.16cqh, .34cqh); filter: blur(.12cqh);
+  text-shadow: 0 .5cqh 1cqh rgba(10,6,8,.7);
 }
 .winner .w-place { font-family: var(--font-body); font-weight: 700; font-size: 2.6cqh; color: var(--n08); }
 .winner .prize-img {
@@ -1066,7 +1069,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     lastWinner = p;
     state.history.push({ id: p.id, n: p.n, c: companyOf(p), l: p.l, t: p.t, at: Date.now() });
     store.set("history", state.history);
-    $("wPrize").textContent = state.prize;
+    $("wPrize").textContent = $("wPrize").dataset.texto = state.prize;
     $("wName").textContent = p.n;
     $("wName").style.setProperty("--name-size", p.n.length > 30 ? "5.2cqh" : p.n.length > 22 ? "6cqh" : "7cqh");
     $("wPlace").textContent = [companyOf(p), p.l].filter(Boolean).join(" · ");
@@ -1446,7 +1449,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const e = state.photo || ESCENA_IMG;
     $("photoClear").hidden = !state.photo; $("headMoto").hidden = !e; if (e) $("headMoto").src = e;
   }
-  function ponerPremio() { const e = state.photo || PREMIO_IMG; $("wImg").hidden = !e; if (e) $("wImg").src = e; $("wPrize").textContent = state.prize; }
+  function ponerPremio() { const e = state.photo || PREMIO_IMG; $("wImg").hidden = !e; if (e) $("wImg").src = e; $("wPrize").textContent = $("wPrize").dataset.texto = state.prize; }
   // selector de lotería: recarga la página con la elegida
   LOTERIAS.forEach(l => { const o = document.createElement("option"); o.value = l.id; o.textContent = l.nombre || l.titulo || l.id; $("loteriaIn").append(o); });
   $("loteriaIn").value = LOT.id;
