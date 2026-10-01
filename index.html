@@ -136,12 +136,12 @@ body.guides .side .guide { opacity: 1; }
   box-sizing: border-box; padding: 1.2cqh 0 1.7cqh;
 }
 /* Keep the heading and raised pin clear above the larger wheel. */
-.head { display: flex; flex: none; justify-content: center; position: relative; z-index: 3; top: 3.8cqh; } /* encima de los tickets que salen volando; centrado al 8% del alto, a mitad entre el borde de arriba y la ruleta (16%) */
+.head { display: flex; flex: none; justify-content: center; position: relative; z-index: 3; top: 1.93cqh; } /* encima de los tickets que salen volando; centrado al 6,13% del alto, a mitad entre el borde de arriba y la punta de la flecha (12,26%) */
 .head-text { display: flex; flex-direction: column; gap: .6cqh; text-align: center; }
 /* Marca arriba a la derecha de la pantalla (pedido del usuario): por encima de la capa que oscurece
    los bordes, y se oculta junto con la ruleta durante la transición y el anuncio */
 .brand-lockup {
-  position: absolute; top: 6cqh; right: 3.6cqh; z-index: 11; /* centrado con el título (su centro está a 8cqh) */
+  position: absolute; top: 4.13cqh; right: 3.6cqh; z-index: 11; /* centrado con el título (su centro está a 6,13cqh) */
   display: flex; align-items: center; gap: 1.2cqh; transition: opacity .6s ease-in-out;
 }
 .scene.sin-ui ~ .brand-lockup, .scene.viaje ~ .brand-lockup { opacity: 0; pointer-events: none; }
