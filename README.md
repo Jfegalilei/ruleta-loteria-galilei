@@ -53,7 +53,7 @@ dist/                       Salidas del build (no se suben al repo)
 
 ## Sumar tickets durante la transmisión (hoja de Google)
 
-La hoja de Google de la moto ("GaliLotería Septiembre 2026") tiene un script (Extensiones > Apps Script) que al abrirla agrega tres columnas sin tocar las demás: `sumar_10` (casillas que funcionan como interruptor: marcada suma 10 tickets a esa persona y se queda marcada; desmarcada vuelve a 0), `tickets_sumados` (fórmula: 10 si está marcada, 0 si no) y `tickets_totales` (fórmula), con filtros en todas las columnas para ordenar. Antes del sorteo se descarga la hoja (.xlsx o .csv) y se convierte con el mismo script de abajo, que suma `tickets_sumados` a `tickets_actuales`.
+La hoja de Google de la moto ("GaliLotería Septiembre 2026") tiene un script (Extensiones > Apps Script) que al abrirla agrega tres columnas sin tocar las demás: `sumar_10` (casillas que funcionan como interruptor: marcada suma 10 tickets a esa persona y se queda marcada; desmarcada vuelve a 0), `tickets_sumados` (fórmula: 10 si está marcada, 0 si no) y `tickets_totales` (fórmula), con filtros en todas las columnas para ordenar. Antes del sorteo se descarga la hoja (.xlsx o .csv) y se convierte con el mismo script de abajo: usa `tickets_totales` como tickets de cada persona, comprobando que sea `tickets_actuales` + `tickets_sumados` (si no coincide o está vacío, avisa y usa la suma), y se guarda en `data/participantes.csv`.
 
 En pantalla la lotería de reviews se llama "Reseñas" (selector, cifra del anuncio y textos del panel); internamente su id sigue siendo `reviews` (`?loteria=reviews`).
 

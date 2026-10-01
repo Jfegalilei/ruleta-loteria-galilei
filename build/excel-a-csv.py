@@ -6,9 +6,10 @@ columna tickets_sumados (descargada como .xlsx o .csv).
 Uso: python build/excel-a-csv.py <archivo.xlsx|.csv> <data/destino.csv>
 Ejemplo: python build/excel-a-csv.py "GaliLotería Septiembre 2026 (para sumar tickets).xlsx" data/participantes.csv
 
-Escribe las mismas columnas del Excel, pero tickets_actuales queda con el total (tickets_actuales +
-tickets_a_sumar) y se quitan las columnas de apoyo. Calcula el total aquí mismo, así no depende de que
-Excel haya guardado el resultado de la fórmula. Los enteros se escriben sin ".0".
+Escribe las mismas columnas del archivo, pero tickets_actuales queda con el total y se quitan las columnas de
+apoyo. El total sale de la columna tickets_totales (la hoja de Google la calcula: tickets_actuales + los 10 de
+la casilla marcada); se comprueba contra tickets_actuales + tickets_sumados y, si no coinciden o falta el
+valor, avisa y usa la suma calculada aquí. Los enteros se escriben sin ".0".
 """
 import csv, sys, unicodedata, openpyxl
 
@@ -25,8 +26,10 @@ else:
 head = [norm(h) for h in rows[0]]
 i_t = next(i for i, h in enumerate(head) if h in ('tickets actuales', 'tickets', 'reviews'))
 i_x = next((i for i, h in enumerate(head) if h in ('tickets a sumar', 'tickets sumados')), None)
+i_tot = next((i for i, h in enumerate(head) if h == 'tickets totales'), None)
 apoyo = {i for i, h in enumerate(head) if h in ('tickets a sumar', 'tickets sumados', 'tickets totales', 'sumar 10')}
 num = lambda v: int(float(v)) if v not in (None, '') else 0
+avisos = []
 fix = lambda v: '' if v is None else (str(int(v)) if isinstance(v, float) and v.is_integer() else str(v).strip())
 sumados = 0
 with open(dst, 'w', newline='', encoding='utf-8') as f:
@@ -34,8 +37,17 @@ with open(dst, 'w', newline='', encoding='utf-8') as f:
     w.writerow([fix(h) for i, h in enumerate(rows[0]) if i not in apoyo])
     for r in rows[1:]:
         r = list(r)
-        if i_x is not None and num(r[i_x]):
+        calculado = num(r[i_t]) + (num(r[i_x]) if i_x is not None else 0)
+        total = calculado
+        if i_tot is not None:
+            if r[i_tot] in (None, ''):
+                avisos.append(f'{r[0]}: tickets_totales vacío, se usa {calculado}')
+            elif num(r[i_tot]) != calculado:
+                avisos.append(f'{r[0]}: tickets_totales = {num(r[i_tot])} pero actuales + sumados = {calculado}; se usa {calculado}')
+        if total != num(r[i_t]):
             sumados += 1
-            r[i_t] = num(r[i_t]) + num(r[i_x])
+        r[i_t] = total
         w.writerow([fix(v) for i, v in enumerate(r) if i not in apoyo])
 print(f'{dst}: {len(rows) - 1} personas, {sumados} con tickets sumados')
+for a in avisos:
+    print('  AVISO', a)
