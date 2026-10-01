@@ -55,9 +55,11 @@ El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `da
 | `auteco` | Auteco | `data/loteria-auteco.csv` | pendiente (foto del dinero) |
 | `reviews` | Reviews | `data/loteria-reviews.csv` | pendiente (foto del dinero) |
 
+**Reviews es distinta:** no cuenta tickets, juegos ni puntaje. Cada review es una oportunidad (columna `Reviews`, o las que diga `columnas` en `loterias.json`), y solo participan quienes tienen 50 o más (`minimo`). En el anuncio sale una sola cifra, las reviews, con `assets/icono-reviews.svg`, y los tickets que vuelan al girar son estrellas.
+
 - Cada lotería tiene sus propios participantes, título del premio, imágenes, empresas excluidas, sacados e historial. Cambiar de lotería recarga la página y no toca las demás.
 - La de la moto debe seguir siendo la primera y con id `moto`: usa las claves de `localStorage` de siempre (`ruleta6:...`); las demás usan `ruleta6:<id>:...`.
-- Para agregar o cambiar una: edita `data/loterias.json` (`id`, `nombre` del selector, `titulo` del premio, `csv` y, salvo la moto, `escena` = imagen debajo de la ruleta y `premio` = imagen sobre el pedestal del anuncio, o `null` para ninguna; opcional `excluidas`: la de Auteco excluye solo La Causa y Galilei), pon el CSV en `data/` y corre `python build/build.py`. Las imágenes se embeben en el standalone.
+- Para agregar o cambiar una: edita `data/loterias.json` (`id`, `nombre` del selector, `titulo` del premio, `csv` y, salvo la moto, `escena` = imagen debajo de la ruleta y `premio` = imagen sobre el pedestal del anuncio, o `null` para ninguna; opcionales `excluidas` (la de Auteco excluye solo La Causa y Galilei), `unidad`, `minimo` y `columnas`), pon el CSV en `data/` y corre `python build/build.py`. Las imágenes se embeben en el standalone.
 - Para verificar el sorteo de una lotería: `node build/verificar-sorteo.js 3000000 auteco`.
 
 ## Hacer cambios

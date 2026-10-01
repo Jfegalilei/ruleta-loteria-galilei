@@ -38,7 +38,7 @@ def col(row, *names):
             return row[n]
     return ''
 
-def read_csv(name):
+def read_csv(name, columnas=()):
     """Una fila por Player id. Tickets: el mayor. Juegos y puntaje: la fila del año más reciente."""
     people = {}
     if not os.path.exists(p('data', name)):
@@ -52,7 +52,7 @@ def read_csv(name):
                 'n': fix_mojibake(col(x, 'Player', 'Nombre').strip()),
                 'c': fix_mojibake(col(x, 'Empresa').strip()),
                 'l': fix_mojibake(col(x, 'Location', 'Sede').strip()),
-                't': num(col(x, 'Tickets actuales', 'Tickets')),
+                't': num(col(x, *columnas, 'Tickets actuales', 'Tickets')),  # en Reviews, cada review es un ticket
                 'g': num(col(x, 'Games played', 'Partidas')),
                 's': num(col(x, 'Max score', 'Puntaje maximo')),
                 '_y': year,
@@ -75,8 +75,8 @@ def build_data():
     assert lots and lots[0]['id'] == 'moto', 'La primera lotería debe ser la de la moto (usa las claves de siempre)'
     out = []
     for l in lots:
-        rows = read_csv(l['csv'])
-        item = {k: v for k, v in l.items() if k != 'csv'}
+        rows = read_csv(l['csv'], l.get('columnas', ()))
+        item = {k: v for k, v in l.items() if k not in ('csv', 'columnas')}
         item['fuente'] = 'data/' + l['csv']
         item['participantes'] = rows
         out.append(item)

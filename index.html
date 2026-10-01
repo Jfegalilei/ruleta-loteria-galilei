@@ -500,6 +500,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
         <div class="stat"><img class="stat-icon" src="assets/icono-juegos.svg" alt=""><div><b id="wGames"></b><span>Juegos en el mes</span></div></div>
         <div class="stat"><img class="stat-icon" src="assets/icono-puntaje.svg" alt=""><div><b id="wScore"></b><span>Puntaje máximo</span></div></div>
         <div class="stat tk"><img class="stat-icon" src="assets/icono-tickets.svg" alt=""><div><b id="wTickets"></b><span>Tickets</span></div></div>
+        <div class="stat rv" hidden><img class="stat-icon" src="assets/icono-reviews.svg" alt=""><div><b id="wReviews"></b><span>Reviews</span></div></div>
       </div>
       <div class="actions">
         <button class="btn primary" id="removeBtn" type="button">Sacar de la ruleta</button>
@@ -603,6 +604,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const ESCENA = "assets/siderax-moto.webp"; // Siderax con la moto, debajo de la ruleta
   // Imágenes de la lotería activa: si no las define, son las de la moto; null = sin imagen
   const PREMIO_IMG = LOT.premio === undefined ? MOTO : LOT.premio;
+  // Qué cuenta como oportunidad: tickets, o en la de Reviews cada review. MINIMO: desde cuánto se participa.
+  const POR_REVIEWS = LOT.unidad === "reviews";
+  const UNIDAD = POR_REVIEWS ? ["review", "reviews"] : ["ticket", "tickets"];
+  const MINIMO = Math.max(1, LOT.minimo || 1);
   const ESCENA_IMG = LOT.escena === undefined ? ESCENA : LOT.escena;
 
   const store = {
@@ -629,7 +634,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const companyOf = p => p.c || "Sin empresa";
   const metaOf = p => [companyOf(p), p.l].filter(Boolean).join(" · ");
   const NUM = new Intl.NumberFormat("es-CO");
-  const fmtT = t => `${NUM.format(t)} ${t === 1 ? "ticket" : "tickets"}`;
+  const fmtT = t => `${NUM.format(t)} ${t === 1 ? UNIDAD[0] : UNIDAD[1]}`;
   const totalTickets = list => list.reduce((a, p) => a + p.t, 0);
 
   // ---------- Estado ----------
@@ -658,7 +663,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   }
   function entries() {
     const ex = new Set(state.excluded), rm = new Set(state.removed);
-    return state.rows.filter(p => p.t > 0 && !ex.has(companyOf(p)) && !rm.has(p.id));
+    return state.rows.filter(p => p.t >= MINIMO && !ex.has(companyOf(p)) && !rm.has(p.id));
   }
 
   // ---------- Ruleta ----------
@@ -1106,7 +1111,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     $("wPlace").textContent = [companyOf(p), p.l].filter(Boolean).join(" · ");
     $("wGames").textContent = NUM.format(p.g || 0);
     $("wScore").textContent = NUM.format(p.s || 0);
-    $("wTickets").textContent = NUM.format(p.t);
+    $("wTickets").textContent = $("wReviews").textContent = NUM.format(p.t);
     ponerPremio();
     $("winnerBg").hidden = false; $("winner").classList.remove("previa"); $("winner").hidden = false; $("removeBtn").focus();
     fanfare(); if (!reduced) { confetti(); fuentes(); }
@@ -1125,7 +1130,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // ---------- Tickets que salen volando de la ruleta ----------
   // Salen del borde en la dirección del giro (por la inercia); entre más rápido gira, más salen.
   const tixCanvas = $("spinTix"), tctx = tixCanvas.getContext("2d");
-  const ticketIcon = document.querySelector(".stat.tk .stat-icon"); // el GaliTicket de la marca
+  // el GaliTicket de la marca; en la de Reviews salen estrellas
+  const ticketIcon = document.querySelector(POR_REVIEWS ? ".stat.rv .stat-icon" : ".stat.tk .stat-icon");
   let flying = [], tixRaf = 0, tixLast = 0, emitCarry = 0;
   function emitTickets(omega, dt) {
     if (reduced || omega < 0.6) return;
@@ -1332,7 +1338,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const iC = col(["empresa", "compania", "company", "cliente"]);
     const iL = col(["location", "sede", "ubicacion", "locacion", "punto"]);
     const iId = col(["player id", "id", "documento", "cedula"]);
-    const iT = col(["tickets actuales", "tickets", "galitickets", "boletas", "oportunidades"]);
+    const iT = col([...(POR_REVIEWS ? ["reviews", "resenas", "total reviews", "cantidad de reviews", "numero de reviews"] : []),
+      "tickets actuales", "tickets", "galitickets", "boletas", "oportunidades"]);
     const iG = col(["games played", "partidas", "juegos", "juegos en el mes"]);
     const iS = col(["max score", "puntaje maximo", "puntos maximos", "puntaje"]);
     const iY = col(["year", "anio", "ano"]);
@@ -1376,9 +1383,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   }
   function renderDrawer() {
     const total = state.rows.length, n = current.length;
-    const zero = state.rows.filter(p => p.t === 0).length;
-    $("countLine").textContent = `${n} en la ruleta · ${total} cargados${state.removed.length ? ` · ${state.removed.length} ya sacados` : ""}${zero ? ` · ${zero} sin tickets` : ""}`;
-    $("sourceHint").textContent = `Fuente: ${state.source}. Columnas que lee: Player o Nombre, Empresa, Location o Sede, y Tickets. Los repetidos por Player id cuentan una sola vez. Quien tiene 0 tickets no entra a la ruleta.`;
+    const zero = state.rows.filter(p => p.t < MINIMO).length;
+    const bajo = MINIMO > 1 ? `con menos de ${MINIMO} ${UNIDAD[1]}` : `sin ${UNIDAD[1]}`;
+    $("countLine").textContent = `${n} en la ruleta · ${total} cargados${state.removed.length ? ` · ${state.removed.length} ya sacados` : ""}${zero ? ` · ${zero} ${bajo}` : ""}`;
+    $("sourceHint").textContent = `Fuente: ${state.source}. Columnas que lee: Player o Nombre, Empresa, Location o Sede, y ${POR_REVIEWS ? "Reviews (cada review es una oportunidad)" : "Tickets"}. Los repetidos por Player id cuentan una sola vez. Quien tiene ${MINIMO > 1 ? `menos de ${MINIMO} ${UNIDAD[1]}` : `0 ${UNIDAD[1]}`} no entra a la ruleta.`;
     $("restoreBtn").hidden = !state.removed.length;
     // empresas
     const counts = new Map();
@@ -1403,12 +1411,12 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const el = $("plistEl"); el.innerHTML = "";
     state.rows.filter(p => !q || `${p.n} ${p.c} ${p.l}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").includes(q)).forEach(p => {
       const li = document.createElement("li"), who = document.createElement("div"), b = document.createElement("b"), s = document.createElement("span");
-      const off = ex.has(companyOf(p)) || rm.has(p.id) || p.t === 0;
+      const off = ex.has(companyOf(p)) || rm.has(p.id) || p.t < MINIMO;
       li.className = off ? "off" : "";
       b.textContent = p.n; s.textContent = metaOf(p); who.className = "who"; who.append(b, s);
       const tk = document.createElement("span"); tk.className = "t"; tk.textContent = p.t ? NUM.format(p.t) : "0";
       li.append(who, tk);
-      if (!ex.has(companyOf(p)) && p.t > 0) {
+      if (!ex.has(companyOf(p)) && p.t >= MINIMO) {
         const btn = document.createElement("button");
         btn.type = "button"; btn.className = "btn soft sm"; btn.textContent = rm.has(p.id) ? "Devolver" : "Sacar";
         btn.addEventListener("click", () => {
@@ -1493,6 +1501,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // selector de lotería: recarga la página con la elegida
   LOTERIAS.forEach(l => { const o = document.createElement("option"); o.value = l.id; o.textContent = l.nombre || l.titulo || l.id; $("loteriaIn").append(o); });
   $("loteriaIn").value = LOT.id;
+  if (POR_REVIEWS) document.querySelectorAll(".winner .stat").forEach(el => { el.hidden = !el.classList.contains("rv"); });
   $("loteriaIn").addEventListener("change", e => {
     if (spinning) { e.target.value = LOT.id; return; }
     const u = new URL(location.href); u.searchParams.set("loteria", e.target.value); location.href = u.href;

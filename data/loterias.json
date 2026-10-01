@@ -10,7 +10,10 @@
     "nombre": "Auteco",
     "titulo": "Premio en efectivo",
     "csv": "loteria-auteco.csv",
-    "excluidas": ["La Causa", "Galilei"],
+    "excluidas": [
+      "La Causa",
+      "Galilei"
+    ],
     "escena": null,
     "premio": null
   },
@@ -20,6 +23,15 @@
     "titulo": "Premio en efectivo",
     "csv": "loteria-reviews.csv",
     "escena": null,
-    "premio": null
+    "premio": null,
+    "unidad": "reviews",
+    "minimo": 50,
+    "columnas": [
+      "Reviews",
+      "Reseñas",
+      "Total reviews",
+      "Cantidad de reviews",
+      "Número de reviews"
+    ]
   }
 ]
