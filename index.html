@@ -81,6 +81,17 @@ body.idle { cursor: none; }
 .leaf.r .leaf-img { background-position: -49.7cqw -15.5cqh; transform: translateX(100%); }
 .doors.cerradas .leaf-img { transform: none; }
 .doors.abriendo .leaf-img { transition: transform 1.1s cubic-bezier(.3, .1, .2, 1); }
+/* Brillo dorado que se cuela por la rendija entre las hojas antes de abrirse (la unión está al 49,7%) */
+.rendija {
+  position: absolute; left: 49.7cqw; top: 15.5cqh; height: 73cqh; width: .2cqh; transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(255,246,216,0) 0%, #FFF6D8 12%, #FFE9A8 50%, #FFF6D8 88%, rgba(255,246,216,0) 100%);
+  box-shadow: 0 0 1.2cqh .4cqh rgba(255,214,120,.9), 0 0 5cqh 1.6cqh rgba(255,190,90,.55), 0 0 12cqh 4cqh rgba(255,170,70,.25);
+  opacity: 0; pointer-events: none;
+  transition: opacity 1.4s ease-in, width 1.4s ease-in;
+}
+.doors.brillo .rendija { opacity: 1; width: .8cqh; animation: titila .14s ease-in-out infinite alternate; }
+@keyframes titila { to { filter: brightness(1.25); } }
+.doors.abriendo .rendija { opacity: 0; width: 30cqw; animation: none; transition: opacity .9s ease-out, width 1s ease-out; }
 .side { position: relative; }
 .side .guide {
   position: absolute; inset: 3cqh 1.2cqw;
@@ -398,6 +409,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   <div class="doors" id="doors" hidden>
     <div class="leaf l"><div class="leaf-img"></div></div>
     <div class="leaf r"><div class="leaf-img"></div></div>
+    <div class="rendija"></div>
   </div>
   <div class="winner" id="winner" hidden role="dialog" aria-live="assertive" aria-label="Ganador">
     <div class="w-top">
@@ -912,7 +924,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   async function revelar(p) {
     if (reduced) { finish(p); return; }
     const scene = $("scene"), room = $("room"), doors = $("doors"), stage = $("stage"), vid = $("introVid");
-    doors.hidden = false; doors.classList.remove("cerradas", "abriendo");
+    doors.hidden = false; doors.classList.remove("cerradas", "abriendo", "brillo");
     // 1) la ruleta se desvanece y queda el planeta de Siderax; el video entra superpuesto
     scene.classList.add("sin-ui");
     await wait(450);
@@ -936,13 +948,16 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     doors.classList.add("cerradas");
     await wait(780);
     thud(); stage.classList.remove("sacudida"); void stage.offsetWidth; stage.classList.add("sacudida");
-    await wait(900);
+    await wait(700);
     // detrás de las puertas cerradas: fondo del ganador y la ruleta vuelve a su lugar
     $("winnerBg").classList.add("sin-fundido"); $("winnerBg").hidden = false; room.hidden = true;
     $("wImg").src = state.photo || MOTO; $("winner").classList.add("previa", "moto-fija"); $("winner").hidden = false;
+    // la luz del valle empieza a colarse por la rendija
+    doors.classList.add("brillo");
+    await wait(1700);
     // la ruleta sigue oculta durante el anuncio; vuelve al cerrarlo
     // 4) las puertas se abren y aparece el ganador
-    doors.classList.add("abriendo"); doors.classList.remove("cerradas");
+    doors.classList.add("abriendo"); doors.classList.remove("cerradas", "brillo");
     await wait(450);
     finish(p);
     await wait(900);
