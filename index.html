@@ -104,6 +104,19 @@ body.idle { cursor: none; }
 .doors.brillo .rendija { opacity: 1; width: 1.1cqh; animation: titila .14s ease-in-out infinite alternate; }
 @keyframes titila { to { filter: brightness(1.4); } }
 .doors.abriendo .rendija { opacity: 0; animation: none; transition: opacity .12s ease-out; } /* el brillo es solo antes de abrirse */
+/* El mismo brillo por debajo de las hojas (su borde de abajo está al 88,5% del alto), con su reflejo en el piso */
+.rendija-piso {
+  position: absolute; left: 20.6cqw; width: 56.3cqw; top: 88.5cqh; height: .15cqh; transform: translateY(-50%);
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, #FFF8E0 6%, #FFFFFF 50%, #FFF8E0 94%, rgba(255,255,255,0) 100%);
+  box-shadow: 0 0 .8cqh .3cqh rgba(255,250,225,.95), 0 0 2.4cqh .8cqh rgba(255,222,130,.85), 0 0 6cqh 2cqh rgba(255,196,90,.45);
+  opacity: 0; pointer-events: none; transition: opacity 1.2s ease-in, height 1.2s ease-in;
+}
+.rendija-piso::after {
+  content: ""; position: absolute; left: 4%; right: 4%; top: 50%; height: 7cqh;
+  background: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(255,214,120,.55), rgba(255,180,80,.18) 55%, rgba(255,170,70,0) 100%);
+}
+.doors.brillo .rendija-piso { opacity: 1; height: .5cqh; animation: titila .14s ease-in-out infinite alternate; }
+.doors.abriendo .rendija-piso { opacity: 0; animation: none; transition: opacity .12s ease-out; }
 .side { position: relative; }
 .side .guide {
   position: absolute; inset: 3cqh 1.2cqw;
@@ -422,6 +435,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     <div class="leaf l"><div class="leaf-img"></div></div>
     <div class="leaf r"><div class="leaf-img"></div></div>
     <div class="rendija"></div>
+    <div class="rendija-piso"></div>
   </div>
   <div class="winner" id="winner" hidden role="dialog" aria-live="assertive" aria-label="Ganador">
     <div class="w-top">
