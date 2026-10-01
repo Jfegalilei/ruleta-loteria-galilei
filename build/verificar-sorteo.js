@@ -1,5 +1,5 @@
 // Verifica que el sorteo de index.html sea justo con los datos reales.
-// Uso: node build/verificar-sorteo.js [sorteos]
+// Uso: node build/verificar-sorteo.js [sorteos] [id de la lotería, por defecto moto]
 // Extrae del index.html las funciones reales del sorteo (randInt, indexAt) y repite el mismo cálculo
 // que hace spin(): sortea un ticket con crypto.getRandomValues, calcula dónde cae la flecha y comprueba
 // que (1) la flecha siempre quede en la casilla de quien se sorteó y (2) cada persona gane en proporción
@@ -20,8 +20,10 @@ const { randInt, indexAt } = new Function("getCurrent", "getStarts",
   grab("randInt") + grab("indexAt").replace(/\bcurrent\b/g, "getCurrent()").replace(/\bstarts\b/g, "getStarts()") +
   "return { randInt, indexAt };")(() => current, () => starts);
 
-const EXCLUIDAS = new Set(["Auteco", "La Causa", "Galilei"]);
-current = window.PARTICIPANTES.filter(p => p.t > 0 && !EXCLUIDAS.has(p.c || "Sin empresa"));
+const LOT = window.LOTERIAS.find(l => l.id === (process.argv[3] || "moto"));
+if (!LOT || !LOT.participantes.length) { console.log("Esa lotería no existe o no tiene participantes."); process.exit(1); }
+const EXCLUIDAS = new Set(LOT.excluidas || ["Auteco", "La Causa", "Galilei"]);
+current = LOT.participantes.filter(p => p.t > 0 && !EXCLUIDAS.has(p.c || "Sin empresa"));
 const tau = Math.PI * 2, total = current.reduce((a, p) => a + p.t, 0);
 let acc = 0; starts = [0]; current.forEach(p => { acc += p.t; starts.push(acc / total * tau); }); starts[starts.length - 1] = tau;
 
@@ -42,7 +44,7 @@ current.forEach((p, i) => { const e = N * p.t / total; chi += (gana[i] - e) ** 2
 const gl = current.length - 1;
 // valor crítico chi-cuadrado al 99,9% (aproximación de Wilson-Hilferty)
 const z = 3.0902, crit = gl * Math.pow(1 - 2 / (9 * gl) + z * Math.sqrt(2 / (9 * gl)), 3);
-console.log(`Personas en la ruleta: ${current.length} (sin Auteco, La Causa ni Galilei; sin 0 tickets)`);
+console.log(`Lotería: ${LOT.nombre}. Personas en la ruleta: ${current.length} (sin ${[...EXCLUIDAS].join(", ")}; sin 0 tickets)`);
 console.log(`Sorteos simulados: ${N.toLocaleString("es-CO")}`);
 console.log(`Flecha fuera de la casilla del sorteado: ${fuera}`);
 console.log(`Chi-cuadrado: ${chi.toFixed(1)} con ${gl} grados de libertad (límite al 99,9%: ${crit.toFixed(1)}) -> ${chi < crit ? "proporcional a los tickets" : "REVISAR"}`);

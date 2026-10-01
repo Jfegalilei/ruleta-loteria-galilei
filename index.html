@@ -342,7 +342,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 .drawer section { display: flex; flex-direction: column; gap: 10px; background: var(--n02); border-radius: 12px; padding: 14px; }
 .drawer .kicker { font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--n06); margin: 0; }
 .drawer .field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500; color: var(--n07); }
-.drawer input[type=text], .drawer input[type=search] {
+.drawer input[type=text], .drawer input[type=search], .drawer select {
   font: 400 15px/1.4 var(--font-body); color: var(--n08); background: var(--n01);
   border: 1px solid var(--n03); border-radius: 8px; padding: 9px 11px;
 }
@@ -480,12 +480,18 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   <h2>Configurar sorteo</h2>
 
   <section>
+    <p class="kicker">Lotería</p>
+    <label class="field">Lotería activa<select id="loteriaIn"></select></label>
+    <p class="hint">Cada lotería tiene sus propios participantes, premio, imágenes, empresas excluidas, sacados e historial. Cambiar de lotería no toca las demás.</p>
+  </section>
+
+  <section>
     <p class="kicker">Premio</p>
     <label class="field">Nombre del premio<input type="text" id="prizeIn" maxlength="48"></label>
     <label class="field">Texto de arriba<input type="text" id="overlineIn" maxlength="48"></label>
     <div class="row">
       <span class="btn soft sm file-btn">Cambiar foto del premio<input type="file" id="photoIn" accept="image/*"></span>
-      <button class="btn soft sm" id="photoClear" type="button" hidden>Volver a la moto</button>
+      <button class="btn soft sm" id="photoClear" type="button" hidden>Quitar foto</button>
     </div>
     <p class="hint">La foto se ve junto al título y en grande cuando se anuncia el ganador. Usa una imagen con fondo transparente.</p>
   </section>
@@ -537,14 +543,28 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
 <script>
 (() => {
   // Participantes: data/participantes.js, generado desde data/participantes.csv con build/build.py
-  const SAMPLE = window.PARTICIPANTES || [];
-  const SAMPLE_NAME = window.PARTICIPANTES_FUENTE || "data/participantes.csv";
+  // Loterías (data/loterias.json): cada una con su CSV, su premio y sus imágenes. La activa se elige en el
+  // panel o con ?loteria=<id>, y se recuerda en este navegador.
+  const LOTERIAS = window.LOTERIAS && window.LOTERIAS.length ? window.LOTERIAS
+    : [{ id: "moto", nombre: "Moto", titulo: "Victory Combat 100", fuente: "data/participantes.csv", participantes: [] }];
+  const LOT = (() => {
+    let id = new URLSearchParams(location.search).get("loteria");
+    try { if (id) localStorage.setItem("ruleta6:@loteria", id); else id = localStorage.getItem("ruleta6:@loteria"); } catch {}
+    return LOTERIAS.find(l => l.id === id) || LOTERIAS[0];
+  })();
+  const SAMPLE = LOT.participantes || [];
+  const SAMPLE_NAME = LOT.fuente;
   const MOTO = "assets/moto-gali.webp"; // moto con Gali apoyado; se embebe al armar el standalone
   const ESCENA = "assets/siderax-moto.webp"; // Siderax con la moto, debajo de la ruleta
+  // Imágenes de la lotería activa: si no las define, son las de la moto; null = sin imagen
+  const PREMIO_IMG = LOT.premio === undefined ? MOTO : LOT.premio;
+  const ESCENA_IMG = LOT.escena === undefined ? ESCENA : LOT.escena;
 
   const store = {
-    get(k, d) { try { const v = localStorage.getItem("ruleta6:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
-    set(k, v) { try { localStorage.setItem("ruleta6:" + k, JSON.stringify(v)); } catch {} },
+    // la de la moto usa las claves de siempre (ruleta6:...); las demás, las suyas (ruleta6:<id>:...)
+    pref: "ruleta6:" + (LOT.id === "moto" ? "" : LOT.id + ":"),
+    get(k, d) { try { const v = localStorage.getItem(this.pref + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+    set(k, v) { try { localStorage.setItem(this.pref + k, JSON.stringify(v)); } catch {} },
   };
   const $ = id => document.getElementById(id);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -571,10 +591,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   let state = {
     rows: store.get("rows", null),
     source: store.get("source", SAMPLE_NAME),
-    excluded: store.get("excluded", ["Auteco", "La Causa", "Galilei"]),
+    excluded: store.get("excluded", LOT.excluidas || ["Auteco", "La Causa", "Galilei"]),
     removed: store.get("removed", []),
     history: store.get("history", []),
-    prize: store.get("prize", "Victory Combat 100"),
+    prize: store.get("prize", LOT.titulo || "Victory Combat 100"),
     overline: store.get("overline", "GaliLotería"),
     photo: store.get("photo", ""),
     sound: store.get("sound", true),
@@ -664,7 +684,11 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     u.beginPath(); u.arc(c, c, br, 0, Math.PI * 2); u.fillStyle = g; u.fill();
   }
 
+  // Con la pestaña oculta o la ventana sin tamaño, el canvas mide 0: no se dibuja (fallaría y cortaría
+  // el arranque). El ResizeObserver lo vuelve a dibujar cuando tenga tamaño.
+  const sinTamano = () => wheel.width < 40;
   function buildFace() {
+    if (sinTamano()) return;
     buildStatic();
     const W = wheel.width; face.width = W; face.height = W; labels.width = labels.height = W;
     const R = W / 2, n = current.length, rim = R * RIM, r = R - rim;
@@ -722,6 +746,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     return t.trimEnd() + "…";
   }
   function draw() {
+    if (sinTamano() || bezel.width !== wheel.width) return;
     const W = wheel.width, R = W / 2, rim = R * RIM;
     ctx.clearRect(0, 0, W, W);
     ctx.drawImage(bezel, 0, 0);
@@ -955,7 +980,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       const img = new Image(); img.src = m[1];
       precargadas.push(img.decode().catch(() => {}).then(() => img));
     }
-    const moto = new Image(); moto.src = MOTO; precargadas.push(moto.decode().catch(() => {}).then(() => moto));
+    if (PREMIO_IMG) { const moto = new Image(); moto.src = PREMIO_IMG; precargadas.push(moto.decode().catch(() => {}).then(() => moto)); }
   }
   precargar();
   // Trayectoria del punto del suelo donde pisan Siderax y la moto en transicion.mp4 (24 cuadros por
@@ -1013,7 +1038,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     cancelAnimationFrame(viajeRaf); if (vid.cancelVideoFrameCallback) vid.cancelVideoFrameCallback(viajeVfc);
     scene.classList.add("sin-ui"); scene.classList.remove("viaje", "sin-fondo"); scene.style.transform = ""; scene.style.opacity = "";
     $("winnerBg").classList.add("sin-fundido"); $("winnerBg").hidden = false; room.hidden = true;
-    $("wImg").src = state.photo || MOTO; $("winner").classList.add("previa", "moto-fija"); $("winner").hidden = false;
+    ponerPremio(); $("winner").classList.add("previa", "moto-fija"); $("winner").hidden = false;
     // la luz del valle empieza a colarse por la rendija
     doors.classList.add("brillo");
     await wait(1700);
@@ -1055,7 +1080,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     $("wGames").textContent = NUM.format(p.g || 0);
     $("wScore").textContent = NUM.format(p.s || 0);
     $("wTickets").textContent = NUM.format(p.t);
-    $("wImg").src = state.photo || MOTO;
+    ponerPremio();
     $("winnerBg").hidden = false; $("winner").classList.remove("previa"); $("winner").hidden = false; $("removeBtn").focus();
     fanfare(); if (!reduced) { confetti(); fuentes(); }
     renderHistory();
@@ -1426,7 +1451,18 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     img.src = url;
   });
   $("photoClear").addEventListener("click", () => { state.photo = ""; store.set("photo", ""); syncPhoto(); });
-  function syncPhoto() { $("photoClear").hidden = !state.photo; $("headMoto").src = state.photo || ESCENA; }
+  function syncPhoto() {
+    const e = state.photo || ESCENA_IMG;
+    $("photoClear").hidden = !state.photo; $("headMoto").hidden = !e; if (e) $("headMoto").src = e;
+  }
+  function ponerPremio() { const e = state.photo || PREMIO_IMG; $("wImg").hidden = !e; if (e) $("wImg").src = e; }
+  // selector de lotería: recarga la página con la elegida
+  LOTERIAS.forEach(l => { const o = document.createElement("option"); o.value = l.id; o.textContent = l.nombre || l.titulo || l.id; $("loteriaIn").append(o); });
+  $("loteriaIn").value = LOT.id;
+  $("loteriaIn").addEventListener("change", e => {
+    if (spinning) { e.target.value = LOT.id; return; }
+    const u = new URL(location.href); u.searchParams.set("loteria", e.target.value); location.href = u.href;
+  });
 
   function toggleGuides() { const on = document.body.classList.toggle("guides"); $("guidesBtn").setAttribute("aria-pressed", on); }
   function toggleSound() { state.sound = !state.sound; store.set("sound", state.sound); syncSound(); }

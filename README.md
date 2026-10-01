@@ -44,6 +44,21 @@ dist/                       Salidas del build (no se suben al repo)
 .github/workflows/          Publica en GitHub Pages en cada push a main
 ```
 
+## Varias loterías
+
+El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `data/loterias.json`. También se puede abrir una directamente con `?loteria=<id>` (por ejemplo `?loteria=dinero-1`). Hoy hay tres:
+
+| id | Lotería | CSV | Imágenes |
+| --- | --- | --- | --- |
+| `moto` | Moto Victory Combat 100 | `data/participantes.csv` | Siderax con la moto y moto con Gali |
+| `dinero-1` | Lotería en efectivo 1 | `data/loteria-dinero-1.csv` | pendiente (foto del dinero) |
+| `dinero-2` | Lotería en efectivo 2 | `data/loteria-dinero-2.csv` | pendiente (foto del dinero) |
+
+- Cada lotería tiene sus propios participantes, título del premio, imágenes, empresas excluidas, sacados e historial. Cambiar de lotería recarga la página y no toca las demás.
+- La de la moto debe seguir siendo la primera y con id `moto`: usa las claves de `localStorage` de siempre (`ruleta6:...`); las demás usan `ruleta6:<id>:...`.
+- Para agregar o cambiar una: edita `data/loterias.json` (`id`, `nombre` del selector, `titulo` del premio, `csv` y, salvo la moto, `escena` = imagen debajo de la ruleta y `premio` = imagen sobre el pedestal del anuncio, o `null` para ninguna; opcional `excluidas`), pon el CSV en `data/` y corre `python build/build.py`. Las imágenes se embeben en el standalone.
+- Para verificar el sorteo de una lotería: `node build/verificar-sorteo.js 3000000 dinero-1`.
+
 ## Hacer cambios
 
 1. Edita `index.html` (o reemplaza la moto, el audio o el CSV).

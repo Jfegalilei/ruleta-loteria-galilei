@@ -1,0 +1,24 @@
+[
+  {
+    "id": "moto",
+    "nombre": "Moto Victory Combat 100",
+    "titulo": "Victory Combat 100",
+    "csv": "participantes.csv"
+  },
+  {
+    "id": "dinero-1",
+    "nombre": "Lotería en efectivo 1",
+    "titulo": "Premio en efectivo",
+    "csv": "loteria-dinero-1.csv",
+    "escena": null,
+    "premio": null
+  },
+  {
+    "id": "dinero-2",
+    "nombre": "Lotería en efectivo 2",
+    "titulo": "Premio en efectivo",
+    "csv": "loteria-dinero-2.csv",
+    "escena": null,
+    "premio": null
+  }
+]

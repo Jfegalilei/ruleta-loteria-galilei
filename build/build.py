@@ -2,7 +2,9 @@
 
 Uso (desde la raíz del repo):  python build/build.py
 
-1. data/participantes.csv  ->  data/participantes.js   (lo que carga index.html)
+1. data/loterias.json + un CSV por lotería  ->  data/participantes.js   (lo que carga index.html)
+   loterias.json lista las loterías del selector: id, nombre, título del premio, CSV y, salvo la
+   de la moto, las imágenes "escena" (debajo de la ruleta) y "premio" (en el anuncio), o null.
 2. index.html + assets/ + data/  ->  dist/Ruleta Loteria Galilei.html
    Un solo archivo con todo embebido (datos, moto, audio y fuentes). Funciona sin internet:
    es el que se usa el día del evento.
@@ -36,10 +38,12 @@ def col(row, *names):
             return row[n]
     return ''
 
-def build_data():
+def read_csv(name):
     """Una fila por Player id. Tickets: el mayor. Juegos y puntaje: la fila del año más reciente."""
     people = {}
-    with open(p('data', 'participantes.csv'), encoding='utf-8-sig') as f:
+    if not os.path.exists(p('data', name)):
+        return []
+    with open(p('data', name), encoding='utf-8-sig') as f:
         for x in csv.DictReader(f):
             pid = col(x, 'Player id', 'id')
             year = num(col(x, 'Year', 'Anio', 'Año'))
@@ -60,13 +64,37 @@ def build_data():
                     prev['t'] = row['t']
                     continue
             people[pid] = row
-    rows = [{k: v for k, v in r.items() if k != '_y'} for r in people.values()]
-    js = ('// Generado por build/build.py desde data/participantes.csv. No editar a mano.\n'
-          'window.PARTICIPANTES_FUENTE = "data/participantes.csv";\n'
-          'window.PARTICIPANTES = ' + json.dumps(rows, ensure_ascii=False, separators=(',', ':')) + ';\n')
-    open(p('data', 'participantes.js'), 'w', encoding='utf-8').write(js)
-    print(f'participantes: {len(rows)} personas')
-    return js
+    return [{k: v for k, v in r.items() if k != '_y'} for r in people.values()]
+
+IMG_MIMES = {'.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml'}
+
+def build_data():
+    """Lee data/loterias.json y el CSV de cada lotería.
+    Devuelve (js del repo, js del standalone con las imágenes de cada lotería embebidas)."""
+    lots = json.load(open(p('data', 'loterias.json'), encoding='utf-8'))
+    assert lots and lots[0]['id'] == 'moto', 'La primera lotería debe ser la de la moto (usa las claves de siempre)'
+    out = []
+    for l in lots:
+        rows = read_csv(l['csv'])
+        item = {k: v for k, v in l.items() if k != 'csv'}
+        item['fuente'] = 'data/' + l['csv']
+        item['participantes'] = rows
+        out.append(item)
+        print(f"{l['id']}: {len(rows)} personas" + ('' if rows else f" (falta data/{l['csv']})"))
+
+    def js(items):
+        return ('// Generado por build/build.py desde data/loterias.json y sus CSV. No editar a mano.\n'
+                'window.LOTERIAS = ' + json.dumps(items, ensure_ascii=False, separators=(',', ':')) + ';\n')
+    embedded = []
+    for item in out:
+        e = dict(item)
+        for k in ('escena', 'premio'):
+            if e.get(k):
+                e[k] = data_uri(p(*e[k].split('/')), IMG_MIMES[os.path.splitext(e[k])[1].lower()])
+        embedded.append(e)
+    repo_js = js(out)
+    open(p('data', 'participantes.js'), 'w', encoding='utf-8').write(repo_js)
+    return repo_js, js(embedded)
 
 
 # ---------- 2 y 3. standalone y artifact ----------
@@ -126,4 +154,4 @@ def build_pages(data_js):
 
 
 if __name__ == '__main__':
-    build_pages(build_data())
+    build_pages(build_data()[1])
