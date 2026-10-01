@@ -964,12 +964,28 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     doors.hidden = true; doors.classList.remove("abriendo");
   }
 
+  // "Ganadora" o "Ganador" según el primer nombre: el export de Gali Admin no trae el género.
+  // Los nombres terminados en "a" se toman como femeninos, salvo los de MASCULINOS; FEMENINOS lista
+  // los nombres femeninos que no terminan en "a". Si llega un nombre nuevo mal clasificado, agrégalo aquí.
+  const FEMENINOS = new Set(("adriannis aliany briandy britney carol cristal deiris deisy elizabet elizabeth estefany " +
+    "giseth gladys glendy isabel iveth karen karol katerine katherine kelly keren leidi leidy lilibeth luz marielis " +
+    "marisabel maroli rinelkis rosiris rosnagel rosvely sindy sule valery yasleidy yeimy yosselin yulibeth yulieth " +
+    "yuribeth carmen mercedes ines raquel ruth beatriz dolores pilar rocio consuelo ingrid lizeth jennifer yenifer " +
+    "esther abigail maribel mabel marisol soledad nataly natalie sharon shirley yuly yuli nicol").split(" "));
+  const MASCULINOS = new Set("luca joshua nicola borja".split(" "));
+  function esFemenino(nombre) {
+    const n = (nombre || "").trim().split(/\s+/)[0].toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    if (FEMENINOS.has(n)) return true;
+    if (MASCULINOS.has(n)) return false;
+    return n.endsWith("a");
+  }
+
   function finish(p) {
     spinning = false; $("spinBtn").disabled = false;
     lastWinner = p;
     state.history.push({ id: p.id, n: p.n, c: companyOf(p), l: p.l, t: p.t, at: Date.now() });
     store.set("history", state.history);
-    $("wOver").textContent = "Se lleva la lotería del mes:";
+    $("wOver").textContent = esFemenino(p.n) ? "Ganadora del mes" : "Ganador del mes";
     $("wPrize").textContent = state.prize;
     $("wName").textContent = p.n;
     $("wName").style.setProperty("--name-size", p.n.length > 30 ? "5.2cqh" : p.n.length > 22 ? "6cqh" : "7cqh");
