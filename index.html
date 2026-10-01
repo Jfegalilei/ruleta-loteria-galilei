@@ -133,7 +133,7 @@ body.spinning .pointer-wrap { animation: none; }
 /* Revelación del ganador: superficie Mystery, solo dentro de la columna central */
 /* Anuncio del ganador: fondo de la bóveda abierta al valle en todo el escenario (metal oscuro en los
    lados de los presentadores). Arriba el nombre sobre el cielo, la moto y Gali sobre el pedestal
-   (su parte de arriba está al 70% del alto y su frente queda detrás de los datos de abajo). */
+   (su parte de arriba está al 67,5% del alto y su frente queda detrás de los datos de abajo). */
 .winner-bg {
   position: absolute; inset: 0; z-index: 4;
   background: url("assets/fondo-ganador.webp") center / cover no-repeat, var(--n00);
@@ -147,13 +147,13 @@ body.spinning .pointer-wrap { animation: none; }
 }
 .winner .overline { color: var(--n09); font-size: 2.2cqh; letter-spacing: .18em; font-weight: 700; text-shadow: 0 .2cqh .5cqh rgba(10,11,12,.8), 0 0 1.6cqh rgba(10,11,12,.6); }
 .winner .gali-king {
-  position: absolute; left: 20.3cqh; bottom: 30.4cqh; height: 25cqh; width: auto;
+  position: absolute; left: 20.3cqh; bottom: 32.5cqh; height: 25cqh; width: auto;
   filter: drop-shadow(0 1.2cqh 1.2cqh rgba(0,0,0,.55));
   animation: king .7s .15s cubic-bezier(.2, 1.5, .4, 1) both;
 }
 @keyframes king { from { transform: translateY(40%) scale(.6); opacity: 0; } }
 .winner .prize-img {
-  position: absolute; left: 32.8cqh; bottom: 30.4cqh; height: 32cqh; width: auto; object-fit: contain;
+  position: absolute; left: 32.8cqh; bottom: 32.5cqh; height: 32cqh; width: auto; object-fit: contain;
   filter: drop-shadow(0 1.2cqh 1.4cqh rgba(0,0,0,.55));
   animation: ride .9s cubic-bezier(.2, 1.15, .3, 1) both;
 }
