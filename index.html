@@ -950,14 +950,16 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     if (vid.readyState < 2) await new Promise(r => { const t = setTimeout(r, 1500); vid.addEventListener("playing", () => { clearTimeout(t); r(); }, { once: true }); });
     scene.classList.add("sin-fondo");
     // la escena queda pegada al suelo: sigue la posición y la escala del punto donde pisan Siderax y
-    // la moto, rastreadas en cada cuadro del video. Al final, ya diminuta en el horizonte, se desvanece.
+    // la moto, rastreadas en cada cuadro del video. Al final se achica hasta desaparecer (sin desvanecerse).
     let viajeRaf = 0, viajeVfc = 0;
     const pegar = mt => {
       const f = Math.max(0, Math.min(TRAYECTO.length - 1, mt * 24));
       const i0 = Math.floor(f), i1 = Math.min(TRAYECTO.length - 1, i0 + 1), u = f - i0;
       const [x, y, k] = TRAYECTO[i0].map((v, n) => v + (TRAYECTO[i1][n] - v) * u);
-      scene.style.transform = `translate(${(x - 49.4).toFixed(3)}%, ${(y - 96.9).toFixed(3)}%) scale(${k.toFixed(4)})`;
-      scene.style.opacity = Math.max(0, Math.min(1, (6.9 - mt) / 1.3)).toFixed(3);
+      // en los últimos segundos se sigue achicando sobre su punto del suelo hasta ser un punto invisible
+      const fin = Math.max(0, Math.min(1, (mt - 5.4) / 1.5)), g = Math.pow(1 - fin, 2.2);
+      scene.style.transform = `translate(${(x - 49.4).toFixed(3)}%, ${(y - 96.9).toFixed(3)}%) scale(${(k * g).toFixed(5)})`;
+      scene.style.opacity = g < 0.002 ? "0" : "1";
     };
     if (vid.requestVideoFrameCallback) {
       const cuadro = (now, meta) => { pegar(meta.mediaTime); if (!vid.ended) viajeVfc = vid.requestVideoFrameCallback(cuadro); };
