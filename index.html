@@ -86,7 +86,7 @@ body.idle { cursor: none; }
 .leaf-img {
   position: absolute; inset: 0;
   background-image: url("assets/puerta-cerrada.webp"); background-size: 100cqw 100cqh; background-repeat: no-repeat;
-  transition: transform .8s cubic-bezier(.55, 0, .85, .35);
+  transition: transform 2.05s cubic-bezier(.55, 0, .85, .35); /* al ritmo del sonido del mecanismo; el golpe suena al final */
 }
 .leaf.l .leaf-img { background-position: -19.9cqw -15.5cqh; transform: translateX(-100%); }
 .leaf.r .leaf-img { background-position: -49.7cqw -15.5cqh; transform: translateX(100%); }
@@ -447,6 +447,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   <div class="brand-lockup" id="brandLockup">
     <img class="brand-mark" src="assets/galilei-symbol.png" alt="Galilei Learning">
   </div>
+  <audio id="sonPuerta" src="assets/puerta-cierre.mp3" preload="auto"></audio>
+  <audio id="sonMoto" src="assets/moto-arranque.mp3" preload="auto"></audio>
   <video class="intro" id="introVid" src="assets/transicion.mp4" preload="auto" playsinline hidden></video>
   <div class="winner-bg" id="winnerBg" hidden></div>
   <div class="doors" id="doors" hidden>
@@ -837,7 +839,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     g.gain.setValueAtTime(0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
     o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.035);
   }
-  // Efecto de la transición: golpe al cerrar las puertas
+  // Ruido blanco para el trueno del rayo
   function noiseBuf(len) {
     const b = ac.createBuffer(1, Math.floor(ac.sampleRate * len), ac.sampleRate), d = b.getChannelData(0);
     for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
@@ -857,17 +859,13 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     g2.gain.setValueAtTime(0.0001, t); g2.gain.exponentialRampToValueAtTime(0.95, t + 0.07); g2.gain.exponentialRampToValueAtTime(0.0001, t + 2.7);
     r.connect(lp).connect(g2).connect(ac.destination); r.start(t);
   }
-  function thud() {
-    if (!state.sound || !audio()) return;
-    const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
-    o.type = "sine"; o.frequency.setValueAtTime(95, t); o.frequency.exponentialRampToValueAtTime(38, t + 0.5);
-    g.gain.setValueAtTime(0.9, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
-    o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.75);
-    const n = ac.createBufferSource(), lp = ac.createBiquadFilter(), ng = ac.createGain();
-    n.buffer = noiseBuf(0.4); lp.type = "lowpass"; lp.frequency.value = 500;
-    ng.gain.setValueAtTime(0.5, t); ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
-    n.connect(lp).connect(ng).connect(ac.destination); n.start(t);
+  // Sonidos grabados (puerta que se cierra, moto que arranca): <audio> en el HTML para que el build los embeba
+  function sonar(id) {
+    if (!state.sound) return;
+    const a = $(id);
+    try { a.currentTime = 0; a.volume = 1; const p = a.play(); if (p) p.catch(() => {}); } catch {}
   }
+
 
   // Audio de celebración (grabación recortada). Se decodifica una vez con Web Audio.
   const WIN_AUDIO = "assets/victoria.mp3"; // se reemplaza por el audio embebido al armar el standalone
@@ -1160,9 +1158,9 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     await wait(850);
     vid.volume = 0; vid.hidden = true; vid.pause();
     // 3) las puertas se cierran con un golpe
-    doors.classList.add("cerradas");
-    await wait(780);
-    thud(); stage.classList.remove("sacudida"); void stage.offsetWidth; stage.classList.add("sacudida");
+    doors.classList.add("cerradas"); sonar("sonPuerta");
+    await wait(2050);
+    stage.classList.remove("sacudida"); void stage.offsetWidth; stage.classList.add("sacudida"); // el golpe del sonido
     await wait(700);
     // detrás de las puertas cerradas: fondo del ganador; la ruleta se oculta y vuelve a su tamaño
     cancelAnimationFrame(viajeRaf); if (vid.cancelVideoFrameCallback) vid.cancelVideoFrameCallback(viajeVfc);
@@ -1175,6 +1173,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     // la ruleta sigue oculta durante el anuncio; vuelve al cerrarlo
     // 4) las puertas se abren y aparece el ganador
     doors.classList.add("abriendo"); doors.classList.remove("cerradas", "brillo");
+    if (LOT.premio === undefined) sonar("sonMoto"); // la moto arranca al abrirse las puertas (solo en la lotería de la moto)
     await wait(450);
     finish(p);
     await wait(900);
