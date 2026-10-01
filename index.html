@@ -581,6 +581,12 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     win: store.get("win", "celebracion"),
   };
   if (!state.rows) state.rows = normalize(SAMPLE);
+  // Si se usa la lista del repo y esta cambió (export nuevo), se carga la nueva: así ningún computador
+  // sortea con una lista vieja guardada en el navegador.
+  const firma = v => { let h = 0; const t = JSON.stringify(v); for (let i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) | 0; return h; };
+  if (state.source === SAMPLE_NAME && store.get("dataSig", null) !== firma(SAMPLE)) {
+    state.rows = normalize(SAMPLE); store.set("rows", null); store.set("dataSig", firma(SAMPLE));
+  }
   let rot = 0, spinning = false, current = [], lastWinner = null, starts = [0];
 
   function normalize(list) {
@@ -895,7 +901,9 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const tau = Math.PI * 2;
     let ticket = randInt(totalTickets(current)), k = 0;
     while (ticket >= current[k].t) { ticket -= current[k].t; k++; }
-    const w = starts[k + 1] - starts[k], off = starts[k] + w * (0.2 + Math.random() * 0.6);
+    const elegido = current[k];
+    // dónde cae la flecha dentro de su casilla (solo visual): entre el 20% y el 80% de su ancho
+    const w = starts[k + 1] - starts[k], off = starts[k] + w * (0.2 + 0.6 * randInt(1000000) / 1000000);
     const cur = ((-rot % tau) + tau) % tau;
     // giro horario: rot crece, el ángulo bajo el puntero (-rot) baja hasta caer en "off"
     const delta = ((cur - off) % tau + tau) % tau;
@@ -923,7 +931,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
         // la flecha celebra sobre el ganador y luego se revela
         document.body.classList.remove("spinning");
         const w = $("pointerWrap"); w.classList.remove("win"); void w.offsetWidth; w.classList.add("win");
-        setTimeout(() => revelar(current[indexAt(rot, n)]), reduced ? 0 : 1300);
+        // se anuncia a quien se sorteó; la flecha siempre debe estar en su casilla
+        const marcado = current[indexAt(rot, n)];
+        if (marcado !== elegido) console.error("La flecha no quedó en la casilla del ganador sorteado", elegido, marcado);
+        setTimeout(() => revelar(elegido), reduced ? 0 : 1300);
       }
     }
     requestAnimationFrame(frame);
