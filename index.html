@@ -105,7 +105,7 @@ body.guides .side .guide { opacity: 1; }
 /* Marca arriba a la derecha de la pantalla (pedido del usuario): por encima de la capa que oscurece
    los bordes, y se oculta junto con la ruleta durante la transición y el anuncio */
 .brand-lockup {
-  position: absolute; top: 3.6cqh; right: 3.6cqh; z-index: 11;
+  position: absolute; top: 1.6cqh; right: 3.6cqh; z-index: 11; /* centrado con el título (su centro está a 4,2cqh) */
   display: flex; align-items: center; gap: 1.6cqh; transition: opacity .6s ease-in-out;
 }
 .scene.sin-ui ~ .brand-lockup { opacity: 0; pointer-events: none; }
@@ -209,6 +209,10 @@ body.spinning .pointer-wrap { animation: none; }
   animation: ride .9s cubic-bezier(.2, 1.15, .3, 1) both;
 }
 @keyframes ride { from { transform: translateX(45%) scale(.7); opacity: 0; } }
+/* En la transición, la moto con Gali ya está en el pedestal detrás de las puertas cerradas:
+   al abrirse se ve quieta, y el resto del anuncio entra después */
+.winner.moto-fija .prize-img { animation: none; }
+.winner.previa .w-top, .winner.previa .w-bottom { display: none; }
 .winner .w-bottom {
   position: absolute; left: 0; right: 0; bottom: 1.6cqh;
   display: flex; flex-direction: column; align-items: center; gap: 1.2cqh;
@@ -935,6 +939,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     await wait(900);
     // detrás de las puertas cerradas: fondo del ganador y la ruleta vuelve a su lugar
     $("winnerBg").classList.add("sin-fundido"); $("winnerBg").hidden = false; room.hidden = true;
+    $("wImg").src = state.photo || MOTO; $("winner").classList.add("previa", "moto-fija"); $("winner").hidden = false;
     // la ruleta sigue oculta durante el anuncio; vuelve al cerrarlo
     // 4) las puertas se abren y aparece el ganador
     doors.classList.add("abriendo"); doors.classList.remove("cerradas");
@@ -958,7 +963,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     $("wScore").textContent = NUM.format(p.s || 0);
     $("wTickets").textContent = NUM.format(p.t);
     $("wImg").src = state.photo || MOTO;
-    $("winnerBg").hidden = false; $("winner").hidden = false; $("removeBtn").focus();
+    $("winnerBg").hidden = false; $("winner").classList.remove("previa"); $("winner").hidden = false; $("removeBtn").focus();
     fanfare(); if (!reduced) { confetti(); fuentes(); }
     renderHistory();
   }
@@ -966,7 +971,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   function closeWinner(remove) {
     if ($("winner").hidden) return;
     if (remove && lastWinner) { state.removed.push(lastWinner.id); store.set("removed", state.removed); }
-    $("winner").hidden = true; $("winnerBg").hidden = true; $("winnerBg").classList.remove("sin-fundido");
+    $("winner").hidden = true; $("winner").classList.remove("previa", "moto-fija"); $("winnerBg").hidden = true; $("winnerBg").classList.remove("sin-fundido");
     $("scene").classList.remove("sin-ui"); lastWinner = null; $("pointerWrap").classList.remove("win");
     stopConfetti(); stopFuentes(); refresh(); $("spinBtn").focus();
   }
@@ -1042,14 +1047,16 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   function confetti() {
     sizeCanvas(conf);
     const W = conf.width, H = conf.height;
+    // cada ticket cae con margen suficiente para que su vaivén y su tamaño no lo corten en los bordes
     const nuevo = y => {
-      const x0 = Math.random() * W;
+      const amp = W * (0.01 + Math.random() * 0.025), w = H * (0.042 + Math.random() * 0.02);
+      const m = amp + w * 0.6, x0 = m + Math.random() * (W - 2 * m);
       return {
         x0, x: x0, y,
-        vy: H * (0.16 + Math.random() * 0.16), amp: W * (0.01 + Math.random() * 0.025),
+        vy: H * (0.16 + Math.random() * 0.16), amp,
         ph: Math.random() * 6.3, fr: 1.5 + Math.random() * 2.5,
         a: Math.random() * 6.3, va: (Math.random() - 0.5) * 4, fl: Math.random() * 6.3, fv: 3 + Math.random() * 5,
-        w: H * (0.042 + Math.random() * 0.02), c: TIX_COLS[Math.floor(Math.random() * TIX_COLS.length)],
+        w, c: TIX_COLS[Math.floor(Math.random() * TIX_COLS.length)],
       };
     };
     parts = Array.from({ length: 120 }, () => nuevo(-Math.random() * H * 0.9 - H * 0.05));
@@ -1057,8 +1064,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     let last = performance.now(), t = 0, carry = 0;
     const step = now => {
       const dt = Math.max(0, Math.min(0.05, (now - last) / 1000)); last = now; t += dt;
-      // lluvia continua: unos 7 tickets por segundo una vez pasa la primera ola
-      if (t > 2) { carry += 7 * dt; while (carry >= 1) { carry -= 1; parts.push(nuevo(-H * 0.06)); } }
+      // lluvia continua: unos 3 tickets por segundo una vez pasa la primera ola
+      if (t > 2) { carry += 3 * dt; while (carry >= 1) { carry -= 1; parts.push(nuevo(-H * 0.06)); } }
       cctx.clearRect(0, 0, W, H);
       parts = parts.filter(p => p.y < H + p.w);
       for (const p of parts) {
