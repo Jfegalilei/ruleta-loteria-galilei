@@ -15,7 +15,7 @@
       "Galilei"
     ],
     "escena": null,
-    "premio": null
+    "premio": "assets/gali-dinero.webp"
   },
   {
     "id": "reviews",
@@ -23,7 +23,7 @@
     "titulo": "Premio en efectivo",
     "csv": "loteria-reviews.csv",
     "escena": null,
-    "premio": null,
+    "premio": "assets/gali-dinero.webp",
     "unidad": "reviews",
     "minimo": 50,
     "columnas": [

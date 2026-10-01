@@ -250,6 +250,9 @@ body.spinning .pointer-wrap { animation: none; }
   animation: ride .9s cubic-bezier(.2, 1.15, .3, 1) both;
 }
 @keyframes ride { from { transform: translateX(45%) scale(.7); opacity: 0; } }
+/* Loterías con otra imagen de premio (no la moto con Gali): centrada sobre el pedestal (su centro está al
+   49,25% del ancho; la columna va del 24% al 76%) y apoyada en su superficie (68% del alto) */
+.winner.premio-propio .prize-img { left: -2.88%; right: 0; margin: 0 auto; bottom: 32cqh; height: 38cqh; }
 /* En la transición, la moto con Gali ya está en el pedestal detrás de las puertas cerradas:
    al abrirse se ve quieta, y el resto del anuncio entra después */
 .winner.moto-fija .prize-img { animation: none; }
@@ -1475,6 +1478,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   // selector de lotería: recarga la página con la elegida
   LOTERIAS.forEach(l => { const o = document.createElement("option"); o.value = l.id; o.textContent = l.nombre || l.titulo || l.id; $("loteriaIn").append(o); });
   $("loteriaIn").value = LOT.id;
+  if (LOT.premio !== undefined) $("winner").classList.add("premio-propio");
   if (POR_REVIEWS) document.querySelectorAll(".winner .stat").forEach(el => { el.hidden = !el.classList.contains("rv"); });
   $("loteriaIn").addEventListener("change", e => {
     if (spinning) { e.target.value = LOT.id; return; }
