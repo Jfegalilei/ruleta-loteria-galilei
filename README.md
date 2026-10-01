@@ -27,7 +27,7 @@ assets/moto.webp            Foto de la moto (fondo transparente)
 assets/siderax-moto.webp    Siderax a la izquierda de la moto, con la mano sobre el asiento de atrás (debajo de la ruleta)
 assets/galilei-symbol.png   Símbolo de Galilei, arriba a la derecha de la pantalla
 assets/gali-dinero.webp      Gali con la bolsa de dinero (anuncio de Auteco y Reviews), imagen del equipo recortada
-assets/siderax-dinero.webp   Siderax con la bolsa de dinero (debajo de la ruleta en Auteco y Reviews), imagen del equipo recortada
+assets/siderax-dinero.webp   Siderax con la bolsa de dinero (debajo de la ruleta en Auteco y Reviews), imagen del equipo ajustada a la luz nocturna con build/integrar-escena.py
 assets/fondo-siderax.webp   Fondo: planeta de origen de Siderax, oscuro y suave
 assets/fondo-ganador.webp   Fondo del anuncio del ganador: bóveda de metal oscuro abierta a un valle con arcoíris y un pedestal
 assets/cuarto.webp          Transición: cuarto con la puerta abierta al planeta de Siderax, sin pedestal
