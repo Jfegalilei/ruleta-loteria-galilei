@@ -15,9 +15,8 @@
       "puntaje": 30
     },
     "escena": "assets/siderax-viaje.webp",
-    "premio": "assets/premio-viaje.webp",
+    "premio": null,
     "escenaEstilo": "left: 14cqh; height: 46cqh",
-    "premioEstilo": "height: 37cqh",
     "fondoGanador": "assets/fondo-ganador-viaje.webp"
   },
   {
