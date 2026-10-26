@@ -79,8 +79,11 @@ El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `da
 | id | Lotería | CSV | Imágenes |
 | --- | --- | --- | --- |
 | `moto` | Moto Victory Combat 100 | `data/participantes.csv` | Siderax con la moto y moto con Gali |
+| `viaje` | Viaje a Santa Marta ("Finde de lujo en Santa Marta") | `data/participantes.csv` (la misma lista de la moto) | Siderax señalando la tarjeta del hotel debajo de la ruleta (`siderax-viaje.webp`) y la tarjeta del hotel con pin y mojito en el pedestal (`premio-viaje.webp`), armadas con los recursos del anuncio de Figma "Anuncio Experiencia Hotel Perla Roca v4" (Galiverso, nodo 15736:3782) |
 | `auteco` | Auteco ($5.000.000 Pesos) | `data/loteria-auteco.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
 | `reviews` | Reseñas ($500.000 Pesos) | `data/loteria-reviews.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
+
+**Viaje a Santa Marta** usa la lista de la moto pero con requisitos para participar (`requisitos` en `loterias.json`): 15 o más juegos en el mes y 30 o más de puntaje máximo. Quien no los cumple no entra a la ruleta y el panel dice cuántos quedaron fuera por eso. Su imagen de abajo y su premio tienen posición y tamaño propios (`escenaEstilo` y `premioEstilo`). Como el premio no es la moto, no suena la moto al abrirse las puertas.
 
 **Reviews es distinta:** no cuenta tickets, juegos ni puntaje. Cada review es una oportunidad (columna `Reviews`, o las que diga `columnas` en `loterias.json`), y solo participan quienes tienen 50 o más (`minimo`). Su CSV (export "Reviews Ambassadors": `Nombre`, `location_name`, `company`, `reviews`) trae una fila por persona y sede y no tiene Player id: se identifica a cada persona por nombre + empresa y se suman sus reviews de todas las sedes (`sumar` en `loterias.json`; el panel hace lo mismo al cargar el CSV); la sede que se muestra es la de más reviews. En el anuncio sale una sola cifra, las reviews, con `assets/icono-reviews.svg` (la estrella amarilla de las reseñas de Google, #FBBC04, plana); al girar siguen volando GaliTickets.
 
