@@ -113,7 +113,7 @@ def build_data():
     embedded = []
     for item in out:
         e = dict(item)
-        for k in ('escena', 'premio'):
+        for k in ('escena', 'premio', 'fondoGanador'):
             if e.get(k):
                 e[k] = data_uri(p(*e[k].split('/')), IMG_MIMES[os.path.splitext(e[k])[1].lower()])
         embedded.append(e)

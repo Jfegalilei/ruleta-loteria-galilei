@@ -617,6 +617,9 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     set(k, v) { try { localStorage.setItem(this.pref + k, JSON.stringify(v)); } catch {} },
   };
   const $ = id => document.getElementById(id);
+  // Fondo del anuncio propio de la lotería (loterias.json "fondoGanador"); si no, el valle de siempre.
+  // Se pone antes de precargar() para que también se precargue.
+  if (LOT.fondoGanador) $("winnerBg").style.background = `url("${LOT.fondoGanador}") center / cover no-repeat, var(--n00)`;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // ---------- Formato de texto ----------

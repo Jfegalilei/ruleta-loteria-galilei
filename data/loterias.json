@@ -17,7 +17,8 @@
     "escena": "assets/siderax-viaje.webp",
     "premio": "assets/premio-viaje.webp",
     "escenaEstilo": "left: 14cqh; height: 46cqh",
-    "premioEstilo": "height: 37cqh"
+    "premioEstilo": "height: 37cqh",
+    "fondoGanador": "assets/fondo-ganador-viaje.webp"
   },
   {
     "id": "auteco",
