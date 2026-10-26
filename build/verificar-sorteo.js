@@ -24,7 +24,9 @@ const LOT = window.LOTERIAS.find(l => l.id === (process.argv[3] || "moto"));
 if (!LOT || !LOT.participantes.length) { console.log("Esa lotería no existe o no tiene participantes."); process.exit(1); }
 const EXCLUIDAS = new Set(LOT.excluidas || ["Auteco", "La Causa", "Galilei"]);
 const MINIMO = Math.max(1, LOT.minimo || 1);
-current = LOT.participantes.filter(p => p.t >= MINIMO && !EXCLUIDAS.has(p.c || "Sin empresa"));
+const REQ = LOT.requisitos || {};
+const cumple = p => (!REQ.juegos || p.g >= REQ.juegos) && (!REQ.puntaje || p.s >= REQ.puntaje);
+current = LOT.participantes.filter(p => p.t >= MINIMO && cumple(p) && !EXCLUIDAS.has(p.c || "Sin empresa"));
 const tau = Math.PI * 2, total = current.reduce((a, p) => a + p.t, 0);
 let acc = 0; starts = [0]; current.forEach(p => { acc += p.t; starts.push(acc / total * tau); }); starts[starts.length - 1] = tau;
 

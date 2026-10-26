@@ -603,6 +603,11 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   const POR_REVIEWS = LOT.unidad === "reviews";
   const UNIDAD = POR_REVIEWS ? ["reseña", "reseñas"] : ["ticket", "tickets"]; // en pantalla siempre "reseñas"
   const MINIMO = Math.max(1, LOT.minimo || 1);
+  // Requisitos para participar (loterias.json "requisitos"), por ejemplo { "juegos": 15, "puntaje": 30 }:
+  // juegos del mes y puntaje máximo mínimos. Quien no los cumple no entra a la ruleta.
+  const REQ = LOT.requisitos || {};
+  const cumple = p => (!REQ.juegos || p.g >= REQ.juegos) && (!REQ.puntaje || p.s >= REQ.puntaje);
+  const textoReq = [REQ.juegos ? `${REQ.juegos}+ juegos` : "", REQ.puntaje ? `${REQ.puntaje}+ de puntaje máximo` : ""].filter(Boolean).join(" y ");
   const ESCENA_IMG = LOT.escena === undefined ? ESCENA : LOT.escena;
 
   const store = {
@@ -654,7 +659,7 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   }
   function entries() {
     const ex = new Set(state.excluded), rm = new Set(state.removed);
-    return state.rows.filter(p => p.t >= MINIMO && !ex.has(companyOf(p)) && !rm.has(p.id));
+    return state.rows.filter(p => p.t >= MINIMO && cumple(p) && !ex.has(companyOf(p)) && !rm.has(p.id));
   }
 
   // ---------- Ruleta ----------
@@ -1507,8 +1512,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const total = state.rows.length, n = current.length;
     const zero = state.rows.filter(p => p.t < MINIMO).length;
     const bajo = MINIMO > 1 ? `con menos de ${MINIMO} ${UNIDAD[1]}` : `sin ${UNIDAD[1]}`;
-    $("countLine").textContent = `${n} en la ruleta · ${total} cargados${state.removed.length ? ` · ${state.removed.length} ya sacados` : ""}${zero ? ` · ${zero} ${bajo}` : ""}`;
-    $("sourceHint").textContent = `Fuente: ${state.source}. Columnas que lee: Player o Nombre, Empresa, Location o Sede, y ${POR_REVIEWS ? "Reseñas (cada reseña es una oportunidad)" : "Tickets"}. Los repetidos por Player id cuentan una sola vez. Quien tiene ${MINIMO > 1 ? `menos de ${MINIMO} ${UNIDAD[1]}` : `0 ${UNIDAD[1]}`} no entra a la ruleta.`;
+    $("countLine").textContent = `${n} en la ruleta · ${total} cargados${state.removed.length ? ` · ${state.removed.length} ya sacados` : ""}${zero ? ` · ${zero} ${bajo}` : ""}${textoReq ? ` · ${state.rows.filter(p => !cumple(p)).length} sin los requisitos` : ""}`;
+    $("sourceHint").textContent = `Fuente: ${state.source}. Columnas que lee: Player o Nombre, Empresa, Location o Sede, y ${POR_REVIEWS ? "Reseñas (cada reseña es una oportunidad)" : "Tickets"}. Los repetidos por Player id cuentan una sola vez. Quien tiene ${MINIMO > 1 ? `menos de ${MINIMO} ${UNIDAD[1]}` : `0 ${UNIDAD[1]}`} no entra a la ruleta.${textoReq ? ` Requisitos para participar: ${textoReq}.` : ""}`;
     $("restoreBtn").hidden = !state.removed.length;
     // empresas
     const counts = new Map();
@@ -1533,12 +1538,12 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     const el = $("plistEl"); el.innerHTML = "";
     state.rows.filter(p => !q || `${p.n} ${p.c} ${p.l}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").includes(q)).forEach(p => {
       const li = document.createElement("li"), who = document.createElement("div"), b = document.createElement("b"), s = document.createElement("span");
-      const off = ex.has(companyOf(p)) || rm.has(p.id) || p.t < MINIMO;
+      const off = ex.has(companyOf(p)) || rm.has(p.id) || p.t < MINIMO || !cumple(p);
       li.className = off ? "off" : "";
       b.textContent = p.n; s.textContent = metaOf(p); who.className = "who"; who.append(b, s);
       const tk = document.createElement("span"); tk.className = "t"; tk.textContent = p.t ? NUM.format(p.t) : "0";
       li.append(who, tk);
-      if (!ex.has(companyOf(p)) && p.t >= MINIMO) {
+      if (!ex.has(companyOf(p)) && p.t >= MINIMO && cumple(p)) {
         const btn = document.createElement("button");
         btn.type = "button"; btn.className = "btn soft sm"; btn.textContent = rm.has(p.id) ? "Devolver" : "Sacar";
         btn.addEventListener("click", () => {
@@ -1625,6 +1630,8 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
   $("loteriaIn").value = LOT.id;
   if (LOT.premio !== undefined) $("winner").classList.add("premio-propio");
   if (LOT.escena !== undefined) $("headMoto").classList.add("escena-propia");
+  if (LOT.escenaEstilo) $("headMoto").style.cssText += ";" + LOT.escenaEstilo; // posición propia (loterias.json)
+  if (LOT.premioEstilo) $("wImg").style.cssText += ";" + LOT.premioEstilo; // tamaño propio del premio en el pedestal
   if (POR_REVIEWS) document.querySelectorAll(".winner .stat").forEach(el => { el.hidden = !el.classList.contains("rv"); });
   $("loteriaIn").addEventListener("change", e => {
     if (spinning) { e.target.value = LOT.id; return; }
