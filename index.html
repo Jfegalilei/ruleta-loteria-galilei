@@ -597,8 +597,10 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
     : [{ id: "moto", nombre: "Moto", titulo: "Victory Combat 100", fuente: "data/participantes.csv", participantes: [] }];
   const LOT = (() => {
     let id = new URLSearchParams(location.search).get("loteria");
-    try { if (id) localStorage.setItem("ruleta6:@loteria", id); else id = localStorage.getItem("ruleta6:@loteria"); } catch {}
-    return LOTERIAS.find(l => l.id === id) || LOTERIAS[0];
+    // la elegida se recuerda en este navegador (clave nueva desde que el viaje es la de base, para que todos
+    // arranquen en ella); sin elección, abre la marcada con "base": true en loterias.json
+    try { if (id) localStorage.setItem("ruleta6:@loteria2", id); else id = localStorage.getItem("ruleta6:@loteria2"); } catch {}
+    return LOTERIAS.find(l => l.id === id) || LOTERIAS.find(l => l.base) || LOTERIAS[0];
   })();
   const SAMPLE = LOT.participantes || [];
   const SAMPLE_NAME = LOT.fuente;

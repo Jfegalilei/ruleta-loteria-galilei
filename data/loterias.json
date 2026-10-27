@@ -18,7 +18,8 @@
     "premio": "assets/gali-hamaca.webp",
     "escenaEstilo": "left: 7cqh; height: 48cqh",
     "fondoGanador": "assets/fondo-ganador-viaje.webp",
-    "premioEstilo": "left: 0; right: auto; margin: 0; bottom: 29cqh; height: 15cqh"
+    "premioEstilo": "left: 0; right: auto; margin: 0; bottom: 29cqh; height: 15cqh",
+    "base": true
   },
   {
     "id": "auteco",
