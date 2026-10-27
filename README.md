@@ -79,7 +79,7 @@ El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `da
 | id | Lotería | CSV | Imágenes |
 | --- | --- | --- | --- |
 | `moto` | Moto Victory Combat 100 | `data/participantes.csv` | Siderax con la moto y moto con Gali |
-| `viaje` | Viaje a Santa Marta ("Finde de lujo en Santa Marta") | `data/participantes.csv` (la misma lista de la moto) | Siderax de vacaciones (camisa hawaiana, tiquetes y tabla de surf; imagen del equipo) junto a la tarjeta del hotel debajo de la ruleta (`siderax-viaje.webp`); la tarjeta sale de los recursos del anuncio de Figma "Anuncio Experiencia Hotel Perla Roca v4" (Galiverso, nodo 15736:3782) |
+| `viaje` | Viaje a Santa Marta ("Finde de lujo en Santa Marta") | `data/participantes.csv` (la misma lista de la moto) | Siderax de vacaciones (camisa hawaiana, tiquetes y tabla de surf; imagen del equipo) junto a la tarjeta del hotel, rodeada de un parasol, un balón y un balde de playa (íconos 3D del equipo), debajo de la ruleta (`siderax-viaje.webp`); la tarjeta sale de los recursos del anuncio de Figma "Anuncio Experiencia Hotel Perla Roca v4" (Galiverso, nodo 15736:3782) |
 | `auteco` | Auteco ($5.000.000 Pesos) | `data/loteria-auteco.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
 | `reviews` | Reseñas ($500.000 Pesos) | `data/loteria-reviews.csv` | Siderax con el dinero debajo de la ruleta (`siderax-dinero.webp`) y Gali con el dinero en el anuncio (`gali-dinero.webp`) |
 
