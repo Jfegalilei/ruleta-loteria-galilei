@@ -15,9 +15,10 @@
       "puntaje": 30
     },
     "escena": "assets/siderax-viaje.webp",
-    "premio": null,
+    "premio": "assets/gali-hamaca.webp",
     "escenaEstilo": "left: 14cqh; height: 46cqh",
-    "fondoGanador": "assets/fondo-ganador-viaje.webp"
+    "fondoGanador": "assets/fondo-ganador-viaje.webp",
+    "premioEstilo": "left: 0; right: auto; margin: 0; bottom: 29cqh; height: 15cqh"
   },
   {
     "id": "auteco",
