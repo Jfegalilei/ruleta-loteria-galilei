@@ -32,10 +32,7 @@
     ],
     "escena": "assets/siderax-dinero.webp",
     "premio": "assets/gali-dinero.webp",
-    "empresa": "Auteco",
-    "sumarComoTickets": [
-      "Escaneos"
-    ]
+    "empresa": "Auteco"
   },
   {
     "id": "reviews",
