@@ -94,6 +94,12 @@ El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `da
 - Para agregar o cambiar una: edita `data/loterias.json` (`id`, `nombre` del selector, `titulo` del premio, `csv` y, salvo la moto, `escena` = imagen debajo de la ruleta y `premio` = imagen sobre el pedestal del anuncio, o `null` para ninguna; opcionales `excluidas` (la de Auteco excluye solo La Causa y Galilei; la de Reviews, solo Auteco y Galilei: La Causa participa), `unidad`, `minimo` y `columnas`), pon el CSV en `data/` y corre `python build/build.py`. Las imágenes se embeben en el standalone.
 - Para verificar el sorteo de una lotería: `node build/verificar-sorteo.js 3000000 auteco`.
 
+## Datos de octubre 2026 (rifas de noviembre)
+
+- Viaje a Santa Marta (y la lista de la moto, que es la misma): `insights-export (47).csv`, export de Gali Admin con `Player id`, `Games played`, `Max score`, `Empresa`, `Tickets actuales`, `Player` (sin sede).
+- Auteco: `insights-export (46).csv`, con `Juegos oct` y `Puntaje max oct` (el build y el panel reconocen `Juegos <mes>`/`Puntaje max <mes>` de septiembre y octubre).
+- Reseñas: `reviews.csv`, ya agregado por persona: `ambassador_name`, `company_name`, `matched_reviews` (sin sede).
+
 ## Hacer cambios
 
 1. Edita `index.html` (o reemplaza la moto, el audio o el CSV).

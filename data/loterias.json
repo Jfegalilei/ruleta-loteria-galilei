@@ -44,6 +44,7 @@
     "unidad": "reviews",
     "minimo": 50,
     "columnas": [
+      "matched_reviews",
       "reviews",
       "Reviews",
       "Reseñas",

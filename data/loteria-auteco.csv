@@ -1,36 +1,63 @@
-﻿Player id,Rol,Location,Escaneos,Juegos sept,Puntaje max sept,Tickets actuales,Player
-d80ab193-d20a-4cb6-93b6-33e2fba96773,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,86,35,71,252,Valentina Ramos ECHAVARRIA
-90f651ef-415e-4c55-aa09-cd931226ff43,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,69,34,51,420,Wilmer Alexander
-9aaf695a-32c7-4ac5-88c0-bb31b56ebbde,Asesores,INVERSIONES ELECTROMOTOS SAS CAMPO,68,35,35,144,andres giraldo
-be09b5cc-5265-4e05-8b40-fd358ca6fb19,Asesores,DISMERCA SA MACROCENTRO,59,34,115,213,John Andrey Galvis arcila
-cb00d09d-ab2e-465f-a344-3b5f14b4a832,Asesores,INVERSIONES ELECTROMOTOS SAS CAMPO,55,34,86,103,Michael Zapata
-e44b4d69-4763-43e1-93c5-45b69d4d1f1d,Asesores,TÉCNICOS,47,26,70,147,Michael Alexander Vaca Cardozozo
-1fe19f52-bbd5-4ad0-9eda-941bf7c01df7,Asesores,DISMERCA SAS LA 33 NORTE,37,34,44,94,Yeferson Molina Román
-814ceef1-55d9-4d5b-aa80-c0d78a7013f2,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,37,35,56,106,Juan Manuel Soto Castañeda
-1deda485-35c1-4fd6-a15a-789b955838ea,Asesores,DISMERCA SA MACROCENTRO,35,34,79,232,Brayan Stiven Urrego patiño
-1636d55c-10bd-47b0-9209-71d44e1cecbe,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,33,28,47,189,Yeison Pulgarin
-32c2d1a3-11f8-49f7-bbc5-4bd88be2bf94,Asesores,TÉCNICOS,29,27,61,130,José Aníbal Obando
-f22ebdc9-8f6e-4700-8d29-115c6dcc3f18,Asesores,DISMERCA SAS LA 33 NORTE,28,35,70,296,Luis Enrique Rivero Guevara
-dd238ed0-a78b-459e-89b2-f3efd5951071,Asesores,TÉCNICOS,28,27,35,100,Liliana Lopez
-4002675c-77d0-47ec-8f70-5b3b2788ff2b,Asesores,MONTERREY MOTOS SAS LA 38,27,31,49,364,SANTIAGO ROJAS
-9cfd31c5-9b1b-43ea-b3ab-767fa8fce27e,Asesores,MUNDIAL DE REPUESTOS DE MOTOS SAS,27,35,91,91,Diego Alejandro Betancur ramirez
-4a38c02b-0a55-4d98-aa63-29b4e0090e79,Asesores,INVERSIONES ELECTROMOTOS SAS ITAGUI,26,34,85,187,Natalia Muñoz sanmiguel
-a0928d14-4455-4036-9388-bd9bf1de0ff1,Asesores,INVERSIONES ELECTROMOTOS SAS ITAGUI,25,37,105,292,Juan Pablo restrepo
-07b1adc9-1395-4465-81f8-49900c591777,Asesores,OTRO,24,25,35,81,Camilo Muñoz
-70467b43-8074-4495-a88a-dd77bdf2e2c8,Asesores,TÉCNICOS,23,25,58,46,Laura marcela Gomez salinas
-bfabab9c-531f-4d8b-9631-3f090c536d3d,Asesores,CASTRO PEREZ GILBERTO,23,28,39,74,Gilberto Castro Pérez
-662e1bb8-1a05-4e78-8e5a-9b2057768efd,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,22,35,48,247,Daniel A Vidal
-7eb01217-e4d0-464b-9ce2-3ce6a31e49bc,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,22,34,50,243,Karen Dahiana Marulanda García
-918e1346-dd6b-4ae8-9e13-619ce5c24a91,Asesores,MUNDIAL DE REPUESTOS LA PAZ SAS,21,36,33,125,Christian Camilo Alvarez Palacio
-d88c6ca3-6ab8-4d52-b72e-cbf6c7cafe59,Asesores,DISMERCA SA MACROCENTRO,21,30,48,358,Yordan stiven Arrieta castaño
-41066496-56e4-4bdc-8081-2a358f81ec37,Asesores,OTRO,21,25,72,109,Elizabet Soler
-d3ad8742-4899-4a96-be36-933752773d10,Técnicos,DISMERCA SA MACROCENTRO,58,34,72,193,Sebastián Muñoz Álvarez
-898fa99a-4367-4ee0-a5ba-aaeb21ed62dd,Técnicos,TÉCNICOS,26,28,49,89,Jose Manuel Ramirez cabrera
-bd7d48a6-c315-47c7-b49f-ed6ce3e1997d,Técnicos,TÉCNICOS,25,16,65,119,José Miguel Jaramillo López
-6b92ffa3-bdfc-4173-a1ba-f3d3c794de1c,Técnicos,ARIAS ORTIZ OBRIEL FERNANDO,24,29,43,78,Julian Ramirez
-fbaa84e9-de68-44dc-912a-6a6e1510abb0,Técnicos,TÉCNICOS,23,25,55,62,David stiven Barreiro Rodríguez
-6fde7ea2-e8ac-48e8-813f-711b237cb7c6,Técnicos,DISMERCA SA MACROCENTRO,18,28,75,61,John esteban Villa torres
-febc7d0c-3c8a-46ef-962f-774063ce1d83,Técnicos,TÉCNICOS,15,21,47,72,Sebastian Chacon
-f0cca1bb-fe85-428d-a952-41d8466f0705,Técnicos,DISMERCA SA MACROCENTRO,12,31,44,95,Edward Correa
-098e1753-3c9f-42ef-a0c7-fb38c80cbb50,Técnicos,INVERSIONES ELECTROMOTOS SAS BELEN,11,26,104,120,Daniel Marin
-0feee672-1186-4a63-ab6f-23080b540a90,Técnicos,MONTERREY MOTOS SAS LA 38,11,31,45,88,Romario Almendrales Rodríguez
+﻿Player id,Rol,Location,Escaneos,Juegos oct,Puntaje max oct,Tickets actuales,Player
+90f651ef-415e-4c55-aa09-cd931226ff43,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,88,34,105,371,Wilmer Alexander
+9aaf695a-32c7-4ac5-88c0-bb31b56ebbde,Asesores,INVERSIONES ELECTROMOTOS SAS CAMPO,74,34,54,161,andres giraldo
+32c2d1a3-11f8-49f7-bbc5-4bd88be2bf94,Asesores,TÉCNICOS,54,34,81,498,José Aníbal Obando
+d80ab193-d20a-4cb6-93b6-33e2fba96773,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,54,30,90,185,Valentina Ramos ECHAVARRIA
+cb00d09d-ab2e-465f-a344-3b5f14b4a832,Asesores,INVERSIONES ELECTROMOTOS SAS CAMPO,44,32,106,302,Michael Zapata
+d168170c-3bea-440f-932a-d2f00c31e7a1,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,40,29,34,347,Sebastian Flórez Lopez
+1636d55c-10bd-47b0-9209-71d44e1cecbe,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,37,30,66,55,Yeison Pulgarin
+dd238ed0-a78b-459e-89b2-f3efd5951071,Asesores,TÉCNICOS,29,34,44,358,Liliana Lopez
+b618aacb-034a-4317-82c1-71614c5ead9d,Asesores,INVERSIONES ELECTROMOTOS SAS ITAGUI,29,34,111,82,Jesús Ospina
+1fe19f52-bbd5-4ad0-9eda-941bf7c01df7,Asesores,DISMERCA SAS LA 33 NORTE,29,31,114,193,Yeferson Molina Román
+be09b5cc-5265-4e05-8b40-fd358ca6fb19,Asesores,DISMERCA SA MACROCENTRO,28,33,129,629,John Andrey Galvis arcila
+814ceef1-55d9-4d5b-aa80-c0d78a7013f2,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,28,30,66,83,Juan Manuel Soto Castañeda
+8ddcbdaa-068d-4ff0-9575-89ffcec0875e,Asesores,OTRO,27,21,80,47,Omar Castillo
+d8f3f5e3-8fd2-4933-a14f-6609fdcc42aa,Asesores,CORREA MOTOS SAS,27,34,31,205,Juan David Miranda Tascón
+662e1bb8-1a05-4e78-8e5a-9b2057768efd,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,27,32,131,512,Daniel A Vidal
+1b03420f-18cd-448f-895e-e3bf5ce6f6f7,Asesores,CHALMOTOS SAS,26,25,31,27,Gabriel jaime Taborda perez
+f22ebdc9-8f6e-4700-8d29-115c6dcc3f18,Asesores,DISMERCA SAS LA 33 NORTE,26,32,137,138,Luis Enrique Rivero Guevara
+918e1346-dd6b-4ae8-9e13-619ce5c24a91,Asesores,MUNDIAL DE REPUESTOS LA PAZ SAS,25,31,41,22,Christian Camilo Alvarez Palacio
+4f694444-973c-4da9-9207-efd54a0c5d48,Asesores,MUNDIAL DE REPUESTOS DE MOTOS SAS,25,34,109,335,Brayan Mauricio Rios Muñoz
+53b67a0a-f342-4dd7-a038-e28782bddc46,Asesores,DISMERCA SA MACROCENTRO,25,34,125,171,Alexander Gallego
+eb676f3f-f32f-4055-887c-42804d61fd1b,Asesores,INVERSIONES ELECTROMOTOS SAS CAMPO,25,25,130,188,Keren Silva diaz
+25811865-cc45-414b-aa1e-f734c0a0ccc8,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,25,28,39,337,Santiago Vélez Acevedo
+4002675c-77d0-47ec-8f70-5b3b2788ff2b,Asesores,MONTERREY MOTOS SAS LA 38,25,30,133,116,SANTIAGO ROJAS
+1deda485-35c1-4fd6-a15a-789b955838ea,Asesores,DISMERCA SA MACROCENTRO,24,33,194,284,Brayan Stiven Urrego patiño
+a0928d14-4455-4036-9388-bd9bf1de0ff1,Asesores,INVERSIONES ELECTROMOTOS SAS ITAGUI,24,31,215,163,Juan Pablo restrepo
+9cfd31c5-9b1b-43ea-b3ab-767fa8fce27e,Asesores,MUNDIAL DE REPUESTOS DE MOTOS SAS,24,32,106,235,Diego Alejandro Betancur ramirez
+4143e50d-1a6b-419b-bd5b-1933115776fd,Asesores,DISMERCA SA MACROCENTRO,23,32,114,150,JUAN PABLO MEJIA ANGEL
+0456bab9-e450-44ff-b542-7c223743e558,Asesores,INVERSIONES ELECTROMOTOS SAS ITAGUI,23,33,85,144,Estefany Betancur
+e44b4d69-4763-43e1-93c5-45b69d4d1f1d,Asesores,TÉCNICOS,23,34,44,205,Michael Alexander Vaca Cardozozo
+964b91bc-e08d-4f2a-bfdf-d747756dd3ac,Asesores,Auteco,23,34,39,228,Jeronimo Ferrer
+7fbb1e78-5bee-4d03-94a4-2d4319cd311d,Asesores,MUNDIAL DE REPUESTOS DE MOTOS SAS,23,35,50,109,Yeison Saldarriaga
+4a38c02b-0a55-4d98-aa63-29b4e0090e79,Asesores,INVERSIONES ELECTROMOTOS SAS ITAGUI,23,27,129,80,Natalia Muñoz sanmiguel
+2e5f86ce-3a97-499b-ac9b-08ca059f189a,Asesores,OTRO,22,29,55,158,Johan Arevalo
+28f763b2-3339-46ab-a782-0ca747ed0072,Asesores,CASTRO PEREZ GILBERTO,22,31,93,225,Felipe Castro Serna
+5afafd9e-3935-4f7a-a1cd-91dbe10e706e,Asesores,INVERSIONES ELECTROMOTOS SAS CAMPO,22,32,121,203,Brayan Carmona Castañeda
+bfabab9c-531f-4d8b-9631-3f090c536d3d,Asesores,CASTRO PEREZ GILBERTO,22,28,101,73,Gilberto Castro Pérez
+f4c1c75a-409d-48f1-91c1-5906b6331748,Asesores,Auteco CSA Calarca,22,18,34,11,Andres Arturo Ramirez Gomez
+7dc773da-94e7-4a29-861b-36653b4cb8ce,Asesores,OTRO,21,17,40,65,Yuly johanna Lopez basto
+7b60bc3f-779b-4433-be41-d671d2f69ad0,Asesores,VIÃ‘AS MONTES EFRAIN,21,26,40,18,Luisa Cecilia
+763e8b67-e0a1-4c89-baa7-2e7cfb632444,Asesores,INVERSIONES ELECTROMOTOS SAS CAMPO,21,26,94,69,Rene gustavo Vargas castaño
+6d71be1d-60a9-4322-a5b1-5d3d492b3e84,Asesores,DISMERCA SA MACROCENTRO,21,34,104,102,Fredy Escobar
+b8dd9dec-4e6e-46b5-a2e4-20e70837a8a2,Asesores,ARIAS ORTIZ OBRIEL FERNANDO,21,33,36,141,Bryan steven Narváez Suárez
+60eb3976-77c3-4be0-9f3e-5b6a6db4ac5c,Asesores,ALVAREZ MOLERO NELSON YESID,21,34,55,316,Nelson ALVAREZ
+22b71df9-4d2b-4e72-9383-d3b0cd5482e5,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,21,15,64,50,Maicol Granda
+123409bf-0293-4cbd-a1ad-eebf2b5e22bf,Asesores,MUNDIAL DE REPUESTOS DE MOTOS SAS,21,25,50,92,Julian david Grandett
+7eb01217-e4d0-464b-9ce2-3ce6a31e49bc,Asesores,INVERSIONES ELECTROMOTOS SAS BELEN,21,34,118,552,Karen Dahiana Marulanda García
+fbaa84e9-de68-44dc-912a-6a6e1510abb0,Técnicos,TÉCNICOS,36,25,47,16,David stiven Barreiro Rodríguez
+bd7d48a6-c315-47c7-b49f-ed6ce3e1997d,Técnicos,TÉCNICOS,20,16,74,187,José Miguel Jaramillo López
+152ecddc-70c5-48bb-96d8-d9a0554a34c1,Técnicos,CASTRO PEREZ GILBERTO,19,28,64,140,Katherine Mayorga
+04d1178f-df61-4c51-a1c4-c3824bc40663,Técnicos,INVERSIONES ELECTROMOTOS SAS CAMPO,18,30,43,39,Esteban Pamplona
+6fde7ea2-e8ac-48e8-813f-711b237cb7c6,Técnicos,DISMERCA SA MACROCENTRO,18,25,113,106,John esteban Villa torres
+bf9944b5-d7fb-4e5f-aa0d-12ff9d4b8afb,Técnicos,ARIAS ORTIZ OBRIEL FERNANDO,17,32,68,208,Anderson Bastidas
+5b43c4a8-292c-4b71-a12b-133e356984ae,Técnicos,MOTOS Y MOTOS EL PAISA SAS,16,31,47,199,Jorge Ospina
+d3ad8742-4899-4a96-be36-933752773d10,Técnicos,DISMERCA SA MACROCENTRO,16,33,112,412,Sebastián Muñoz Álvarez
+79294886-d187-42e7-a169-0e51900804af,Técnicos,DISMERCA SA MACROCENTRO,15,23,85,86,Julian Maldonado
+1ab55924-4670-464c-b5a7-ce18083d211f,Técnicos,Auteco,14,26,38,34,Juan David Piedrahíta arboleda
+6b92ffa3-bdfc-4173-a1ba-f3d3c794de1c,Técnicos,ARIAS ORTIZ OBRIEL FERNANDO,13,33,33,220,Julian Ramirez
+098e1753-3c9f-42ef-a0c7-fb38c80cbb50,Técnicos,INVERSIONES ELECTROMOTOS SAS BELEN,13,33,121,405,Daniel Marin
+87c42ba6-97bb-4d0d-9fcb-5ca0f00dc96d,Técnicos,CASTRO PEREZ GILBERTO,11,32,65,81,Sara Castro Serna
+ac59c8ef-447e-4d65-8d76-6c0599731eca,Técnicos,MONTERREY MOTOS SAS LA 38,11,29,65,140,Wilson Steven Escorcia Ayala
+b35b086c-7f5d-4585-8858-9532c11c3f94,Técnicos,DISMERCA SA MACROCENTRO,11,24,42,18,Dylan Javier Luna Cardozo
+0feee672-1186-4a63-ab6f-23080b540a90,Técnicos,MONTERREY MOTOS SAS LA 38,11,32,127,579,Romario Almendrales Rodríguez

@@ -59,8 +59,8 @@ def read_csv(name, columnas=(), sumar=False, empresa_fija=''):
         return []
     with open(p('data', name), encoding='utf-8-sig') as f:
         for x in csv.DictReader(f):
-            nombre = fix_mojibake(col(x, 'Player', 'Nombre', 'Jugador').strip())
-            empresa = fix_mojibake(col(x, 'Empresa', 'company', 'Company').strip()) or empresa_fija  # Auteco: el export no trae empresa
+            nombre = fix_mojibake(col(x, 'Player', 'Nombre', 'Jugador', 'ambassador_name').strip())
+            empresa = fix_mojibake(col(x, 'Empresa', 'company', 'Company', 'company_name').strip()) or empresa_fija  # Auteco: el export no trae empresa
             if not nombre:
                 continue
             pid = col(x, 'Player id', 'id') or hashlib.sha1(clave_persona(nombre, empresa).encode()).hexdigest()
@@ -71,8 +71,8 @@ def read_csv(name, columnas=(), sumar=False, empresa_fija=''):
                 'c': empresa,
                 'l': fix_mojibake(col(x, 'Location', 'Sede', 'location_name', 'Rol').strip()),  # Auteco: el rol hace de sede
                 't': num(col(x, *columnas, 'Tickets actuales', 'Tickets')),  # en Reviews, cada review es un ticket
-                'g': num(col(x, 'Games played', 'Partidas', 'Juegos sept', 'Juegos')),
-                's': num(col(x, 'Max score', 'Puntaje maximo', 'Puntaje max sept', 'Puntaje máximo')),
+                'g': num(col(x, 'Games played', 'Partidas', 'Juegos sept', 'Juegos oct', 'Juegos')),
+                's': num(col(x, 'Max score', 'Puntaje maximo', 'Puntaje max sept', 'Puntaje max oct', 'Puntaje máximo')),
                 '_y': year,
             }
             prev = people.get(pid)
