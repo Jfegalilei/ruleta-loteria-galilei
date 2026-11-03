@@ -97,7 +97,7 @@ El selector "Lotería activa" (panel, tecla E) cambia entre las loterías de `da
 ## Datos de octubre 2026 (rifas de noviembre)
 
 - Viaje a Santa Marta (y la lista de la moto, que es la misma): `insights-export (47).csv`, export de Gali Admin con `Player id`, `Games played`, `Max score`, `Empresa`, `Tickets actuales`, `Player` (sin sede).
-- Auteco: `insights-export (46).csv`, con `Juegos oct` y `Puntaje max oct` (el build y el panel reconocen `Juegos <mes>`/`Puntaje max <mes>` de septiembre y octubre).
+- Auteco: cada escaneo suma como un ticket (`"sumarComoTickets": ["Escaneos"]` en `loterias.json`; también al cargar el CSV desde el panel). Archivo: `insights-export (46).csv`, con `Juegos oct` y `Puntaje max oct` (el build y el panel reconocen `Juegos <mes>`/`Puntaje max <mes>` de septiembre y octubre).
 - Reseñas: `reviews.csv`, ya agregado por persona: `ambassador_name`, `company_name`, `matched_reviews` (sin sede).
 
 ## Hacer cambios

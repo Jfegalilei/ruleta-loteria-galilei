@@ -49,7 +49,7 @@ def clave_persona(nombre, empresa):
     t = unicodedata.normalize('NFD', f'{nombre}|{empresa}'.lower())
     return re.sub(r'\s+', ' ', ''.join(ch for ch in t if not unicodedata.combining(ch))).strip()
 
-def read_csv(name, columnas=(), sumar=False, empresa_fija=''):
+def read_csv(name, columnas=(), sumar=False, empresa_fija='', extra=()):
     """Una fila por persona (Player id, o nombre + empresa si no hay id).
     Normal: tickets, el mayor; juegos y puntaje, la fila del año más reciente.
     sumar=True (Reviews): el CSV trae una fila por persona y sede, y se suman las de cada persona;
@@ -70,7 +70,8 @@ def read_csv(name, columnas=(), sumar=False, empresa_fija=''):
                 'n': nombre,
                 'c': empresa,
                 'l': fix_mojibake(col(x, 'Location', 'Sede', 'location_name', 'Rol').strip()),  # Auteco: el rol hace de sede
-                't': num(col(x, *columnas, 'Tickets actuales', 'Tickets')),  # en Reviews, cada review es un ticket
+                # en Reviews, cada review es un ticket; "extra" suma otras columnas como tickets (Auteco: Escaneos)
+                't': num(col(x, *columnas, 'Tickets actuales', 'Tickets')) + sum(num(col(x, c)) for c in extra),
                 'g': num(col(x, 'Games played', 'Partidas', 'Juegos sept', 'Juegos oct', 'Juegos')),
                 's': num(col(x, 'Max score', 'Puntaje maximo', 'Puntaje max sept', 'Puntaje max oct', 'Puntaje máximo')),
                 '_y': year,
@@ -100,7 +101,7 @@ def build_data():
     assert lots and lots[0]['id'] == 'moto', 'La primera lotería debe ser la de la moto (usa las claves de siempre)'
     out = []
     for l in lots:
-        rows = read_csv(l['csv'], l.get('columnas', ()), l.get('sumar', False), l.get('empresa', ''))
+        rows = read_csv(l['csv'], l.get('columnas', ()), l.get('sumar', False), l.get('empresa', ''), l.get('sumarComoTickets', ()))
         item = {k: v for k, v in l.items() if k not in ('csv', 'columnas', 'sumar')}
         item['fuente'] = 'data/' + l['csv']
         item['participantes'] = rows

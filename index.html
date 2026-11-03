@@ -1485,7 +1485,9 @@ body.idle .toolbar { opacity: 0; pointer-events: none; }
       // sin Player id, una persona es su nombre + empresa (en Reviews hay una fila por persona y sede)
       const id = iId >= 0 && r[iId] ? r[iId].trim()
         : `${n}|${c}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
-      const t = iT >= 0 ? parseInt(String(r[iT] || "").replace(/\D/g, ""), 10) || 0 : 1;
+      let t = iT >= 0 ? parseInt(String(r[iT] || "").replace(/\D/g, ""), 10) || 0 : 1;
+      // columnas que suman como tickets (loterias.json "sumarComoTickets"; Auteco: Escaneos)
+      for (const nombre of LOT.sumarComoTickets || []) { const i = col([nombre.toLowerCase()]); if (i >= 0) t += int(r[i]); }
       const g = iG >= 0 ? int(r[iG]) : 0, sc = iS >= 0 ? int(r[iS]) : 0, y = iY >= 0 ? int(r[iY]) : 0;
       const prev = out.find(o => o.id === id);
       if (prev && POR_REVIEWS) { // Reviews: se suman las de cada sede; se muestra la sede con más
